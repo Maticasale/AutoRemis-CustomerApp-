@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             x:Class="AutoRemis.Views.MainPage"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
+             Title="{Binding Title}">
+
+    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <Label Text="fasdfasdf " />
+        <ffimageloading:SvgCachedImage  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill" x:Name="imageWave" Source="Radar.gif" Margin="0"/>
+    </StackLayout>
+
+</ContentPage>

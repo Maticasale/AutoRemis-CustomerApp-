@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AutoRemis.Views.OnBoardingPage"
+             BackgroundColor="#B1D506"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             NavigationPage.HasNavigationBar="False">
+
+
+    <ContentPage.Content>
+        <Grid VerticalOptions="FillAndExpand">
+            <StackLayout Margin="15,50,15,20">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Bienvenido a" TextColor="Black" FontSize="20" VerticalOptions="Center"/>
+                    <Image Source="imgLocation.png" TranslationX="20" Aspect="AspectFit" HeightRequest="40"/>
+                </StackLayout>
+                <StackLayout Margin="0,30,0,0" Orientation="Horizontal" HorizontalOptions="Center">
+                    <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
+                    <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="50"/>
+                    <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
+                </StackLayout>
+                <Label Text="A solo 5' minutos de tu Casa" TextColor="Black" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
+                <Frame Padding="10" BackgroundColor="White" VerticalOptions="EndAndExpand" CornerRadius="20" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoogleClicked"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="auto, *" RowSpacing="15">
+                        <Image Source="iconGoogle.png" HeightRequest="30"/>
+                        <Label Grid.Column="1" HorizontalTextAlignment="Center" TextColor="Black" TranslationX="-20" Text="Acceder con Google" HeightRequest="30" FontSize="15" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </Frame>
+                <Frame Padding="10" BackgroundColor="#08bca4" CornerRadius="20" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="PhoneClicked"/>
+                    </Frame.GestureRecognizers>
+                    <Grid ColumnDefinitions="auto, *" RowSpacing="15">
+                        <Image Source="iconWhitePhone.png" HeightRequest="30"/>
+                        <Label Grid.Column="1" HorizontalTextAlignment="Center" TextColor="White" TranslationX="-20" Text="Acceder con númereo de celular" HeightRequest="30" FontSize="15" VerticalTextAlignment="Center"/>
+                    </Grid>
+                </Frame>
+                <Label Text="Acceder con mi correo electrónico" TextDecorations="Underline" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6"/>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

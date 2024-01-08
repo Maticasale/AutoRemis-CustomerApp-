@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:customrenders="clr-namespace:AutoRemis.CustomRenders"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             x:Class="AutoRemis.Views.RegisterPage"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, auto, auto, auto" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Grid BackgroundColor="#B1D506" HeightRequest="56">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="40"/>
+                    <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="40"/>
+                    <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="40"/>
+                </StackLayout>
+            </Grid>
+            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <StackLayout Grid.Row="2" Margin="20,30">
+                <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
+                    <Grid ColumnDefinitions="auto, *">
+                        <Image Source="iconPerson.png" Aspect="AspectFit" WidthRequest="20"/>
+                        <customrenders:CustomEntry x:Name="EntryUser" Grid.Column="1" TextColor="Black" Placeholder="Nombre y Apellido" PlaceholderColor="Black" FontSize="16"/>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
+                    <Grid ColumnDefinitions="auto, *">
+                        <Image Source="iconGreenPhone.png" Aspect="AspectFit" WidthRequest="20" Scale="0.8"/>
+                        <customrenders:CustomEntry x:Name="EntryPhone" Keyboard="Numeric" Grid.Column="1" TextColor="Black" PlaceholderColor="Black" Placeholder="Telefono Móvil" FontSize="16"/>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
+                    <Grid ColumnDefinitions="auto, *">
+                        <Image Source="iconMail.png" Aspect="AspectFit" WidthRequest="20"/>
+                        <customrenders:CustomEntry x:Name="EntryEmail" Grid.Column="1" TextColor="Black" Placeholder="E-mail" PlaceholderColor="Black" FontSize="16"/>
+                    </Grid>
+                </Frame>
+                <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
+                    <Grid ColumnDefinitions="auto, *" RowDefinitions="auto, auto" RowSpacing="0">
+                        <Image Source="iconFacebook.png" Aspect="AspectFit" WidthRequest="20"/>
+                        <customrenders:CustomEntry x:Name="EntryFacebook" Grid.Column="1" TextColor="Black" Placeholder="Facebook" PlaceholderColor="Black" FontSize="16"/>
+                        <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Margin="0,-9,0,0" Text="Campo no obligatorio*" TextColor="Black"/>
+                    </Grid>
+                </Frame>
+            </StackLayout>
+            <Grid Grid.Row="3" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                <Image Source="imgGreenRoundedButton.png" Aspect="AspectFit" />
+                <Label Text="INICIAR" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

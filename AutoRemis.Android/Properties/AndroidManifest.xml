@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="com.ar_cba.cliente" android:installLocation="auto">
+	<uses-sdk android:minSdkVersion="28" android:targetSdkVersion="33" />
+	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+	<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+  <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+	<uses-permission android:name="android.permission.ACCESS_MOCK_LOCATION" />
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.READ_PHONE_NUMBERS" />
+	<uses-permission android:name="android.permission.READ_PHONE_STATE" />
+	<application android:label="@string/app_name" android:icon="@mipmap/ic_launcher">
+    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
+		<service android:name="crc6494e14b9856016c30.PNFirebaseMessagingService" android:exported="true">
+			<intent-filter>
+				<action android:name="com.google.firebase.MESSAGING_EVENT" />
+			</intent-filter>
+		</service>
+		<receiver android:name="com.plugin.firebase.receiver.FirebaseBackgroundServiceRestartReceiver" android:exported="false">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+			</intent-filter>
+		</receiver>
+		<receiver android:name="com.plugin.firebase.receiver.FirebaseBackgroundServiceBootUpReceiver" android:enabled="true" android:exported="true">
+			<intent-filter>
+				<action android:name="android.intent.action.BOOT_COMPLETED" />
+				<action android:name="android.intent.action.QUICKBOOT_POWERON" />
+				<action android:name="com.htc.intent.action.QUICKBOOT_POWERON" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</receiver>
+	</application>
+</manifest>
