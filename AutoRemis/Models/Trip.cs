@@ -6,7 +6,7 @@ namespace AutoRemis.Models
 {
     public class Trip
     {
-        public TripStatus Status { get; set; }
+        public string status { get; set; }
         public string name { get; set; }
         public string address_origin { get; set; }
         public string address_number_origin { get; set; }
@@ -35,5 +35,5 @@ namespace AutoRemis.Models
     /// Waiting: Esperando que el movil arribe a su posicion (Aplica aun cuando el movile sta en puerta)
     /// Traveling: Viajando
     /// </summary>
-    public enum TripStatus { Searching, Waiting, Traveling }
+    public enum TripStatus { Searching, Waiting, Delayed, Traveling, Canceled }
 }

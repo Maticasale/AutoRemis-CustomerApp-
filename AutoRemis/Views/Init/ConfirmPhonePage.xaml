@@ -1,8 +1,98 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:customrenders="clr-namespace:AutoRemis.CustomRenders"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="AutoRemis.Views.ConfirmPhonePage">
-  
+             x:Class="AutoRemis.Views.ConfirmPhonePage"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             BackgroundColor="#f5f5f7"
+             NavigationPage.HasNavigationBar="False">
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Entry" x:Key="CE">
+                <Setter Property="WidthRequest" Value="40"/>
+                <Setter Property="HorizontalTextAlignment" Value="Center"/>
+                <Setter Property="Keyboard" Value="Numeric"/>
+                <Setter Property="MaxLength" Value="1"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Grid BackgroundColor="#B1D506" HeightRequest="56" Padding="10,0">
+                <StackLayout Orientation="Horizontal"  VerticalOptions="CenterAndExpand" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6"  xct:TouchEffect.AnimationDuration="200">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="GoBack"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="iconChevron.png" Rotation="180" Aspect="AspectFit" HeightRequest="30"/>
+                    <Label Text="Volver al incio" FontSize="20" TextColor="White"/>
+                </StackLayout>
+            </Grid>
+            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <StackLayout Grid.Row="2" Padding="10" VerticalOptions="FillAndExpand">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="StkTapped"/>
+                </StackLayout.GestureRecognizers>
+                <StackLayout Orientation="Horizontal">
+                    <Label x:Name="lblName" TextColor="Black" FontSize="30"/>
+                    <Label Text="&#x1F44B;" FontSize="30"/>                    
+                </StackLayout>
+                <Label LineHeight="1.5">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Hemos enviado un mensaje de texto con un codigo de confirmación a: "/>
+                            <Span x:Name="lblPhone" Text="+54 9 3564 568057" FontAttributes="Bold" TextColor="Black"/>
+                            <Span Text=". Por favor ingresalo a continuación para proceder"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,30">
+                    <Frame x:Name="f1" HasShadow="False" CornerRadius="5" Padding="5">
+                        <customrenders:CustomEntry x:Name="e1" Focused="EntryFocused" Style="{StaticResource CE}" TextChanged="F1C" />
+                    </Frame>
+                    <Frame x:Name="f2" HasShadow="False" CornerRadius="5" Padding="5">
+                        <customrenders:CustomEntry x:Name="e2" Focused="EntryFocused" Style="{StaticResource CE}" TextChanged="F2C"/>
+                    </Frame>
+                    <Frame x:Name="f3" HasShadow="False" CornerRadius="5" Padding="5">
+                        <customrenders:CustomEntry x:Name="e3" Focused="EntryFocused" Style="{StaticResource CE}" TextChanged="F3C"/>
+                    </Frame>
+                    <Frame x:Name="f4" HasShadow="False" CornerRadius="5" Padding="5">
+                        <customrenders:CustomEntry x:Name="e4" Focused="EntryFocused" Style="{StaticResource CE}" TextChanged="F4C"/>
+                    </Frame>
+                </StackLayout>
+                <StackLayout x:Name="stkResend">                    
+                    <Label Text="¿No recibiste el Mensaje?" HorizontalOptions="Center"/>
+                    <Label LineHeight="1.5"  HorizontalOptions="Center" Margin="0,10">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Puedes reenviar el codigo en: "/>
+                                <Span x:Name="lblTimeLeft" FontAttributes="Bold" TextColor="Green"/>
+                                <Span Text=" s."/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label x:Name="btnResend" Text="Reenviar Codigo" TextDecorations="Underline" HorizontalOptions="Center" xct:TouchEffect.PressedScale = "0.9" xct:TouchEffect.PressedOpacity="0.8" xct:TouchEffect.NormalBackgroundColor="Transparent" xct:TouchEffect.AnimationDuration="200" IsEnabled="False">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="Resend"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </StackLayout>
+                <StackLayout x:Name="stkState" HorizontalOptions="Center">
+                    <Label x:Name="lblState" TextColor="Gray" VerticalOptions="Center"/>
+                    <ActivityIndicator IsRunning="False" x:Name="stateIndicator" Color="Gray" Scale="0.5"/>
+                </StackLayout>
+            </StackLayout>
+            <Frame Grid.Row="2" Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
+                <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
+                    <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
+                    <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">
+                        <Label x:Name="Title" TextColor="#ff355b" FontSize="15" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                        <Label x:Name="Msg" FontSize="12" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
 </ContentPage>

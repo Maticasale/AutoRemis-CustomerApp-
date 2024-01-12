@@ -1,0 +1,99 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:customrenders="clr-namespace:AutoRemis.CustomRenders"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AutoRemis.Views.Trip_ConfigPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="0.8" TranslationX="-30" Padding="0,-10">
+            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="50"/>
+            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
+            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <StackLayout Grid.Row="1" Margin="10">
+                <Label Text="Preferencias" FontAttributes="Bold"/>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Lleva Mascota" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard1" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Baul Grande / Lleva Equipaje" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard2" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Lleva Silla de Ruedas" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard3" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Chofer Masculino" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard4" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Chofer Femenino" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard5" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Calefacción" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard6" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Aire Acondicionado" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard7" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Elige Radio / Música" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard8" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Prefiere Silencio" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Image x:Name="imgStandard9" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                    <Label Text="Otras Observaciones" TextColor="Black" FontAttributes="Bold"/>
+                </StackLayout>
+                <Label Text="Cupon de Descuento" FontAttributes="Bold" Margin="0,10,0,0"/>
+                <Entry Placeholder="Ejemplo: E5410C45" FontSize="14" TranslationX="-3"/>
+                <StackLayout HorizontalOptions="Start" Spacing="-10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.90" xct:TouchEffect.PressedOpacity="0.6">
+                    <Image Source="iconCalendar.png" Aspect="AspectFit" HeightRequest="50"/>
+                    <Label Text="AGENDAR" TextColor="Black" FontAttributes="Bold" Margin="0,10,0,0"/>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Spacing="20">
+                    <StackLayout Orientation="Horizontal">
+                        <Image x:Name="imgStandard10" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                        <Label Text="Efectivo" TextColor="Black" FontAttributes="Bold"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Image x:Name="imgStandard11" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                        <Label Text="Tarjeta" TextColor="Black" FontAttributes="Bold"/>
+                    </StackLayout>
+                    <StackLayout Orientation="Horizontal">
+                        <Image x:Name="imgStandard12" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15"/>
+                        <Label Text="Corporativo" TextColor="Black" FontAttributes="Bold"/>
+                    </StackLayout>
+                </StackLayout>
+                <StackLayout Orientation="Horizontal">
+                    <Label Text="V. Aproximado" FontAttributes="Bold" Margin="0,10"/>
+                    <Frame Grid.Column="1" Grid.Row="1" HasShadow="False" CornerRadius="5" BorderColor="Yellow" Padding="5,-50" WidthRequest="100">
+                        <Label Text="$ 8590" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
+                    </Frame>
+                    <Grid VerticalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.90" xct:TouchEffect.PressedOpacity="0.6">
+                        <Image Source="imgGreenButton1.png" Aspect="AspectFit" HeightRequest="25"/>
+                        <Label Text="Calcular" FontSize="18" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Grid>
+                </StackLayout>
+                <Grid Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.90" xct:TouchEffect.PressedOpacity="0.6">
+                    <Image Source="imgGreenButton.png" Aspect="AspectFit" />
+                    <Label Text="PEDIR MOVIL" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                </Grid>
+            </StackLayout>
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

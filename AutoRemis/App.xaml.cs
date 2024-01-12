@@ -1,4 +1,5 @@
 using AutoRemis.Helpers;
+using AutoRemis.Models;
 using AutoRemis.ViewModels;
 using AutoRemis.Views;
 using Prism;
@@ -11,12 +12,22 @@ namespace AutoRemis
 {
     public partial class App
     {
+        User user;
         public App(IPlatformInitializer initializer) : base(initializer) { }
         protected override async void OnInitialized()
         {
             InitializeComponent();
 
-            await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
+            switch (AppStateManager.GetUser().Status)
+            {
+                case UserStatus.Disconnected:
+                    await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
+                    break;
+                case UserStatus.Idle:
+                    await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
+                    break;
+            }
+
 
             FirebaseMsgReciver.Initialize();
         }
@@ -32,6 +43,9 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<ConfirmPhonePage, ConfirmPhonePageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<SideMenuPage, SideMenuPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_AcceptedPage, Trip_AcceptedPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_ConfigPage, Trip_ConfigPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_WaitingPage, Trip_WaitingPageViewModel>();
         }
     }
 }

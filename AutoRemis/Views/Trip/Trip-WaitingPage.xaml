@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com" xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AutoRemis.Views.Trip_WaitingPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="0.8" TranslationX="-30" Padding="0,-10">
+            <Label Text="Buscando Móviles..."  TextColor="Black" FontSize="30"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <Grid Grid.Row="1">
+                <maps:Map x:Name="map"/>
+                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+
+
+                </StackLayout>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

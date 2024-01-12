@@ -2,12 +2,16 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              x:Class="AutoRemis.Views.MainPage"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Svg.Forms;assembly=FFImageLoading.Svg.Forms"
-             Title="{Binding Title}">
+             mc:Ignorable="d" 
+             NavigationPage.HasNavigationBar="False">
 
-    <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <Label Text="fasdfasdf " />
-        <ffimageloading:SvgCachedImage  HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Aspect="AspectFill" x:Name="imageWave" Source="Radar.gif" Margin="0"/>
+    <StackLayout x:Name="stk" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
+        <!--<ffimageloading:SvgCachedImage Aspect="AspectFit" x:Name="imageWave" Source="gifRadar.gif" HeightRequest="500"/>-->
+        <!--<ffimageloading:SvgCachedImage Aspect="AspectFit" x:Name="imageWave" Source="resource://ImageLoading.gifRadar.gif" HeightRequest="500"/>-->
     </StackLayout>
+
 
 </ContentPage>

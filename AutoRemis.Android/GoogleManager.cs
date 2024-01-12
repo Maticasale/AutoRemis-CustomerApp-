@@ -59,7 +59,9 @@ namespace AutoRemis.Droid
                 GoogleSignInAccount accountt = result.SignInAccount;
                 _onLoginComplete?.Invoke(new GoogleUser()
                 {
-                    Name = accountt.DisplayName,
+                    FirstName = accountt.GivenName, 
+                    LastName = accountt.FamilyName,
+                    FullName = accountt.DisplayName,
                     Email = accountt.Email,
                     Picture = new Uri((accountt.PhotoUrl != null ? $"{accountt.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
                 }, string.Empty);

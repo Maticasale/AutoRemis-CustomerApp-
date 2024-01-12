@@ -5,7 +5,11 @@
              x:Class="AutoRemis.App">
   <Application.Resources>
 
-    <!-- Application resource dictionary -->
+        <ResourceDictionary>
+            <Style TargetType="Frame">
+                <Setter Property="HasShadow" Value="False"/>
+            </Style>
+        </ResourceDictionary>
 
   </Application.Resources>
 </prism:PrismApplication>

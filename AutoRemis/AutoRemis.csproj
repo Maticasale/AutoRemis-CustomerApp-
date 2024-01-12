@@ -6,6 +6,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Common\Sounds\Alert.mp3" />
+    <None Remove="Common\Sounds\Message.mp3" />
+    <None Remove="Common\Sounds\Success.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Common\Sounds\Alert.mp3" />
+    <EmbeddedResource Include="Common\Sounds\Message.mp3" />
+    <EmbeddedResource Include="Common\Sounds\Success.mp3" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="Plugin.FirebasePushNotification" Version="3.4.35" />
     <PackageReference Include="Plugin.ValidationRules" Version="1.5.0.1" />
@@ -17,6 +29,7 @@
     <PackageReference Include="Xamarin.CommunityToolkit" Version="2.0.6" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms" Version="2.4.11.982" />
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations" Version="2.4.11.982" />
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2622" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.8.0" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
@@ -39,6 +52,15 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\SideMenuPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Trip\Trip-WaitingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Trip\Trip-AcceptedPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Trip\Trip-ConfigPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

@@ -104,6 +104,9 @@
     <PackageReference Include="Xamarin.FFImageLoading.Svg.Forms">
       <Version>2.4.11.982</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.FFImageLoading.Transformations">
+      <Version>2.4.11.982</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2622" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.8.0" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
@@ -264,7 +267,7 @@
     <Folder Include="Resources\drawable-xxxhdpi\" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\imgGreenRoundedButton.png" />
+    <AndroidResource Include="Resources\drawable\imgGreenButton.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\imgUserPin.png" />
@@ -285,19 +288,52 @@
     <AndroidResource Include="Resources\drawable\iconOrigin.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\iconFilledCheckbox.png" />
+    <AndroidResource Include="Resources\drawable\iconFilledChk.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconDestination.png" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\drawable\iconEmptyCheckbox.png" />
+    <AndroidResource Include="Resources\drawable\iconEmptyChk.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconOrgDst.png" />
   </ItemGroup>
   <ItemGroup>
     <AndroidResource Include="Resources\drawable\iconLupe.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconCalendar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconEmptyChk1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconFilledChk1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconNext.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\imgGreenButton1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconChevron.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconArg.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconError.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconWarning.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconInfo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\iconSuccess.png" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Xamarin\Android\Xamarin.Android.CSharp.targets" />
 </Project>

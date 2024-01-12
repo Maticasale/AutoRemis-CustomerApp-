@@ -10,6 +10,8 @@ using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Prism.Navigation;
+using Prism.Ioc;
+using AutoRemis.Helpers;
 
 namespace AutoRemis.Views
 {
@@ -17,6 +19,10 @@ namespace AutoRemis.Views
     {
         private List<Image> checkboxImages; 
         private List<Frame> checkboxFrames;
+        private readonly INavigationService _navigationService;
+        private User user;
+
+
 
         string LatOrg;
         string LngOrg;
@@ -36,19 +42,26 @@ namespace AutoRemis.Views
         public MapPage()
         {
             InitializeComponent();
+            LoadUI();
+            _navigationService = Prism.PrismApplicationBase.Current.Container.Resolve<INavigationService>();
+        }
+
+        private void LoadUI()
+        {
+            //Variables
             checkboxImages = new List<Image> { imgStandard, imgCapacDif, imgEcologic, imgExecutive };
             checkboxFrames = new List<Frame> { frmStandard, frmCapacDif, frmEcologic, frmExecutive };
 
-            LoadUI();
-        }
+            //User Data
+            user = AppStateManager.GetUser();
 
-        public async void LoadUI()
-        {
+            map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
+            map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromMiles(0.3)));
+
             //General UI Settings
             map.MyLocationEnabled = true;
             map.UiSettings.ZoomControlsEnabled = false;
             map.UiSettings.MyLocationButtonEnabled = true;
-
 
             //SearchBars Settings
             EntryFocused = "Org";
@@ -90,16 +103,14 @@ namespace AutoRemis.Views
 
         private void OnCheckboxTapped(object sender, EventArgs e)
         {
-            // Obtén el índice del marco tocado
             var frameIndex = Array.IndexOf(new Frame[] { frmStandard, frmCapacDif, frmEcologic, frmExecutive }, (Frame)sender);
 
             if (frameIndex >= 0 && frameIndex < checkboxImages.Count)
             {
                 Device.BeginInvokeOnMainThread(() =>
                 {
-                    // Desactivar todas las imágenes y establecer el color de fondo predeterminado
                     foreach (var checkboxImage in checkboxImages)
-                        checkboxImage.Source = "iconEmptyCheckbox.png";
+                        checkboxImage.Source = "iconEmptyChk.png";
 
                     foreach (var checkboxFrame in checkboxFrames)
                     {
@@ -107,14 +118,13 @@ namespace AutoRemis.Views
                         checkboxFrame.IsEnabled = true;
                     }
 
-                    Task.Delay(2000);
-                    // Activar la imagen y cambiar el color de fondo
                     checkboxFrames[frameIndex].BackgroundColor = Color.FromHex("#eaebea");
-                    checkboxImages[frameIndex].Source = "iconFilledCheckbox.png";
+                    checkboxImages[frameIndex].Source = "iconFilledChk.png";
                     checkboxFrames[frameIndex].IsEnabled = false;
                 });
             }
         }
+
         private async void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)
         {
             if (ItemSellected)

@@ -42,6 +42,15 @@
                 </Frame>
                 <Label Text="Acceder con mi correo electrónico" TextDecorations="Underline" TextColor="White" FontAttributes="Bold" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6"/>
             </StackLayout>
+            <Frame Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
+                <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
+                    <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
+                    <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">
+                        <Label x:Name="Title" TextColor="#ff355b" FontSize="15" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                        <Label x:Name="Msg" FontSize="12" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

@@ -8,13 +8,13 @@ namespace AutoRemis.Models
     public class User
     {
         public UserStatus Status { get; set; }
-        public string Name { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string FullName { get; set; }
         public string PhoneNumber { get; set; }
         public string Email { get; set; }
         public string Facebook { get; set; }
         public Position lastKnownPosition { get; set; }
-        public bool IsConnected { get; set; }
-        public bool NotificacionesRegistradas { get; set; }
         public Trip TripInfo { get; set; }
     }
 
@@ -25,7 +25,7 @@ namespace AutoRemis.Models
     /// OnTrip: Usuario en Viaje, para vere mas info ver el Enum dentro de Trip
     /// budgeting: Estaba creando un presupuesto, sera redirigido a la pagina de presupuesto
     /// </summary>
-    public enum UserStatus { Unknown, Idle, budgeting, OnTrip }
+    public enum UserStatus { Disconnected, Idle, budgeting, OnTrip }
 
     //Service Use Only
     public class LoginUser

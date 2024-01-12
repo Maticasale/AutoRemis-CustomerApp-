@@ -17,7 +17,7 @@ namespace AutoRemis.Helpers
                 user = JsonConvert.DeserializeObject<User>(jsonUser);
             else
             {
-                user = new User() { Status = UserStatus.Unknown, TripInfo = new Trip() };
+                user = new User() { Status = UserStatus.Disconnected , TripInfo = new Trip() };
                 UpdateUser(user);
             }
 

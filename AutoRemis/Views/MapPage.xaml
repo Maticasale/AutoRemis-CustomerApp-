@@ -12,14 +12,6 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AutoRemis.Views.MapPage">
 
-
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="0.8" TranslationX="-30" Padding="0,-10">
-            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="50"/>
-            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
-            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
-        </StackLayout>
-    </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
             <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
@@ -71,7 +63,7 @@
                                 <TapGestureRecognizer Tapped="OnCheckboxTapped"/>
                             </Frame.GestureRecognizers>
                             <StackLayout Spacing="4">
-                                <Image x:Name="imgStandard" Source="iconEmptyCheckbox.png" Aspect="AspectFit" HeightRequest="12"/>
+                                <Image x:Name="imgStandard" Source="iconEmptyChk.png" Aspect="AspectFit" HeightRequest="12"/>
                                 <Image Source="imgStandardCar.png" Aspect="AspectFit" HeightRequest="20"/>
                                 <Label Text="STANDARD" TextColor="Black" FontSize="10" FontAttributes="Bold" HorizontalOptions="Center" MaxLines="1"/>
                             </StackLayout>
@@ -81,7 +73,7 @@
                                 <TapGestureRecognizer Tapped="OnCheckboxTapped"/>
                             </Frame.GestureRecognizers>
                             <StackLayout>
-                                <Image x:Name="imgCapacDif" Source="iconEmptyCheckbox.png" Aspect="AspectFit" HeightRequest="12"/>
+                                <Image x:Name="imgCapacDif" Source="iconEmptyChk.png" Aspect="AspectFit" HeightRequest="12"/>
                                 <Image Source="imgDisableCar.png" Aspect="AspectFit" HeightRequest="20"/>
                                 <Label Text="ADAPTADO" TextColor="Black" FontSize="10" FontAttributes="Bold" HorizontalOptions="Center" MaxLines="1"/>
                             </StackLayout>
@@ -91,7 +83,7 @@
                                 <TapGestureRecognizer Tapped="OnCheckboxTapped"/>
                             </Frame.GestureRecognizers>
                             <StackLayout>
-                                <Image x:Name="imgEcologic" Source="iconEmptyCheckbox.png" Aspect="AspectFit" HeightRequest="12"/>
+                                <Image x:Name="imgEcologic" Source="iconEmptyChk.png" Aspect="AspectFit" HeightRequest="12"/>
                                 <Image Source="imgEcologicalCar.png" Aspect="AspectFit" HeightRequest="20"/>
                                 <Label Text="ECOLÓGICO" TextColor="Black" FontSize="10" FontAttributes="Bold" HorizontalOptions="Center" MaxLines="1"/>
                             </StackLayout>
@@ -101,7 +93,7 @@
                                 <TapGestureRecognizer Tapped="OnCheckboxTapped"/>
                             </Frame.GestureRecognizers>
                             <StackLayout>
-                                <Image x:Name="imgExecutive" Source="iconEmptyCheckbox.png" Aspect="AspectFit" HeightRequest="12"/>
+                                <Image x:Name="imgExecutive" Source="iconEmptyChk.png" Aspect="AspectFit" HeightRequest="12"/>
                                 <Image Source="imgExecutiveCar.png" Aspect="AspectFit" HeightRequest="20"/>
                                 <Label Text="EJECUTIVO" TextColor="Black" FontSize="10" FontAttributes="Bold" HorizontalOptions="Center" MaxLines="1"/>
                             </StackLayout>
@@ -109,7 +101,7 @@
                     </StackLayout>
                 </Frame>
                 <Grid Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.90" xct:TouchEffect.PressedOpacity="0.6">
-                    <Image Source="imgGreenRoundedButton.png" Aspect="AspectFit" />
+                    <Image Source="imgGreenButton.png" Aspect="AspectFit" />
                     <Label Text="PEDIR MOVIL" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Grid>
             </StackLayout>
