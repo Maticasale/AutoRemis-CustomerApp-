@@ -30,6 +30,13 @@ namespace AutoRemis.Views
             googleUser = parameters.GetValue<GoogleUser>("GoogleUser");
 
             //General UI Settings
+            imgGooglePerson.IsVisible = init == InitType.Google;
+            imgGoogleMail.IsVisible = init == InitType.Google;
+            EntryUser.IsEnabled = init != InitType.Google;
+            EntryEmail.IsEnabled = init != InitType.Google;
+            frmPassword.IsVisible = init != InitType.Google;
+            frmConfirmPassword.IsVisible = init != InitType.Google;
+
             switch (init)
             {
                 case InitType.Google:
@@ -38,14 +45,15 @@ namespace AutoRemis.Views
                     user.FullName = googleUser.FullName;
                     user.Email = googleUser.Email;
 
-                    EntryUser.Text = user.FullName;
-                    EntryUser.IsEnabled = false;
+                    EntryUser.Text = UI.CapitalizeSentence(user.FullName);
                     EntryEmail.Text = user.Email;
-                    EntryEmail.IsEnabled = false;
+
                     break;
 
                 case InitType.Normal:
+
                     return;
+
                 case InitType.PhoneNumber:
                     return;
             }
@@ -127,5 +135,10 @@ namespace AutoRemis.Views
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+        private void GoBack(object sender, EventArgs e)
+        {
+
+        }
     }
 }

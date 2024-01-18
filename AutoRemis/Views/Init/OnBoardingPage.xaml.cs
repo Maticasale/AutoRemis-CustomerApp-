@@ -19,18 +19,33 @@ namespace AutoRemis.Views
             _googleManager = DependencyService.Get<IGoogleManager>();
         }
 
-        private void CheckUserLoggedIn() => _googleManager.Login(OnLoginComplete);
+        //private void CheckUserLoggedIn() => _googleManager.Login(OnLoginComplete);
         private async void OnLoginComplete(GoogleUser googleUser, string message)
         {
+            IsBusy(true);
+            btnGoogle.IsEnabled = false;
             if (googleUser != null)
-            {
-                await _navigationService.NavigateAsync("/RegisterPage", new NavigationParameters{{"LoginType", InitType.Google}, { "GoogleUser", googleUser} });
-            }
+                await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters{{"LoginType", InitType.Google}, { "GoogleUser", googleUser} });
             else
                 RiseErrorMsg("¡Error!", "Ocurrio una falla tratando de iniciar el servicio de Google, por favor vuelva a intetnar", 3, SoundTools.SoundType.Error);
+            IsBusy(false);
         }
 
         private void GoogleClicked(object sender, EventArgs e) => _googleManager.Login(OnLoginComplete);
+
+        private async void PhoneClicked(object sender, EventArgs e)
+        {
+            IsBusy(true);
+            await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters { { "LoginType", InitType.PhoneNumber } });
+            IsBusy(false);
+        }
+        private async void MailClicked(object sender, EventArgs e)
+        {
+            IsBusy(true);
+            //_googleManager.Logout();
+            await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters { { "LoginType", InitType.Normal } });
+            IsBusy(false);
+        }
 
         private void RiseErrorMsg(string title, string msg, int time, SoundTools.SoundType type)
         {
@@ -80,9 +95,12 @@ namespace AutoRemis.Views
             });
         }
 
-        private void PhoneClicked(object sender, EventArgs e)
+        private new void IsBusy(bool value)
         {
-            _googleManager.Logout();
+            btnGoogle.IsEnabled = !value;
+            btnMail.IsEnabled = !value;
+            btnPhone.IsEnabled = !value;
         }
+
     }
 }

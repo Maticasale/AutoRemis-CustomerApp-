@@ -22,12 +22,12 @@
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
             <Grid BackgroundColor="#B1D506" HeightRequest="56" Padding="10,0">
-                <StackLayout Orientation="Horizontal"  VerticalOptions="CenterAndExpand" xct:TouchEffect.PressedScale = "0.99" xct:TouchEffect.PressedOpacity="0.6"  xct:TouchEffect.AnimationDuration="200">
+                <StackLayout Orientation="Horizontal"  VerticalOptions="CenterAndExpand" xct:TouchEffect.PressedScale = "0.96"  xct:TouchEffect.AnimationDuration="200">
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="GoBack"/>
                     </StackLayout.GestureRecognizers>
-                    <Image Source="iconChevron.png" Rotation="180" Aspect="AspectFit" HeightRequest="30"/>
-                    <Label Text="Volver al incio" FontSize="20" TextColor="White"/>
+                    <Image Source="iconChevron.png" Rotation="180" Aspect="AspectFit" HeightRequest="20"/>
+                    <Label Text="Registro" FontSize="20" TextColor="White"/>
                 </StackLayout>
             </Grid>
             <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
@@ -73,7 +73,7 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label x:Name="btnResend" Text="Reenviar Codigo" TextDecorations="Underline" HorizontalOptions="Center" xct:TouchEffect.PressedScale = "0.9" xct:TouchEffect.PressedOpacity="0.8" xct:TouchEffect.NormalBackgroundColor="Transparent" xct:TouchEffect.AnimationDuration="200" IsEnabled="False">
+                    <Label x:Name="btnResend" Text="Reenviar Codigo" TextDecorations="Underline" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedOpacity="0.9" xct:TouchEffect.PressedScale = "0.98" IsEnabled="False">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Resend"/>
                         </Label.GestureRecognizers>

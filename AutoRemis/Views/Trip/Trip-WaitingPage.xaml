@@ -3,22 +3,31 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com" xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="AutoRemis.Views.Trip_WaitingPage">
-
-    <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="0.8" TranslationX="-30" Padding="0,-10">
-            <Label Text="Buscando Móviles..."  TextColor="Black" FontSize="30"/>
-        </StackLayout>
-    </NavigationPage.TitleView>
+             x:Class="AutoRemis.Views.Trip_WaitingPage"
+             NavigationPage.HasNavigationBar="False">
+    
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
-            <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
-            <Grid Grid.Row="1">
-                <maps:Map x:Name="map"/>
-                <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-
-
+        <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Grid BackgroundColor="#B1D506" HeightRequest="56">
+                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                    <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="40"/>
+                    <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="40"/>
+                    <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="40"/>
                 </StackLayout>
+            </Grid>
+            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <Grid Grid.Row="2">
+                <maps:Map x:Name="map"/>
+                <BoxView WidthRequest="300" HeightRequest="300" BackgroundColor="LightGray" CornerRadius="400" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.6"/>
+                <BoxView WidthRequest="400" HeightRequest="400" BackgroundColor="LightGray" CornerRadius="400" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.5"/>
+                <Frame Opacity="0.8" Padding="10" Margin="25,0" CornerRadius="10" VerticalOptions="Start">
+                    <Grid ColumnDefinitions="*, auto">
+                        <Label Text="Enviando pedido de viaje, aguarde unos instantes..." VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                        <Image Grid.Column="1" Source="imgLocation1.png" Aspect="AspectFit" HeightRequest="40"/>
+                    </Grid>
+                </Frame>
+                <StackLayout x:Name="stk" VerticalOptions="CenterAndExpand"/>
+                <Image Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="40" VerticalOptions="EndAndExpand" Margin="10"/>
             </Grid>
         </Grid>
     </ContentPage.Content>

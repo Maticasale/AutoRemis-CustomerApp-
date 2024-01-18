@@ -9,8 +9,6 @@
              NavigationPage.HasNavigationBar="False">
 
     <StackLayout x:Name="stk" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-        <!--<ffimageloading:SvgCachedImage Aspect="AspectFit" x:Name="imageWave" Source="gifRadar.gif" HeightRequest="500"/>-->
-        <!--<ffimageloading:SvgCachedImage Aspect="AspectFit" x:Name="imageWave" Source="resource://ImageLoading.gifRadar.gif" HeightRequest="500"/>-->
     </StackLayout>
 
 

@@ -1,0 +1,79 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com" 
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="http://prismlibrary.com"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                  xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  mc:Ignorable="d"
+                  xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+                  xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+                  xmlns:googlemodels="clr-namespace:AutoRemis.CustomRenders"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  CloseWhenBackgroundIsClicked="False"
+                  x:Class="AutoRemis.Views.Trip_ChangeMainParamsPopUp">
+
+
+    <pages:PopupPage.Content>
+        <Frame Padding="5" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="10">
+            <pancake:PancakeView Border="{pancake:BorderMarkup Color='#B1D506', Thickness='2'}" CornerRadius="10">
+                <StackLayout Spacing="0" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" TranslationY="-5" >
+                    <Label Padding="25,25,25,0" TextColor="Black" Text="Para obtener un precio estimativo de viaje debe poner un Destino" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,0"/>
+                    <pancake:PancakeView x:Name="Search" BackgroundColor="White" VerticalOptions="Start" CornerRadius="5">
+                        <Grid ColumnDefinitions="auto,*" ColumnSpacing="15" RowDefinitions="auto, auto" Margin="5,0" Padding="15" RowSpacing="5">
+                            <Image Source="iconOrgDst" Grid.RowSpan="2" Aspect="AspectFit" HeightRequest="70" Margin="0" VerticalOptions="Center"/>
+                            <Frame Grid.Column="1" HasShadow="False" TranslationY="-5" CornerRadius="10" BorderColor="#B1D506" Padding="5,-5">
+                                <googlemodels:PlacesBar x:Name="EntryOrg" Placeholder="Origen" FontSize="15" HorizontalOptions="FillAndExpand" Focused="EntryOrgFocused"/>
+                            </Frame>
+                            <Frame Grid.Column="1" Grid.Row="1" HasShadow="False" TranslationY="5" CornerRadius="10" BorderColor="#B1D506" Padding="5,-5">
+                                <googlemodels:PlacesBar x:Name="EntryDst" Placeholder="Agrega tu destino (campo no obligatorio)" FontSize="15" Focused="EntryDstFocused"/>
+                            </Frame>
+                        </Grid>
+                    </pancake:PancakeView>
+                    <pancake:PancakeView x:Name="ResultBox" CornerRadius="0,0,5,5" Padding="5" Opacity="0" BackgroundColor="White" HeightRequest="0">
+                        <AbsoluteLayout>
+                            <ActivityIndicator x:Name="spinner"	AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
+                            <ListView x:Name="results_list" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="SizeProportional">
+                                <ListView.ItemTemplate>
+                                    <DataTemplate>
+                                        <ViewCell d:DataContext="{d:DesignInstance custom:AutoCompletePrediction}">
+                                            <Grid Padding="0" RowSpacing="2" ColumnSpacing="15" RowDefinitions="auto, auto" ColumnDefinitions="auto, *" VerticalOptions="CenterAndExpand" Margin="15,0">
+
+                                                <Image Source="iconOrigin.png" HeightRequest="20" WidthRequest="20" Grid.RowSpan="2"/>
+
+                                                <Label Text="{Binding MainText}" Grid.Column="1" TextColor="#B1D506"/>
+
+                                                <Label Text="{Binding SecondaryText}" TextColor="Gray" Grid.Row="1" Grid.Column="1" MaxLines="1"/>
+
+                                            </Grid>
+                                        </ViewCell>
+                                    </DataTemplate>
+                                </ListView.ItemTemplate>
+                            </ListView>
+                        </AbsoluteLayout>
+                    </pancake:PancakeView>
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10" Margin="40,0,40,10">
+                        <Grid x:Name="btnCancel" xct:TouchEffect.AnimationDuration="150" xct:TouchEffect.PressedScale = "0.95">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="CancelClicked"/>
+                            </Grid.GestureRecognizers>
+                            <Image Source="imgGreenButton2.png" Aspect="AspectFit" HeightRequest="30"/>
+                            <Label Text="CANCELAR" FontSize="16" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        </Grid>
+                        <Grid x:Name="btnOK" xct:TouchEffect.AnimationDuration="150" xct:TouchEffect.PressedScale = "0.95">
+                            <Grid.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="OkClicked"/>
+                            </Grid.GestureRecognizers>
+                            <Image Source="imgGreenButton2.png" Aspect="AspectFit" HeightRequest="30"/>
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                                <Label Text="OK" FontSize="16" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                                <Image Source="iconNext.png" Aspect="AspectFit" HeightRequest="14"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </StackLayout>
+            </pancake:PancakeView>
+        </Frame>
+    </pages:PopupPage.Content>
+
+</pages:PopupPage>

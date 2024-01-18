@@ -1,4 +1,5 @@
 ﻿using System;
+using Android.Accounts;
 using Android.Content;
 using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
@@ -56,23 +57,23 @@ namespace AutoRemis.Droid
         {
             if (result.IsSuccess)
             {
-                GoogleSignInAccount accountt = result.SignInAccount;
+                GoogleSignInAccount account = result.SignInAccount;
                 _onLoginComplete?.Invoke(new GoogleUser()
                 {
-                    FirstName = accountt.GivenName, 
-                    LastName = accountt.FamilyName,
-                    FullName = accountt.DisplayName,
-                    Email = accountt.Email,
-                    Picture = new Uri((accountt.PhotoUrl != null ? $"{accountt.PhotoUrl}" : $"https://autisticdating.net/imgs/profile-placeholder.jpg"))
+                    FirstName = account.GivenName, 
+                    LastName = account.FamilyName,
+                    FullName = account.DisplayName,
+                    Email = account.Email,
+                    Picture = new Uri(account.PhotoUrl?.ToString() ?? "https://autisticdating.net/imgs/profile-placeholder.jpg")
                 }, string.Empty);
             }
             else
-                _onLoginComplete?.Invoke(null, "An error occured!");
+                _onLoginComplete?.Invoke(null, $"Error en la autenticación: {result.Status.StatusMessage}");
         }
 
         public void OnConnected(Bundle connectionHint) { }
 
-        public void OnConnectionSuspended(int cause) => _onLoginComplete?.Invoke(null, "Canceled!");
+        public void OnConnectionSuspended(int cause) => _onLoginComplete?.Invoke(null, "Caanceled!");
 
         public void OnConnectionFailed(ConnectionResult result) => _onLoginComplete?.Invoke(null, result.ErrorMessage);
     }

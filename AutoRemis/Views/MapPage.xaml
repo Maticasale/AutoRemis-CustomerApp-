@@ -100,7 +100,10 @@
                         </Frame>
                     </StackLayout>
                 </Frame>
-                <Grid Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.90" xct:TouchEffect.PressedOpacity="0.6">
+                <Grid Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="NextClicked"/>
+                    </Grid.GestureRecognizers>
                     <Image Source="imgGreenButton.png" Aspect="AspectFit" />
                     <Label Text="PEDIR MOVIL" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Grid>

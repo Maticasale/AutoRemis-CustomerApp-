@@ -1,29 +1,23 @@
 ﻿using AutoRemis.Models.Google;
-using AutoRemis.Models;
 using AutoRemis.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Prism.Navigation;
+using Rg.Plugins.Popup.Pages;
 using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.UI.Views;
+using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Prism.Navigation;
-using Prism.Ioc;
-using AutoRemis.Helpers;
+using AutoRemis.Models;
 using Rg.Plugins.Popup.Extensions;
+using System.Collections.Generic;
 
 namespace AutoRemis.Views
 {
-    public partial class MapPage : ContentPage
+    public partial class Trip_ChangeMainParamsPopUp : PopupPage, INavigationAware
     {
         private readonly INavigationService _navigationService;
 
-        private User user;
-
-        private List<Image> checkboxImages; 
-        private List<Frame> checkboxFrames;
+        private Trip trip;
 
         private string LatOrg, LngOrg, AdressOrg, NumberOrg;
 
@@ -34,29 +28,18 @@ namespace AutoRemis.Views
 
         string EntryFocused;
         bool ItemSellected;
-        public MapPage()
+
+        public Trip_ChangeMainParamsPopUp(INavigationService navigationService)
         {
             InitializeComponent();
-            LoadUI();
-            _navigationService = Prism.PrismApplicationBase.Current.Container.Resolve<INavigationService>();
+            _navigationService = navigationService;
         }
 
-        private void LoadUI()
+        public void OnNavigatedTo(INavigationParameters parameters)
         {
             //Variables
-            checkboxImages = new List<Image> { imgStandard, imgCapacDif, imgEcologic, imgExecutive };
-            checkboxFrames = new List<Frame> { frmStandard, frmCapacDif, frmEcologic, frmExecutive };
+            trip = parameters.GetValue<Trip>("Trip");
 
-            //User Data
-            user = AppStateManager.GetUser();
-            map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
-
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromMiles(0.3)));
-
-            //General UI Settings
-            map.MyLocationEnabled = true;
-            map.UiSettings.ZoomControlsEnabled = false;
-            map.UiSettings.MyLocationButtonEnabled = true;
 
             //SearchBars Settings
             EntryFocused = "Org";
@@ -77,78 +60,18 @@ namespace AutoRemis.Views
             EntryDst.MinimumSearchText = 2;
             results_list.ItemSelected += Results_List_ItemSelected;
 
-            //Map Events
-            map.CameraMoveStarted += async (sender, e) => await CloseResultBox();
-            map.PinClicked += async (sender, e) => await CloseResultBox();
-            map.MapClicked += async (sender, e) => await CloseResultBox();
-            map.CameraIdled += async (sender, e) =>
-            {
-                ItemSellected = false;
-                await CloseResultBox();
-                var p = e.Position;
-                try
-                {
-                    var response = await Places.GetPlaceID(p.Target.Latitude.ToString(), p.Target.Longitude.ToString(), "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
-                    if (AutoFillEnable)
-                        FillEntrys(response, new Position(latitude: p.Target.Latitude, longitude: p.Target.Longitude));
-                }
-                catch (Exception) { }
-            };
+            //General UI Settings
+            EntryOrg.Text = trip.address_origin;
+            EntryDst.Text = trip.address_destination;
         }
-
-        private async void NextClicked(object sender, EventArgs e)
+        private async void CancelClicked(object sender, EventArgs e) => await Navigation.PopPopupAsync();
+        private async void OkClicked(object sender, EventArgs e)
         {
-            if (AdressOrg != null && LatOrg != null && LngOrg != null)
-            {
-                Trip trip = new Trip()
-                {
-                    address_origin = EntryOrg.Text,
-                    address_number_origin = NumberOrg,
-                    address_destination = EntryDst.Text,
-                    address_number_destination = NumberDst,
-                    lat_origin = LatOrg,
-                    lng_origin = LngOrg,
-                    lat_destination = LatDst,
-                    lng_destination = LngDst,
-                    block = string.Empty,
-                    tower = string.Empty,
-                    flor = string.Empty,
-                    flats_block = string.Empty,
-                    flat = string.Empty,
-                    lot = string.Empty,
-                    complex = string.Empty,
-                    house = string.Empty,
-                    country = string.Empty,
-                    name = user.FullName,
-                    user = user.FullName,
-                    phone = user.PhoneNumber,
-
-                };
-                await _navigationService.NavigateAsync("Trip_DetailsPopUp", new NavigationParameters { { "Trip", trip } });
-            }
+            MessagingCenter.Send<object, Trip>(this, "Trip", trip);
+            await Navigation.PopPopupAsync();
         }
 
-        private void OnCheckboxTapped(object sender, EventArgs e)
-        {
-            var frameIndex = Array.IndexOf(new Frame[] { frmStandard, frmCapacDif, frmEcologic, frmExecutive }, (Frame)sender);
-
-            Device.BeginInvokeOnMainThread(() =>
-            {
-                foreach (var checkboxImage in checkboxImages)
-                    checkboxImage.Source = "iconEmptyChk.png";
-
-                foreach (var checkboxFrame in checkboxFrames)
-                {
-                    checkboxFrame.BackgroundColor = Color.White;
-                    checkboxFrame.IsEnabled = true;
-                }
-
-                checkboxFrames[frameIndex].BackgroundColor = Color.FromHex("#eaebea");
-                checkboxImages[frameIndex].Source = "iconFilledChk.png";
-                checkboxFrames[frameIndex].IsEnabled = false;
-            });
-        }
-
+        #region SearchBarFunctions
         private async void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)
         {
             if (ItemSellected)
@@ -214,6 +137,11 @@ namespace AutoRemis.Views
                         AdressOrg = place.StreetName == null ? place.FormattedAddress : place.StreetName.ToString();
                         NumberOrg = (place.StreetNumber == null || place.StreetName == null) ? "" : place.StreetNumber.ToString();
                         EntryOrg.Text = (place.StreetNumber == null || place.StreetName == null) ? place.FormattedAddress : $"{place.StreetName} {place.StreetNumber}, {place.Locality.ShortName}";
+
+                        trip.address_number_origin = NumberOrg;
+                        trip.address_origin = EntryOrg.Text;
+                        trip.lat_origin = LatOrg;
+                        trip.lng_origin = LngOrg;
                     }
                     catch (Exception) { }
                 }
@@ -226,6 +154,11 @@ namespace AutoRemis.Views
                         AdressDst = place.StreetName == null ? place.FormattedAddress : place.StreetName.ToString();
                         NumberDst = (place.StreetNumber == null || place.StreetName == null) ? "" : place.StreetNumber.ToString();
                         EntryDst.Text = (place.StreetNumber == null || place.StreetName == null) ? place.FormattedAddress : $"{place.StreetName} {place.StreetNumber}, {place.Locality.ShortName}";
+
+                        trip.address_number_destination = NumberDst;
+                        trip.address_destination = EntryDst.Text;
+                        trip.lat_destination = LatDst;
+                        trip.lng_destination = LngDst;
                     }
                     catch (Exception) { }
                 }
@@ -236,8 +169,11 @@ namespace AutoRemis.Views
         }
 
         private async Task OpenResultBox(int Results)
-        { 
+        {
             if (!SearchBarsFoucsed) return;
+
+            btnCancel.IsVisible = false;
+            btnOK.IsVisible = false;
 
             await Task.WhenAll(ResultBox.FadeTo(1, length: 100));
             Search.CornerRadius = new CornerRadius(5, 5, 0, 0);
@@ -253,13 +189,13 @@ namespace AutoRemis.Views
                     ResizeStackLayout(90);
                     break;
                 case 3:
-                    ResizeStackLayout(135);
+                    ResizeStackLayout(150);
                     break;
                 case 4:
-                    ResizeStackLayout(180);
+                    ResizeStackLayout(190);
                     break;
                 default:
-                    ResizeStackLayout(180);
+                    ResizeStackLayout(210);
                     break;
             }
         }
@@ -269,8 +205,10 @@ namespace AutoRemis.Views
             await Task.WhenAll(ResultBox.FadeTo(0, length: 100));
             Search.CornerRadius = 5;
             ResizeStackLayout(0);
-        }
 
+            btnOK.IsVisible = true;
+            btnCancel.IsVisible = true;
+        }
         private void ResizeStackLayout(double heightRequest) => MainThread.BeginInvokeOnMainThread(() => ResultBox.HeightRequest = heightRequest);
 
         void EntryOrgFocused(Object sender, FocusEventArgs e)
@@ -284,5 +222,8 @@ namespace AutoRemis.Views
             EntryFocused = "Dst";
             SearchBarsFoucsed = true;
         }
+        #endregion
+
+        public void OnNavigatedFrom(INavigationParameters parameters) {}
     }
 }

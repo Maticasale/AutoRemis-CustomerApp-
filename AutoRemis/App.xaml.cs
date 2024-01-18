@@ -4,6 +4,7 @@ using AutoRemis.ViewModels;
 using AutoRemis.Views;
 using Prism;
 using Prism.Ioc;
+using Prism.Plugin.Popups;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Forms;
@@ -34,7 +35,8 @@ namespace AutoRemis
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
+            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();            
+            containerRegistry.RegisterPopupNavigationService();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
@@ -46,6 +48,10 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<Trip_AcceptedPage, Trip_AcceptedPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_ConfigPage, Trip_ConfigPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_WaitingPage, Trip_WaitingPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_DetailsPopUp, Trip_DetailsPopUpViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_ChangeMainParamsPopUp, Trip_ChangeMainParamsPopUpViewModel>();
+
+            containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
         }
     }
 }

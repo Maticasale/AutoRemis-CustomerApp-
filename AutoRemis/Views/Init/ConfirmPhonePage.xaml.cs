@@ -6,6 +6,9 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using Xamarin.Forms.GoogleMaps;
+using static AutoRemis.Helpers.LocationManeger;
+using static AutoRemis.Helpers.AppStateManager;
 
 namespace AutoRemis.Views
 {
@@ -26,20 +29,21 @@ namespace AutoRemis.Views
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            //Variables
+            entryList = new List<Entry> { e1, e2, e3, e4 };
+            frameList = new List<Frame> { f1, f2, f3, f4 };
+
             //User Data
-            user = AppStateManager.GetUser();
+            user = GetUser();
             token = parameters.GetValue<string>("ConfirmationToken");
 
             //General UI Settings
-            lblName.Text = $"¡Hola {user.FirstName}!";
+            lblName.Text = $"¡Hola {UI.CapitalizeSentence(user.FirstName)}!";
             lblPhone.Text = $"+54 9 {user.PhoneNumber}";
             btnResend.IsEnabled = false;
             EnableResendTokenButton();
             Device.BeginInvokeOnMainThread(() => e1.Focus());
 
-            //Variables
-            entryList = new List<Entry> { e1, e2, e3, e4 };
-            frameList = new List<Frame> { f1, f2, f3, f4 };
         }
 
         private void EntryFocused(object sender, FocusEventArgs e)
@@ -126,22 +130,21 @@ namespace AutoRemis.Views
             {
                 isBussy = true;
 
-                foreach (var i in frameList)
-                    i.BorderColor = Color.White;
                 foreach (var i in entryList)
                     i.IsEnabled = false;
 
                 if ((e1.Text+e2.Text+e3.Text+e4.Text) == token)
                 {
+                    foreach (var i in frameList)
+                        i.BorderColor = Color.Green;
+
                     stkResend.IsVisible = false;
                     stkState.IsVisible = true;
                     stateIndicator.IsRunning = true;
 
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Obteniendo su ubicación");
-                    var locationStatus = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best));
-                    user.lastKnownPosition = new Xamarin.Forms.GoogleMaps.Position(locationStatus.Latitude, locationStatus.Longitude);
-                    user.Status = UserStatus.Idle;
-                    AppStateManager.UpdateUser(user);
+
+                    if (await GetLocation(UserStatus.Idle) != LocationStatus.OK) return;
 
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
                     await Task.Delay(1000);
@@ -150,6 +153,8 @@ namespace AutoRemis.Views
                 }
                 else
                 {
+                    foreach (var i in frameList)
+                        i.BorderColor = Color.Red;
                     foreach (var i in entryList)
                         i.Text = string.Empty;
 
@@ -211,6 +216,8 @@ namespace AutoRemis.Views
                 await Task.Delay(TimeSpan.FromSeconds(time));
                 await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
 
+                foreach (var i in frameList)
+                    i.BorderColor = Color.White;
                 SoundTools.StopCurrentSound();
             });
         }

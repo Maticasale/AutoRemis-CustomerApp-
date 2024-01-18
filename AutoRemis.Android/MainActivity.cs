@@ -23,6 +23,8 @@ namespace AutoRemis.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            Rg.Plugins.Popup.Popup.Init(this);
+
             this.SetLocale();
 
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
@@ -32,7 +34,6 @@ namespace AutoRemis.Droid
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
-            Rg.Plugins.Popup.Popup.Init(this);
         }
         void SetLocale()
         {
@@ -46,12 +47,12 @@ namespace AutoRemis.Droid
             base.OnNewIntent(intent);
             FirebasePushNotificationManager.ProcessIntent(this, intent);
         }
-        protected override void OnActivityResult(int requestCode, Result resultCode, Android.Content.Intent data)
+        protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
             if (requestCode == 1)
             {
-                GoogleSignInResult result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
+                var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
                 GoogleManager.Instance.OnAuthCompleted(result);
             }
         }

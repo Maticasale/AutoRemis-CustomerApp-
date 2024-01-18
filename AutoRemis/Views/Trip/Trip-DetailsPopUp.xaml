@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com" 
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="http://prismlibrary.com" 
+                  xmlns:xct="http://xamarin.com/schemas/2020/toolkit"                   
+                  xmlns:PancakeView="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:customrenders="clr-namespace:AutoRemis.CustomRenders"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  x:Class="AutoRemis.Views.Trip_DetailsPopUp">
+
+    <pages:PopupPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+        </ResourceDictionary>
+    </pages:PopupPage.Resources>
+    
+    <pages:PopupPage.Content>
+        <Frame Padding="5" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="10">
+            <PancakeView:PancakeView Padding="25,25,25,0" Border="{PancakeView:BorderMarkup Color='#B1D506', Thickness='2'}" CornerRadius="10">
+                <Grid RowDefinitions="auto, auto">
+                    <StackLayout Spacing="0">
+                        <Label Text="¡Si tiene datos adicionales, por favor complete!" FontAttributes="Bold" HorizontalOptions="Center" HorizontalTextAlignment="Center" Margin="0,0,0,10"/>
+                        <Grid RowDefinitions="auto, auto" ColumnDefinitions="*, *, *">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Block:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryBlock" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                <Label Text="Torre:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryTorre"  HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="2" Orientation="Horizontal">
+                                <Label Text="Piso:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryPiso" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="1" Orientation="Horizontal">
+                                <Label Text="Depto:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryDepto" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="1" Grid.Column="1" Orientation="Horizontal">
+                                <Label Text="Manzana:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryManzana" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="1" Grid.Column="2" Orientation="Horizontal">
+                                <Label Text="Lote:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryLote" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                        </Grid>
+                        <Grid RowDefinitions="auto, auto" ColumnDefinitions="*, *">
+                            <StackLayout Orientation="Horizontal">
+                                <Label Text="Complejo:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryComplejo" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Orientation="Horizontal">
+                                <Label Text="Casa/Duplex:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryCasaDuplex" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                            <StackLayout Grid.Row="1" Grid.ColumnSpan="2" Orientation="Horizontal">
+                                <Label Text="Country/Barrio:" VerticalOptions="Center"/>
+                                <customrenders:CustomEntry x:Name="entryCountryBarrio" HorizontalOptions="FillAndExpand" ShowUnderline="True" UnderlineColor="#B1D506" TextColor="Black"/>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                    <Grid Grid.Row="1" Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="100" xct:TouchEffect.PressedScale = "0.95">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="NextClicked"/>
+                        </Grid.GestureRecognizers>
+                        <Image Source="imgGreenButton2.png" Aspect="AspectFit" Scale="0.7"/>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="10">
+                            <Label Text="SIGUIENTE" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                            <Image Source="iconNext.png" Aspect="AspectFit" HeightRequest="17"/>
+                        </StackLayout>
+                    </Grid>
+                </Grid>
+            </PancakeView:PancakeView>
+        </Frame>
+    </pages:PopupPage.Content>
+        
+</pages:PopupPage>

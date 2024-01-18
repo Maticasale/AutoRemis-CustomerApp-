@@ -23,22 +23,24 @@
             <StackLayout Grid.Row="2" Padding="10" VerticalOptions="FillAndExpand">
                 <StackLayout Margin="20,10,20,15">
                     <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
-                        <Grid ColumnDefinitions="auto, *">
+                        <Grid ColumnDefinitions="auto, *, auto">
                             <Image Source="iconPerson.png" Aspect="AspectFit" WidthRequest="20"/>
                             <customrenders:CustomEntry x:Name="EntryUser" Grid.Column="1" TextColor="Black" Placeholder="Nombre y Apellido" FontSize="16"/>
+                            <Image x:Name="imgGooglePerson" Grid.Column="2" Source="iconGoogle.png" Aspect="AspectFit" WidthRequest="20"/>
                         </Grid>
                     </Frame>
                     <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
-                        <Grid ColumnDefinitions="auto, *">
+                        <Grid ColumnDefinitions="auto, *, auto">
                             <Image Source="iconMail.png" Aspect="AspectFit" WidthRequest="20"/>
                             <customrenders:CustomEntry x:Name="EntryEmail" Grid.Column="1" TextColor="Black" Placeholder="E-mail" FontSize="16"/>
+                            <Image x:Name="imgGoogleMail" Grid.Column="2" Source="iconGoogle.png" Aspect="AspectFit" WidthRequest="20"/>
                         </Grid>
                     </Frame>
                     <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
                         <Grid ColumnDefinitions="auto, *" RowDefinitions="auto, auto">
                             <Image Source="iconGreenPhone.png" Aspect="AspectFit" WidthRequest="20" Scale="0.8"/>
                             <customrenders:CustomEntry x:Name="EntryPhone" Keyboard="Numeric" Grid.Column="1" TextColor="Black" Placeholder="Telefono Móvil" FontSize="16"/>
-                            <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Margin="0,-9,0,0" Text="Sin el +54 9" TextColor="Black"/>
+                            <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Margin="0,-9,0,0" Text="Sin el 15" TextColor="Black"/>
                         </Grid>
                     </Frame>
                     <Frame HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
@@ -48,8 +50,20 @@
                             <Label Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Margin="0,-9,0,0" Text="Campo no obligatorio*" TextColor="Black"/>
                         </Grid>
                     </Frame>
+                    <Frame x:Name="frmPassword" HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
+                        <Grid ColumnDefinitions="auto, *" RowSpacing="0">
+                            <Image Source="iconLock.png" Aspect="AspectFit" WidthRequest="20"/>
+                            <customrenders:CustomEntry x:Name="EntryPassword" Grid.Column="1" TextColor="Black" Placeholder="Contraseña" FontSize="16" IsPassword="True"/>
+                        </Grid>
+                    </Frame>
+                    <Frame x:Name="frmConfirmPassword" HasShadow="False" CornerRadius="10" BorderColor="#B1D506" Padding="15,5">
+                        <Grid ColumnDefinitions="auto, *" RowSpacing="0">
+                            <Image Source="iconLock.png" Aspect="AspectFit" WidthRequest="20"/>
+                            <customrenders:CustomEntry x:Name="EntryConfirmPassword" Grid.Column="1" TextColor="Black" Placeholder="Confirme su contraseña" FontSize="16" IsPassword="True"/>
+                        </Grid>
+                    </Frame>
                 </StackLayout>
-                <Grid x:Name="btnInit" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95" xct:TouchEffect.PressedOpacity="0.6">
+                <Grid x:Name="btnInit" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
                     <Grid.GestureRecognizers>
                         <TapGestureRecognizer Tapped="initTapped"/>
                     </Grid.GestureRecognizers>

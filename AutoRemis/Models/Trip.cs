@@ -22,6 +22,7 @@ namespace AutoRemis.Models
         public string lat_origin { get; set; }
         public string lng_origin { get; set; }
         public string observation { get; set; }
+        public string discountCoupon { get; set; }
         public string user { get; set; }
         public string phone { get; set; }
         public string address_destination { get; set; }
@@ -35,5 +36,5 @@ namespace AutoRemis.Models
     /// Waiting: Esperando que el movil arribe a su posicion (Aplica aun cuando el movile sta en puerta)
     /// Traveling: Viajando
     /// </summary>
-    public enum TripStatus { Searching, Waiting, Delayed, Traveling, Canceled }
+    public enum TripStatus {Searching, Waiting, Delayed, Traveling, Canceled }
 }
