@@ -7,7 +7,7 @@ using static AutoRemis.Helpers.AppStateManager;
 
 namespace AutoRemis.Helpers
 {
-    public static class LocationManeger
+    public static class LocationHelper
     {
         public enum LocationStatus { OK, Unknown, Exception }
         public static async Task<LocationStatus> GetLocation(UserStatus Newstatus)

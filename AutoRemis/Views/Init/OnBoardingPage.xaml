@@ -27,7 +27,7 @@
                     <Label Text="A solo 5' minutos de tu Casa" TextColor="Black" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
                 </StackLayout>
                 <Pancake:PancakeView Grid.Row="1" BackgroundColor="#f5f5f7" CornerRadius="20,20,0,0">
-                    <StackLayout Margin="20" Spacing="20">
+                    <StackLayout Margin="20" Spacing="20" Padding="0,5">
                         <Frame x:Name="btnGoogle" HasShadow="True"  Padding="10" BackgroundColor="White" VerticalOptions="EndAndExpand" CornerRadius="20" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
                             <Frame.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="GoogleClicked"/>
@@ -46,11 +46,11 @@
                                 <Label Grid.Column="1" HorizontalTextAlignment="Center" TextColor="White" TranslationX="-20" Text="Acceder con númereo de celular" HeightRequest="30" FontSize="15" VerticalTextAlignment="Center"/>
                             </Grid>
                         </Frame>
-                        <Label x:Name="btnMail" Text="Acceder con mi correo electrónico" TextDecorations="Underline" TextColor="#B1D506" FontAttributes="Bold" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
+                        <!--<Label x:Name="btnMail" IsVisible="false" Text="Acceder con mi correo electrónico" TextDecorations="Underline" TextColor="#B1D506" FontAttributes="Bold" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
                             <Label.GestureRecognizers>
                                 <TapGestureRecognizer Tapped="MailClicked"/>
                             </Label.GestureRecognizers>
-                        </Label>
+                        </Label>-->
                     </StackLayout>
                 </Pancake:PancakeView>
             </Grid>

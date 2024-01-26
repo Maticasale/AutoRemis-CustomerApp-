@@ -1,15 +1,10 @@
 ﻿using AutoRemis.Helpers;
-using AutoRemis.Models.Google;
 using AutoRemis.Models;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Xamarin.Forms;
-using Xamarin.Forms.GoogleMaps;
 using Prism.Navigation;
-using Prism.Ioc;
-using Rg.Plugins.Popup.Extensions;
-using static AutoRemis.Models.Google.GooglePlaceID;
+using System.Threading.Tasks;
 
 namespace AutoRemis.Views
 {
@@ -18,11 +13,11 @@ namespace AutoRemis.Views
         private readonly INavigationService _navigationService;
 
         private User user;
+        private Trip trip;
 
-        ImageButton selectedPayMethod = null;
+        private ImageButton selectedPayMethod = null;
         private bool[] checkboxStates;
 
-        private Trip trip;
 
         public Trip_ConfigPage(INavigationService navigationService)
         {
@@ -33,23 +28,16 @@ namespace AutoRemis.Views
             MessagingCenter.Subscribe<object, Trip>(this, "Trip", OnTripParamsChanged);
         }
 
-        private void OnTripParamsChanged(object arg, Trip trip)
-        {
-            this.trip = trip;
-        }
+        private void OnTripParamsChanged(object arg, Trip trip) => this.trip = trip;
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {            
-            //Variables
-            checkboxStates = new bool[10];
-            trip = parameters.GetValue<Trip>("Trip");
-
             //User Data
             user = AppStateManager.GetUser();
 
-            //General UI Settings
-
-            //SearchBars Settings
+            //Variables
+            checkboxStates = new bool[10];
+            trip = parameters.GetValue<Trip>("Trip");
         }
 
         private void ObsClicked(object sender, EventArgs e)
@@ -90,15 +78,74 @@ namespace AutoRemis.Views
 
         private async void StartTrip(object sender, EventArgs e)
         {
-            trip.discountCoupon = entryCoupon.Text;
+            stateIndicator.IsRunning = true;
+            lblBtnStartTrip.IsEnabled = false;
+            lblBtnStartTrip.IsVisible = false;
 
-            await _navigationService.NavigateAsync("/Trip_WaitingPage", new NavigationParameters { { "Trip", trip } });
+            if (selectedPayMethod != null)
+            {
+                trip.discountCoupon = entryCoupon.Text;
+                trip.paymentMethod = selectedPayMethod.ClassId;
+                user.TripInfo = trip;
+                await _navigationService.NavigateAsync("/Trip_WaitingPage", new NavigationParameters { { "Trip", trip } });
+
+            }
+            else
+                RiseErrorMsg("Advertencia", "Necesitamos que selecciones un metodo de pago por favor", 2, SoundHelper.SoundType.Alert);
+
+            stateIndicator.IsRunning = false;
+            lblBtnStartTrip.IsEnabled = true;
+            lblBtnStartTrip.IsVisible = true;
         }
+        private async void CalculateClicked(object sender, EventArgs e) => await _navigationService.NavigateAsync("Trip_ChangeMainParamsPopUp", new NavigationParameters { { "Trip", trip } });
+
         public void OnNavigatedFrom(INavigationParameters parameters) {}
 
-        private async void CalculateClicked(object sender, EventArgs e)
+        private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)
         {
-            await _navigationService.NavigateAsync("Trip_ChangeMainParamsPopUp", new NavigationParameters { { "Trip", trip } });
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                Title.Text = title;
+                Msg.Text = msg;
+
+                switch (type)
+                {
+                    case SoundHelper.SoundType.Error:
+                        imgItem.Source = "iconError.png";
+                        CancellBox.BorderColor = Color.FromHex("#ff355b");
+                        CancellBox.BackgroundColor = Color.FromHex("#fffbfc");
+                        Title.TextColor = Color.FromHex("#ff355b");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
+                        break;
+                    case SoundHelper.SoundType.Alert:
+                        imgItem.Source = "iconWarning.png";
+                        CancellBox.BorderColor = Color.FromHex("#FFC021");
+                        CancellBox.BackgroundColor = Color.FromHex("#fffefb");
+                        Title.TextColor = Color.FromHex("#FFC021");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
+                        break;
+                    case SoundHelper.SoundType.Success:
+                        imgItem.Source = "iconSuccess.png";
+                        CancellBox.BorderColor = Color.FromHex("#47D764");
+                        CancellBox.BackgroundColor = Color.FromHex("#fbfefc");
+                        Title.TextColor = Color.FromHex("#47D764");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Success);
+                        break;
+                    case SoundHelper.SoundType.Message:
+                        imgItem.Source = "iconInfo.png";
+                        CancellBox.BorderColor = Color.FromHex("#2F86EB");
+                        CancellBox.BackgroundColor = Color.FromHex("#fbfdff");
+                        Title.TextColor = Color.FromHex("#2F86EB");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Message);
+                        break;
+                }
+
+                await Task.WhenAll(CancellBox.TranslateTo(0, 0, 400, easing: Easing.SinIn));
+                await Task.Delay(TimeSpan.FromSeconds(time));
+                await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
+
+                SoundHelper.StopCurrentSound();
+            });
         }
     }
 }

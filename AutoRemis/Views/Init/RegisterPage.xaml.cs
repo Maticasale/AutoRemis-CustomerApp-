@@ -4,6 +4,7 @@ using AutoRemis.Models.Google;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -12,6 +13,7 @@ namespace AutoRemis.Views
     public partial class RegisterPage : ContentPage, INavigatedAware
     {
         private User user;
+
         private InitType init;
         private GoogleUser googleUser;
 
@@ -32,31 +34,16 @@ namespace AutoRemis.Views
             //General UI Settings
             imgGooglePerson.IsVisible = init == InitType.Google;
             imgGoogleMail.IsVisible = init == InitType.Google;
+
             EntryUser.IsEnabled = init != InitType.Google;
             EntryEmail.IsEnabled = init != InitType.Google;
-            frmPassword.IsVisible = init != InitType.Google;
-            frmConfirmPassword.IsVisible = init != InitType.Google;
 
-            switch (init)
-            {
-                case InitType.Google:
-                    user.FirstName = googleUser.FirstName;
-                    user.LastName = googleUser.LastName;
-                    user.FullName = googleUser.FullName;
-                    user.Email = googleUser.Email;
-
-                    EntryUser.Text = UI.CapitalizeSentence(user.FullName);
-                    EntryEmail.Text = user.Email;
-
-                    break;
-
-                case InitType.Normal:
-
-                    return;
-
-                case InitType.PhoneNumber:
-                    return;
-            }
+            if (init == InitType.Google) 
+            { 
+                EntryUser.Text = UIHelper.CapitalizeSentence(googleUser.FullName);
+                EntryEmail.Text = googleUser.Email;
+                user.GoogleUrlPic = googleUser.Picture;
+            }   
         }
 
         private async void initTapped(object sender, EventArgs e)
@@ -65,16 +52,20 @@ namespace AutoRemis.Views
 
             if (!string.IsNullOrWhiteSpace(EntryUser.Text) && !string.IsNullOrWhiteSpace(EntryEmail.Text) && !string.IsNullOrWhiteSpace(EntryPhone.Text))
             {
-                user.FullName = EntryUser.Text;
+                string[] name = EntryUser.Text.Split(' ');
+
+                user.FirstName = UIHelper.CapitalizeSentence(name[0]);
+                user.LastName = name.Length >= 2 ? UIHelper.CapitalizeSentence(name[1]) : "-";
+                user.FullName = UIHelper.CapitalizeSentence(EntryUser.Text);
                 user.Email = EntryEmail.Text; 
                 user.Facebook = EntryFacebook.Text;
                 user.PhoneNumber = EntryPhone.Text;
                 AppStateManager.UpdateUser(user);
 
-                await _navigationService.NavigateAsync("ConfirmPhonePage", new NavigationParameters {{ "ConfirmationToken", "1234" }});
+                await _navigationService.NavigateAsync("ConfirmPhonePage", new NavigationParameters { { "ConfirmationToken", "1234" }, { "LoginType", init }});
             }
             else
-                RiseErrorMsg("¡Atencion!", init == InitType.Google ? "Necesitamos tu numero de Celular para poder continuar" : "Necesitamos que completes los campos obligatorios para poder continuar", 3, SoundTools.SoundType.Alert);
+                RiseErrorMsg("¡Atencion!", init == InitType.Google ? "Necesitamos tu numero de Celular para poder continuar" : "Necesitamos que completes los campos obligatorios para poder continuar", 3, SoundHelper.SoundType.Alert);
 
             IsBusy(false);
         }
@@ -86,43 +77,42 @@ namespace AutoRemis.Views
             lblInit.Text = value ? "" : "INICIAR";
         }
 
-        private void RiseErrorMsg(string title, string msg, int time, SoundTools.SoundType type)
+        private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
-
                 Title.Text = title;
                 Msg.Text = msg;
 
                 switch (type)
                 {
-                    case SoundTools.SoundType.Error:
+                    case SoundHelper.SoundType.Error:
                         imgItem.Source = "iconError.png";
                         CancellBox.BorderColor = Color.FromHex("#ff355b");
                         CancellBox.BackgroundColor = Color.FromHex("#fffbfc");
                         Title.TextColor = Color.FromHex("#ff355b");
-                        SoundTools.PlaySound(SoundTools.SoundType.Alert);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
                         break;
-                    case SoundTools.SoundType.Alert:
+                    case SoundHelper.SoundType.Alert:
                         imgItem.Source = "iconWarning.png";
                         CancellBox.BorderColor = Color.FromHex("#FFC021");
                         CancellBox.BackgroundColor = Color.FromHex("#fffefb");
                         Title.TextColor = Color.FromHex("#FFC021");
-                        SoundTools.PlaySound(SoundTools.SoundType.Alert);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
                         break;
-                    case SoundTools.SoundType.Success:
+                    case SoundHelper.SoundType.Success:
                         imgItem.Source = "iconSuccess.png";
                         CancellBox.BorderColor = Color.FromHex("#47D764");
                         CancellBox.BackgroundColor = Color.FromHex("#fbfefc");
                         Title.TextColor = Color.FromHex("#47D764");
-                        SoundTools.PlaySound(SoundTools.SoundType.Success);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Success);
                         break;
-                    case SoundTools.SoundType.Message:
+                    case SoundHelper.SoundType.Message:
                         imgItem.Source = "iconInfo.png";
                         CancellBox.BorderColor = Color.FromHex("#2F86EB");
                         CancellBox.BackgroundColor = Color.FromHex("#fbfdff");
                         Title.TextColor = Color.FromHex("#2F86EB");
-                        SoundTools.PlaySound(SoundTools.SoundType.Message);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Message);
                         break;
                 }
 
@@ -130,15 +120,10 @@ namespace AutoRemis.Views
                 await Task.Delay(TimeSpan.FromSeconds(time));
                 await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
 
-                SoundTools.StopCurrentSound();
+                SoundHelper.StopCurrentSound();
             });
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters) { }
-
-        private void GoBack(object sender, EventArgs e)
-        {
-
-        }
     }
 }

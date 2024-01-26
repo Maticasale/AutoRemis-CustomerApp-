@@ -12,6 +12,13 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AutoRemis.Views.MapPage">
 
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="1">
+            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="30"/>
+            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
             <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
@@ -34,7 +41,6 @@
                 </pancake:PancakeView>
                 <pancake:PancakeView x:Name="ResultBox" CornerRadius="0,0,5,5" Padding="5" Opacity="0" BackgroundColor="White" HeightRequest="0">
                     <AbsoluteLayout>
-                        <ActivityIndicator x:Name="spinner"	AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
                         <ListView x:Name="results_list" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="SizeProportional">
                             <ListView.ItemTemplate>
                                 <DataTemplate>
@@ -43,9 +49,9 @@
 
                                             <Image Source="iconOrigin.png" HeightRequest="20" WidthRequest="20" Grid.RowSpan="2"/>
 
-                                            <Label Text="{Binding MainText}" Grid.Column="1" TextColor="#B1D506"/>
+                                            <Label Text="{Binding MainText}" Grid.Column="1" TextColor="#B1D506" MaxLines="1"/>
 
-                                            <Label Text="{Binding SecondaryText}" TextColor="Gray" Grid.Row="1" Grid.Column="1"/>
+                                            <Label Text="{Binding SecondaryText}" TextColor="Gray" Grid.Row="1" Grid.Column="1" MaxLines="1"/>
 
                                         </Grid>
                                     </ViewCell>
@@ -55,7 +61,7 @@
                     </AbsoluteLayout>
                 </pancake:PancakeView>
             </StackLayout>
-            <StackLayout Grid.Row="1" VerticalOptions="End" Spacing="0">
+            <StackLayout x:Name="stkOptions" Grid.Row="1" VerticalOptions="End" Spacing="0">
                 <Frame Padding="-1" Margin="10,0" CornerRadius="10" VerticalOptions="End" Scale="0.9">
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Spacing="1" Scale="0.9">
                         <Frame x:Name="frmStandard" HasShadow="False" CornerRadius="60" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
@@ -108,6 +114,15 @@
                     <Label Text="PEDIR MOVIL" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
                 </Grid>
             </StackLayout>
+            <Frame Grid.Row="1" Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
+                <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
+                    <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
+                    <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">
+                        <Label x:Name="Title" FontSize="15" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                        <Label x:Name="Msg" FontSize="12" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
         </Grid>
 
     </ContentPage.Content>

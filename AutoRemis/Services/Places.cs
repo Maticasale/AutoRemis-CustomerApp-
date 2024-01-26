@@ -149,6 +149,22 @@ namespace AutoRemis.Services
             }
         }
 
+        //public static async Task<double?> GetBearing(double latitude, double longitude, string apiKey)
+        //{
+        //    using (var httpClient = new HttpClient())
+        //    {
+        //        var apiUrl = $"https://maps.googleapis.com/maps/api/elevation/json?locations={latitude},{longitude}&key={apiKey}";
+        //        var response = await httpClient.GetStringAsync(apiUrl);
+
+        //        dynamic jsonResponse = JsonConvert.DeserializeObject(response);
+
+        //        // Assuming there is at least one result
+        //        var bearing = jsonResponse.results[0].location.bearing;
+
+        //        return bearing;
+        //    }
+        //}
+
         private static string PlaceTypeValue(PlaceType type)
         {
             switch (type)

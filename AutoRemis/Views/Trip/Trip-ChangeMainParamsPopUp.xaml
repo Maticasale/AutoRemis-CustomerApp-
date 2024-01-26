@@ -32,7 +32,6 @@
                     </pancake:PancakeView>
                     <pancake:PancakeView x:Name="ResultBox" CornerRadius="0,0,5,5" Padding="5" Opacity="0" BackgroundColor="White" HeightRequest="0">
                         <AbsoluteLayout>
-                            <ActivityIndicator x:Name="spinner"	AbsoluteLayout.LayoutBounds="0.5, 0.1, 50, 50" AbsoluteLayout.LayoutFlags="PositionProportional" />
                             <ListView x:Name="results_list" AbsoluteLayout.LayoutBounds="0, 0, 1, 1" AbsoluteLayout.LayoutFlags="SizeProportional">
                                 <ListView.ItemTemplate>
                                     <DataTemplate>
@@ -41,7 +40,7 @@
 
                                                 <Image Source="iconOrigin.png" HeightRequest="20" WidthRequest="20" Grid.RowSpan="2"/>
 
-                                                <Label Text="{Binding MainText}" Grid.Column="1" TextColor="#B1D506"/>
+                                                <Label Text="{Binding MainText}" Grid.Column="1" TextColor="#B1D506" MaxLines="1"/>
 
                                                 <Label Text="{Binding SecondaryText}" TextColor="Gray" Grid.Row="1" Grid.Column="1" MaxLines="1"/>
 

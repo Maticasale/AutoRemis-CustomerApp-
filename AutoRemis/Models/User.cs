@@ -12,6 +12,7 @@ namespace AutoRemis.Models
         public string LastName { get; set; }
         public string FullName { get; set; }
         public string PhoneNumber { get; set; }
+        public Uri GoogleUrlPic { get; set; } 
         public string Email { get; set; }
         public string Facebook { get; set; }
         public Position lastKnownPosition { get; set; }

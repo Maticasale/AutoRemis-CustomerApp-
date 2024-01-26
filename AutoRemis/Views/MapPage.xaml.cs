@@ -29,9 +29,6 @@ namespace AutoRemis.Views
 
         private string LatDst, LngDst, AdressDst, NumberDst;
 
-        private bool SearchBarsFoucsed = false;
-        private bool AutoFillEnable = true;
-
         string EntryFocused;
         bool ItemSellected;
         public MapPage()
@@ -40,6 +37,8 @@ namespace AutoRemis.Views
             LoadUI();
             _navigationService = Prism.PrismApplicationBase.Current.Container.Resolve<INavigationService>();
         }
+
+        protected override bool OnBackButtonPressed() => true;
 
         private void LoadUI()
         {
@@ -89,8 +88,7 @@ namespace AutoRemis.Views
                 try
                 {
                     var response = await Places.GetPlaceID(p.Target.Latitude.ToString(), p.Target.Longitude.ToString(), "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
-                    if (AutoFillEnable)
-                        FillEntrys(response, new Position(latitude: p.Target.Latitude, longitude: p.Target.Longitude));
+                    FillEntrys(response, new Position(latitude: p.Target.Latitude, longitude: p.Target.Longitude));
                 }
                 catch (Exception) { }
             };
@@ -100,32 +98,35 @@ namespace AutoRemis.Views
         {
             if (AdressOrg != null && LatOrg != null && LngOrg != null)
             {
-                Trip trip = new Trip()
+                Trip trip = new Trip();
+                if (!string.IsNullOrWhiteSpace(EntryDst.Text))
                 {
-                    address_origin = EntryOrg.Text,
-                    address_number_origin = NumberOrg,
-                    address_destination = EntryDst.Text,
-                    address_number_destination = NumberDst,
-                    lat_origin = LatOrg,
-                    lng_origin = LngOrg,
-                    lat_destination = LatDst,
-                    lng_destination = LngDst,
-                    block = string.Empty,
-                    tower = string.Empty,
-                    flor = string.Empty,
-                    flats_block = string.Empty,
-                    flat = string.Empty,
-                    lot = string.Empty,
-                    complex = string.Empty,
-                    house = string.Empty,
-                    country = string.Empty,
-                    name = user.FullName,
-                    user = user.FullName,
-                    phone = user.PhoneNumber,
+                    if (AdressDst != null || LatDst != null || LngDst != null)
+                    {
+                        trip.lat_destination = LatDst;
+                        trip.lng_destination = LngDst;
+                        trip.address_destination = EntryDst.Text;
+                        trip.address_number_destination = NumberDst;
+                    }
+                    else
+                    {
+                        RiseErrorMsg("¡Aviso!", "Parece que quisiste escribir un destino pero no hemos podido encontrar dicha información, por favor asegurate de que este bien escrito y que hayas seleccionado alguno de la lista", 6, SoundHelper.SoundType.Alert);
+                        return;
+                    }
+                }
 
-                };
+                trip.address_origin = EntryOrg.Text;
+                trip.address_number_origin = NumberOrg;
+                trip.lat_origin = LatOrg;
+                trip.lng_origin = LngOrg;
+                trip.name = user.FullName;
+                trip.user = user.FullName;
+                trip.phone = user.PhoneNumber;
+
                 await _navigationService.NavigateAsync("Trip_DetailsPopUp", new NavigationParameters { { "Trip", trip } });
             }
+            else
+                RiseErrorMsg("¡Aviso!", "Necesitamos que completes al menos el origen para poder pedir un viaje", 4, SoundHelper.SoundType.Alert);
         }
 
         private void OnCheckboxTapped(object sender, EventArgs e)
@@ -155,10 +156,8 @@ namespace AutoRemis.Views
                 result.AutoCompletePlaces = null;
 
             results_list.ItemsSource = result.AutoCompletePlaces;
-            spinner.IsRunning = false;
-            spinner.IsVisible = false;
 
-            if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0 && SearchBarsFoucsed)
+            if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0)
                 await OpenResultBox(result.AutoCompletePlaces.Count);
             else
                 await CloseResultBox();
@@ -168,19 +167,7 @@ namespace AutoRemis.Views
 
         private async void Search_Bar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.NewTextValue) && !SearchBarsFoucsed)
-            {
-                await CloseResultBox();
-                spinner.IsVisible = true;
-                spinner.IsRunning = true;
-            }
-            else
-            {
-                spinner.IsRunning = false;
-                spinner.IsVisible = false;
-            }
-
-            if ((EntryFocused == "Org" && string.IsNullOrWhiteSpace(EntryOrg.Text)) || (EntryFocused == "Dst" && string.IsNullOrWhiteSpace(EntryDst.Text)))
+            if (string.IsNullOrWhiteSpace(EntryOrg.Text) || string.IsNullOrWhiteSpace(EntryDst.Text) || !string.IsNullOrEmpty(e.NewTextValue))
                 await CloseResultBox();
         }
 
@@ -198,9 +185,6 @@ namespace AutoRemis.Views
 
         private async void FillEntrys(string PlaceID, Position alternativePosition)
         {
-            //if (!AutoFillEnable)
-            //    return;
-
             Place place = await Places.GetPlace(PlaceID, "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
 
             if (place != null && !ItemSellected)
@@ -236,10 +220,10 @@ namespace AutoRemis.Views
         }
 
         private async Task OpenResultBox(int Results)
-        { 
-            if (!SearchBarsFoucsed) return;
+        {
+            if (!EntryDst.IsFocused && !EntryOrg.IsFocused) return;
 
-            await Task.WhenAll(ResultBox.FadeTo(1, length: 100));
+            await Task.WhenAll(ResultBox.FadeTo(1));
             Search.CornerRadius = new CornerRadius(5, 5, 0, 0);
             switch (Results)
             {
@@ -266,23 +250,66 @@ namespace AutoRemis.Views
 
         private async Task CloseResultBox()
         {
-            await Task.WhenAll(ResultBox.FadeTo(0, length: 100));
+            await Task.WhenAll(ResultBox.FadeTo(0));
             Search.CornerRadius = 5;
             ResizeStackLayout(0);
         }
 
         private void ResizeStackLayout(double heightRequest) => MainThread.BeginInvokeOnMainThread(() => ResultBox.HeightRequest = heightRequest);
 
-        void EntryOrgFocused(Object sender, FocusEventArgs e)
+        void EntryOrgFocused(Object sender, FocusEventArgs e) => EntryFocused = "Org";
+
+        void EntryDstFocused(Object sender, FocusEventArgs e) => EntryFocused = "Dst";
+        private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)
         {
-            EntryFocused = "Org";
-            SearchBarsFoucsed = true;
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                stkOptions.IsVisible = false;
+
+                Title.Text = title;
+                Msg.Text = msg;
+
+                switch (type)
+                {
+                    case SoundHelper.SoundType.Error:
+                        imgItem.Source = "iconError.png";
+                        CancellBox.BorderColor = Color.FromHex("#ff355b");
+                        CancellBox.BackgroundColor = Color.FromHex("#fffbfc");
+                        Title.TextColor = Color.FromHex("#ff355b");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
+                        break;
+                    case SoundHelper.SoundType.Alert:
+                        imgItem.Source = "iconWarning.png";
+                        CancellBox.BorderColor = Color.FromHex("#FFC021");
+                        CancellBox.BackgroundColor = Color.FromHex("#fffefb");
+                        Title.TextColor = Color.FromHex("#FFC021");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
+                        break;
+                    case SoundHelper.SoundType.Success:
+                        imgItem.Source = "iconSuccess.png";
+                        CancellBox.BorderColor = Color.FromHex("#47D764");
+                        CancellBox.BackgroundColor = Color.FromHex("#fbfefc");
+                        Title.TextColor = Color.FromHex("#47D764");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Success);
+                        break;
+                    case SoundHelper.SoundType.Message:
+                        imgItem.Source = "iconInfo.png";
+                        CancellBox.BorderColor = Color.FromHex("#2F86EB");
+                        CancellBox.BackgroundColor = Color.FromHex("#fbfdff");
+                        Title.TextColor = Color.FromHex("#2F86EB");
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Message);
+                        break;
+                }
+
+                await Task.WhenAll(CancellBox.TranslateTo(0, 0, 400, easing: Easing.SinIn));
+                await Task.Delay(TimeSpan.FromSeconds(time));
+                await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
+
+                SoundHelper.StopCurrentSound();
+
+                stkOptions.IsVisible = true;
+            });
         }
 
-        void EntryDstFocused(Object sender, FocusEventArgs e)
-        {
-            EntryFocused = "Dst";
-            SearchBarsFoucsed = true;
-        }
     }
 }

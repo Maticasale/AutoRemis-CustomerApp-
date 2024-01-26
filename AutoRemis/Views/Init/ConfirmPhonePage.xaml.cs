@@ -7,16 +7,18 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using static AutoRemis.Helpers.LocationManeger;
+using static AutoRemis.Helpers.LocationHelper;
 using static AutoRemis.Helpers.AppStateManager;
 
 namespace AutoRemis.Views
 {
     public partial class ConfirmPhonePage : ContentPage, INavigatedAware
     {
-        User user;
-        string token;
-        bool isBussy;
+        private User user;
+
+        private string token;
+        private bool isBussy;
+        private InitType init;
         private List<Entry> entryList;
         private List<Frame> frameList;
 
@@ -29,21 +31,21 @@ namespace AutoRemis.Views
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            //User Data
+            user = GetUser();
+
             //Variables
             entryList = new List<Entry> { e1, e2, e3, e4 };
             frameList = new List<Frame> { f1, f2, f3, f4 };
-
-            //User Data
-            user = GetUser();
+            init = parameters.GetValue<InitType>("LoginType");
             token = parameters.GetValue<string>("ConfirmationToken");
 
             //General UI Settings
-            lblName.Text = $"¡Hola {UI.CapitalizeSentence(user.FirstName)}!";
-            lblPhone.Text = $"+54 9 {user.PhoneNumber}";
-            btnResend.IsEnabled = false;
             EnableResendTokenButton();
+            btnResend.IsEnabled = false;
+            lblPhone.Text = $"+54 9 {user.PhoneNumber}";
+            lblName.Text = $"¡Hola {UIHelper.CapitalizeSentence(user.FirstName)}!";
             Device.BeginInvokeOnMainThread(() => e1.Focus());
-
         }
 
         private void EntryFocused(object sender, FocusEventArgs e)
@@ -89,15 +91,16 @@ namespace AutoRemis.Views
                 return i != 0;
             });
         }
+        protected override bool OnBackButtonPressed() => true;
+        private void GoBackClicked(object sender, EventArgs e) => _navigationService.GoBackAsync(new NavigationParameters { { "LoginType", init } });
 
-        private void GoBack(object sender, EventArgs e) => _navigationService.GoBackAsync();
 
         private void F1C(object sender, TextChangedEventArgs e)
         {
             if (!isBussy)
             {
-                e2.Focus();
                 CheckToken();
+                e2.Focus();
             }
         }
         private void F2C(object sender, TextChangedEventArgs e)
@@ -158,7 +161,7 @@ namespace AutoRemis.Views
                     foreach (var i in entryList)
                         i.Text = string.Empty;
 
-                    RiseErrorMsg("¡Error!", "El codigo de verificacion es incorrecto, vuelve a intentarlo", 3, SoundTools.SoundType.Error);
+                    RiseErrorMsg("¡Error!", "El codigo de verificacion es incorrecto, vuelve a intentarlo", 3, SoundHelper.SoundType.Error);
                 }
 
                 foreach (var i in entryList)
@@ -173,7 +176,7 @@ namespace AutoRemis.Views
             btnResend.IsEnabled = true;
         }
 
-        private void RiseErrorMsg(string title, string msg, int time, SoundTools.SoundType type)
+        private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -182,33 +185,33 @@ namespace AutoRemis.Views
 
                 switch (type)
                 {
-                    case SoundTools.SoundType.Error:
+                    case SoundHelper.SoundType.Error:
                         imgItem.Source = "iconError.png";
                         CancellBox.BorderColor = Color.FromHex("#ff355b");
                         CancellBox.BackgroundColor = Color.FromHex("#fffbfc");
                         Title.TextColor = Color.FromHex("#ff355b");
-                        SoundTools.PlaySound(SoundTools.SoundType.Alert);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
                         break;
-                    case SoundTools.SoundType.Alert:
+                    case SoundHelper.SoundType.Alert:
                         imgItem.Source = "iconWarning.png";
                         CancellBox.BorderColor = Color.FromHex("#FFC021");
                         CancellBox.BackgroundColor = Color.FromHex("#fffefb");
                         Title.TextColor = Color.FromHex("#FFC021");
-                        SoundTools.PlaySound(SoundTools.SoundType.Alert);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
                         break;
-                    case SoundTools.SoundType.Success:
+                    case SoundHelper.SoundType.Success:
                         imgItem.Source = "iconSuccess.png";
                         CancellBox.BorderColor = Color.FromHex("#47D764");
                         CancellBox.BackgroundColor = Color.FromHex("#fbfefc");
                         Title.TextColor = Color.FromHex("#47D764");
-                        SoundTools.PlaySound(SoundTools.SoundType.Success);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Success);
                         break;
-                    case SoundTools.SoundType.Message:
+                    case SoundHelper.SoundType.Message:
                         imgItem.Source = "iconInfo.png";
                         CancellBox.BorderColor = Color.FromHex("#2F86EB");
                         CancellBox.BackgroundColor = Color.FromHex("#fbfdff");
                         Title.TextColor = Color.FromHex("#2F86EB");
-                        SoundTools.PlaySound(SoundTools.SoundType.Message);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Message);
                         break;
                 }
 
@@ -218,7 +221,7 @@ namespace AutoRemis.Views
 
                 foreach (var i in frameList)
                     i.BorderColor = Color.White;
-                SoundTools.StopCurrentSound();
+                SoundHelper.StopCurrentSound();
             });
         }
 

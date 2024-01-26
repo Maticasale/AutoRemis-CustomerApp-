@@ -7,10 +7,10 @@
              x:Class="AutoRemis.Views.Trip_ConfigPage">
 
     <NavigationPage.TitleView>
-        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="0.8" TranslationX="-30" Padding="0,-10">
-            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="50"/>
-            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
-            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="1">
+            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="30"/>
+            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
         </StackLayout>
     </NavigationPage.TitleView>
 
@@ -22,14 +22,14 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
-        <ContentPage.Content>
-        <ScrollView>            
-            <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
-                <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
-                <StackLayout Grid.Row="1" Margin="10">
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <ScrollView Grid.Row="1" Margin="10">
+                <StackLayout>
                     <Label Text="Preferencias" FontAttributes="Bold"/>
                     <StackLayout Orientation="Horizontal">
-                        <ImageButton x:Name="btnMascota" Source="iconEmptyChk1.png" Clicked="ObsClicked" ClassId="0"/> 
+                        <ImageButton x:Name="btnMascota" Source="iconEmptyChk1.png" Clicked="ObsClicked" ClassId="0"/>
                         <Label Text="Lleva Mascota" TextColor="Black" FontAttributes="Bold"/>
                     </StackLayout>
                     <StackLayout Orientation="Horizontal">
@@ -76,15 +76,15 @@
                     </StackLayout>
                     <StackLayout Orientation="Horizontal" HorizontalOptions="Fill" Spacing="20">
                         <StackLayout Orientation="Horizontal">
-                            <ImageButton x:Name="imgStandard10" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15" Clicked="PayMethodClicked"/>
+                            <ImageButton x:Name="imgCash" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15" Clicked="PayMethodClicked" ClassId="0"/>
                             <Label Text="Efectivo" TextColor="Black" FontAttributes="Bold"/>
                         </StackLayout>
                         <StackLayout Orientation="Horizontal">
-                            <ImageButton x:Name="imgStandard11" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15" Clicked="PayMethodClicked"/>
+                            <ImageButton x:Name="imgCard" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15" Clicked="PayMethodClicked" ClassId="1"/>
                             <Label Text="Tarjeta" TextColor="Black" FontAttributes="Bold"/>
                         </StackLayout>
                         <StackLayout Orientation="Horizontal">
-                            <ImageButton x:Name="imgStandard12" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15" Clicked="PayMethodClicked"/>
+                            <ImageButton x:Name="imgCorporate" Source="iconEmptyChk1.png" Aspect="AspectFit" HeightRequest="15" Clicked="PayMethodClicked" ClassId="2"/>
                             <Label Text="Corporativo" TextColor="Black" FontAttributes="Bold"/>
                         </StackLayout>
                     </StackLayout>
@@ -101,16 +101,26 @@
                             <Label Text="Calcular" FontSize="18" FontAttributes="Bold" TextColor="White" HorizontalOptions="Center" VerticalOptions="Center"/>
                         </Grid>
                     </StackLayout>
-                    <Grid Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                    <Grid x:Name="bntStartTrip" Margin="10,5,10,10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="StartTrip"/>
                         </Grid.GestureRecognizers>
                         <Image Source="imgGreenButton.png" Aspect="AspectFit" />
-                        <Label Text="PEDIR MOVIL" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <Label x:Name="lblBtnStartTrip" Text="PEDIR MOVIL" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                        <ActivityIndicator x:Name="stateIndicator" IsRunning="False" Color="White" Scale="0.7"/>
                     </Grid>
                 </StackLayout>
-            </Grid>
-        </ScrollView>
+            </ScrollView>
+            <Frame Grid.Row="1" Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
+                <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
+                    <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
+                    <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">
+                        <Label x:Name="Title" FontSize="15" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                        <Label x:Name="Msg" FontSize="12" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+        </Grid>
     </ContentPage.Content>
     
 </ContentPage>

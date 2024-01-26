@@ -5,7 +5,7 @@ using System.Text;
 
 namespace AutoRemis.Helpers
 {
-    public static class UI
+    public static class UIHelper
     {
         public static string CapitalizeSentence(string text)
         {

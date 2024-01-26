@@ -73,7 +73,7 @@ namespace AutoRemis.Droid
 
         public void OnConnected(Bundle connectionHint) { }
 
-        public void OnConnectionSuspended(int cause) => _onLoginComplete?.Invoke(null, "Caanceled!");
+        public void OnConnectionSuspended(int cause) => _onLoginComplete?.Invoke(null, "Canceled!");
 
         public void OnConnectionFailed(ConnectionResult result) => _onLoginComplete?.Invoke(null, result.ErrorMessage);
     }

@@ -4,13 +4,13 @@ using System.Reflection;
 
 namespace AutoRemis.Helpers
 {
-    public static class SoundTools
+    public static class SoundHelper
     {
+        public enum SoundType { Error, Alert, Success, NewTrip, Message }
+
         private static ISimpleAudioPlayer player;
         private static bool isPlaying = false;
         private static object lockObject = new object();
-
-        public enum SoundType { Error, Alert, Success, NewTrip, Message }
 
         public static void PlaySound(SoundType type)
         {

@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace AutoRemis.Helpers
 {
-    public static class FirebaseMsgReciver
+    public static class FirebaseHelper
     {
         public static void Initialize()
         {

@@ -6,8 +6,7 @@
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AutoRemis.Views.ConfirmPhonePage"
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
-             BackgroundColor="#f5f5f7"
-             NavigationPage.HasNavigationBar="False">
+             BackgroundColor="#f5f5f7">
 
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -19,19 +18,16 @@
             </Style>
         </ResourceDictionary>
     </ContentPage.Resources>
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="1">
+            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="30"/>
+            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
-            <Grid BackgroundColor="#B1D506" HeightRequest="56" Padding="10,0">
-                <StackLayout Orientation="Horizontal"  VerticalOptions="CenterAndExpand" xct:TouchEffect.PressedScale = "0.96"  xct:TouchEffect.AnimationDuration="200">
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="GoBack"/>
-                    </StackLayout.GestureRecognizers>
-                    <Image Source="iconChevron.png" Rotation="180" Aspect="AspectFit" HeightRequest="20"/>
-                    <Label Text="Registro" FontSize="20" TextColor="White"/>
-                </StackLayout>
-            </Grid>
-            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
-            <StackLayout Grid.Row="2" Padding="10" VerticalOptions="FillAndExpand">
+        <Grid VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <StackLayout Padding="10" VerticalOptions="FillAndExpand">
                 <StackLayout.GestureRecognizers>
                     <TapGestureRecognizer Tapped="StkTapped"/>
                 </StackLayout.GestureRecognizers>
@@ -84,7 +80,7 @@
                     <ActivityIndicator IsRunning="False" x:Name="stateIndicator" Color="Gray" Scale="0.5"/>
                 </StackLayout>
             </StackLayout>
-            <Frame Grid.Row="2" Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
+            <Frame Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
                 <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
                     <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
                     <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">

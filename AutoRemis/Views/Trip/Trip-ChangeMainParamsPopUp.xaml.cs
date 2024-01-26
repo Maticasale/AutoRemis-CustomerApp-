@@ -23,9 +23,6 @@ namespace AutoRemis.Views
 
         private string LatDst, LngDst, AdressDst, NumberDst;
 
-        private bool SearchBarsFoucsed = false;
-        private bool AutoFillEnable = true;
-
         string EntryFocused;
         bool ItemSellected;
 
@@ -39,7 +36,6 @@ namespace AutoRemis.Views
         {
             //Variables
             trip = parameters.GetValue<Trip>("Trip");
-
 
             //SearchBars Settings
             EntryFocused = "Org";
@@ -78,10 +74,8 @@ namespace AutoRemis.Views
                 result.AutoCompletePlaces = null;
 
             results_list.ItemsSource = result.AutoCompletePlaces;
-            spinner.IsRunning = false;
-            spinner.IsVisible = false;
 
-            if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0 && SearchBarsFoucsed)
+            if (result.AutoCompletePlaces != null && result.AutoCompletePlaces.Count > 0)
                 await OpenResultBox(result.AutoCompletePlaces.Count);
             else
                 await CloseResultBox();
@@ -91,19 +85,7 @@ namespace AutoRemis.Views
 
         private async void Search_Bar_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!string.IsNullOrEmpty(e.NewTextValue) && !SearchBarsFoucsed)
-            {
-                await CloseResultBox();
-                spinner.IsVisible = true;
-                spinner.IsRunning = true;
-            }
-            else
-            {
-                spinner.IsRunning = false;
-                spinner.IsVisible = false;
-            }
-
-            if ((EntryFocused == "Org" && string.IsNullOrWhiteSpace(EntryOrg.Text)) || (EntryFocused == "Dst" && string.IsNullOrWhiteSpace(EntryDst.Text)))
+            if (string.IsNullOrWhiteSpace(EntryOrg.Text) || string.IsNullOrWhiteSpace(EntryDst.Text) || !string.IsNullOrEmpty(e.NewTextValue))
                 await CloseResultBox();
         }
 
@@ -121,9 +103,6 @@ namespace AutoRemis.Views
 
         private async void FillEntrys(string PlaceID, Position alternativePosition)
         {
-            //if (!AutoFillEnable)
-            //    return;
-
             Place place = await Places.GetPlace(PlaceID, "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
 
             if (place != null && !ItemSellected)
@@ -170,12 +149,12 @@ namespace AutoRemis.Views
 
         private async Task OpenResultBox(int Results)
         {
-            if (!SearchBarsFoucsed) return;
+            if (!EntryDst.IsFocused && !EntryOrg.IsFocused) return;
 
             btnCancel.IsVisible = false;
             btnOK.IsVisible = false;
 
-            await Task.WhenAll(ResultBox.FadeTo(1, length: 100));
+            await Task.WhenAll(ResultBox.FadeTo(1));
             Search.CornerRadius = new CornerRadius(5, 5, 0, 0);
             switch (Results)
             {
@@ -186,10 +165,10 @@ namespace AutoRemis.Views
                     ResizeStackLayout(45);
                     break;
                 case 2:
-                    ResizeStackLayout(90);
+                    ResizeStackLayout(85);
                     break;
                 case 3:
-                    ResizeStackLayout(150);
+                    ResizeStackLayout(145);
                     break;
                 case 4:
                     ResizeStackLayout(190);
@@ -202,7 +181,7 @@ namespace AutoRemis.Views
 
         private async Task CloseResultBox()
         {
-            await Task.WhenAll(ResultBox.FadeTo(0, length: 100));
+            await Task.WhenAll(ResultBox.FadeTo(0));
             Search.CornerRadius = 5;
             ResizeStackLayout(0);
 
@@ -211,17 +190,10 @@ namespace AutoRemis.Views
         }
         private void ResizeStackLayout(double heightRequest) => MainThread.BeginInvokeOnMainThread(() => ResultBox.HeightRequest = heightRequest);
 
-        void EntryOrgFocused(Object sender, FocusEventArgs e)
-        {
-            EntryFocused = "Org";
-            SearchBarsFoucsed = true;
-        }
+        void EntryOrgFocused(Object sender, FocusEventArgs e) => EntryFocused = "Org";
 
-        void EntryDstFocused(Object sender, FocusEventArgs e)
-        {
-            EntryFocused = "Dst";
-            SearchBarsFoucsed = true;
-        }
+        void EntryDstFocused(Object sender, FocusEventArgs e) => EntryFocused = "Dst";
+
         #endregion
 
         public void OnNavigatedFrom(INavigationParameters parameters) {}

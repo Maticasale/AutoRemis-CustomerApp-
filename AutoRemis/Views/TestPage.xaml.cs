@@ -5,50 +5,41 @@ using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
+using AutoRemis.Models;
+using Prism.Navigation;
+using AutoRemis.Helpers;
 
 namespace AutoRemis.Views
 {
     public partial class TestPage : ContentPage
     {
-        private string LatOrg, LngOrg, AdressOrg, NumberOrg;
-
-        private string LatDst, LngDst, AdressDst, NumberDst;
-
-        private bool SearchBarsFoucsed = false;
-        private bool AutoFillEnable = true;
-
-        string EntryFocused;
-        bool ItemSellected;
+        User user;
         public TestPage()
         {
             InitializeComponent();
-        }
-
-
-
-        private void OkClicked(object sender, EventArgs e)
-        {
+            user = AppStateManager.GetUser();
 
         }
 
         private void CancelClicked(object sender, EventArgs e)
         {
+            Device.BeginInvokeOnMainThread(async () =>
+            {
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromKilometers(14d)));
 
+                lblState.Text = "¡PEDIDO RECEPCIONADO!";
+                //bx1.IsVisible = false;
+                //bx2.IsVisible = false;
+                //gif.IsVisible = false;
+                //ContainmentBox.IsVisible = false;
+
+                DriverInfoBox.IsVisible = true;
+            });
         }
 
-        private void GoogleClicked(object sender, EventArgs e)
+        private void CallClicked(object sender, EventArgs e)
         {
 
         }
-
-        private void PhoneClicked(object sender, EventArgs e)
-        {
-
-        }
-
-        private void MailClicked(object sender, EventArgs e)
-        {
-
-        }     
     }
 }

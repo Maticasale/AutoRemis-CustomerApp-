@@ -30,7 +30,7 @@ namespace AutoRemis
             }
 
 
-            FirebaseMsgReciver.Initialize();
+            FirebaseHelper.Initialize();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -50,8 +50,11 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<Trip_WaitingPage, Trip_WaitingPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_DetailsPopUp, Trip_DetailsPopUpViewModel>();
             containerRegistry.RegisterForNavigation<Trip_ChangeMainParamsPopUp, Trip_ChangeMainParamsPopUpViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_StateInfoPopUp, Trip_StateInfoPopUpViewModel>();
 
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_CancelPopUp, Trip_CancelPopUpViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_InformationPopUp, Trip_InformationPopUpViewModel>();
         }
     }
 }

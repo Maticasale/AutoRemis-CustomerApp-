@@ -1,33 +1,117 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com" xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:prism="http://prismlibrary.com" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:Pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
              prism:ViewModelLocator.AutowireViewModel="True"
              x:Class="AutoRemis.Views.Trip_WaitingPage"
              NavigationPage.HasNavigationBar="False">
-    
+
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
         <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
             <Grid BackgroundColor="#B1D506" HeightRequest="56">
-                <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                    <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="40"/>
-                    <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="40"/>
-                    <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="40"/>
-                </StackLayout>
+                <Label x:Name="lblState" Text="BUSCANDO MOVILES . . ." TextColor="Black" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
             </Grid>
             <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
             <Grid Grid.Row="2">
-                <maps:Map x:Name="map"/>
-                <BoxView WidthRequest="300" HeightRequest="300" BackgroundColor="LightGray" CornerRadius="400" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.6"/>
-                <BoxView WidthRequest="400" HeightRequest="400" BackgroundColor="LightGray" CornerRadius="400" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.5"/>
-                <Frame Opacity="0.8" Padding="10" Margin="25,0" CornerRadius="10" VerticalOptions="Start">
+
+                <maps:Map x:Name="map" IsEnabled="False"/>
+
+                <BoxView x:Name="bx1" IsVisible="false" WidthRequest="290" HeightRequest="290" BackgroundColor="LightGray" CornerRadius="400" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.6"/>
+                <BoxView x:Name="bx2" IsVisible="false" WidthRequest="350" HeightRequest="350" BackgroundColor="LightGray" CornerRadius="400" VerticalOptions="Center" HorizontalOptions="Center" Opacity="0.5"/>
+
+                <Frame x:Name="ContainmentBox" Opacity="0.8" Padding="10" Margin="25,0" CornerRadius="10" VerticalOptions="Start">
                     <Grid ColumnDefinitions="*, auto">
-                        <Label Text="Enviando pedido de viaje, aguarde unos instantes..." VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                        <Label x:Name="lblMsg" Text="Enviando pedido de viaje, aguarde unos instantes..." VerticalOptions="Center" TextColor="Black" FontSize="16"/>
                         <Image Grid.Column="1" Source="imgLocation1.png" Aspect="AspectFit" HeightRequest="40"/>
                     </Grid>
                 </Frame>
-                <StackLayout x:Name="stk" VerticalOptions="CenterAndExpand"/>
-                <Image Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="40" VerticalOptions="EndAndExpand" Margin="10"/>
+
+                <Grid IsVisible="false" x:Name="DriverInfoBox" VerticalOptions="StartAndExpand" RowDefinitions="auto, auto" RowSpacing="40" Margin="15,0">
+                    <Pancake:PancakeView Opacity="0.9" BackgroundColor="White" Padding="10" CornerRadius="10">
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <xct:AvatarView x:Name="LblAvatar" Source="iconNoImgUser.png" Color="Black" TextColor="Beige" BackgroundColor="Transparent"/>
+                                <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
+                                    <Label>
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Nombre: " FontAttributes="Bold"/>
+                                                <Span Text="Matias Casale"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Vehiculo: " FontAttributes="Bold"/>
+                                                <Span Text="Ford Siena"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Column="1">
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="N. Interno: " FontAttributes="Bold"/>
+                                                <Span Text="4235"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                    <Label Grid.Row="1" Grid.Column="1" >
+                                        <Label.FormattedText>
+                                            <FormattedString>
+                                                <Span Text="Patente: " FontAttributes="Bold"/>
+                                                <Span Text="asd 123"/>
+                                            </FormattedString>
+                                        </Label.FormattedText>
+                                    </Label>
+                                </Grid>
+                            </StackLayout>
+                        </StackLayout>
+                    </Pancake:PancakeView>
+                    <StackLayout Grid.Row="1" HorizontalOptions="Start">
+                        <Frame Padding="5" CornerRadius="5">
+                            <Label Text="5 min" FontAttributes="Bold"/>
+                        </Frame>
+                        <Frame Padding="5" CornerRadius="5">
+                            <Label Text="20 cuadras" FontAttributes="Bold"/>
+                        </Frame>
+                        <Frame Padding="5" CornerRadius="5">
+                            <Label Text="$120 - $150" FontAttributes="Bold"/>
+                        </Frame>
+                    </StackLayout>
+
+                    <Image x:Name="btnCancel1" Grid.Row="1" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" HorizontalOptions="End" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CancelClicked"/>
+                        </Image.GestureRecognizers>
+                    </Image>
+                </Grid>
+
+                <StackLayout x:Name="gif" VerticalOptions="Center"/>
+                
+                <Image x:Name="btnCancel" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" VerticalOptions="EndAndExpand" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CancelClicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <StackLayout x:Name="btnCall" IsVisible="false" TranslationY="-70" Spacing="-10" VerticalOptions="EndAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CallClicked"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="imgCall.png" Aspect="AspectFit" HeightRequest="50" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95"/>
+                    <Label Text="Central" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </StackLayout>
+
             </Grid>
         </Grid>
     </ContentPage.Content>

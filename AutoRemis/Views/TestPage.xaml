@@ -6,65 +6,73 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             BackgroundColor="#B1D506"
+             BackgroundColor="#000"             
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:Pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
+             NavigationPage.HasNavigationBar="False"
              x:Class="AutoRemis.Views.TestPage">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Label">
+                <Setter Property="TextColor" Value="Black"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid VerticalOptions="FillAndExpand">
-            <Grid RowDefinitions="*,auto">
-                <StackLayout>
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
-                        <Label Text="Bienvenido a" TextColor="Black" FontSize="20" VerticalOptions="Center"/>
-                        <Image Source="imgLocation.png" TranslationX="20" Aspect="AspectFit" HeightRequest="40"/>
-                    </StackLayout>
-                    <StackLayout Margin="0,30,0,0" Orientation="Horizontal" HorizontalOptions="Center">
-                        <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
-                        <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="50"/>
-                        <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="50"/>
-                    </StackLayout>
-                    <Image Source="imgCityDraw.png" HeightRequest="170"/>
-                    <Label Text="A solo 5' minutos de tu Casa" TextColor="Black" FontSize="20" VerticalOptions="Center" HorizontalOptions="Center"/>
-                </StackLayout>
-                <pancake:PancakeView Grid.Row="1" BackgroundColor="#f5f5f7" CornerRadius="20,20,0,0">
-                    <StackLayout Margin="20" Spacing="20">
-                        <Frame x:Name="btnGoogle" HasShadow="True"  Padding="10" BackgroundColor="White" VerticalOptions="EndAndExpand" CornerRadius="20" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="GoogleClicked"/>
-                            </Frame.GestureRecognizers>
-                            <Grid ColumnDefinitions="auto, *" RowSpacing="15">
-                                <Image Source="iconGoogle.png" HeightRequest="30"/>
-                                <Label Grid.Column="1" HorizontalTextAlignment="Center" TextColor="Black" TranslationX="-20" Text="Acceder con Google" HeightRequest="30" FontSize="15" VerticalTextAlignment="Center"/>
-                            </Grid>
-                        </Frame>
-                        <Frame x:Name="btnPhone" Padding="10" HasShadow="True" BackgroundColor="#B1D506" CornerRadius="20" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
-                            <Frame.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="PhoneClicked"/>
-                            </Frame.GestureRecognizers>
-                            <Grid ColumnDefinitions="auto, *" RowSpacing="15">
-                                <Image Source="iconWhitePhone.png" HeightRequest="30"/>
-                                <Label Grid.Column="1" HorizontalTextAlignment="Center" TextColor="White" TranslationX="-20" Text="Acceder con númereo de celular" HeightRequest="30" FontSize="15" VerticalTextAlignment="Center"/>
-                            </Grid>
-                        </Frame>
-                        <Label x:Name="btnMail" Text="Acceder con mi correo electrónico" TextDecorations="Underline" TextColor="#B1D506" FontAttributes="Bold" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="MailClicked"/>
-                            </Label.GestureRecognizers>
-                        </Label>
-                    </StackLayout>
-                </pancake:PancakeView>
+        <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Grid BackgroundColor="#B1D506" HeightRequest="56">
+                <Label x:Name="lblState" Text="BUSCANDO MOVILES . . ." TextColor="Black" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
             </Grid>
-            <Frame Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
-                <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
-                    <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
-                    <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">
-                        <Label x:Name="Title" TextColor="#ff355b" FontSize="15" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
-                        <Label x:Name="Msg" FontSize="12" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <Grid Grid.Row="2">
+                <maps:Map x:Name="map" IsEnabled="False"/>
+                <Grid IsVisible="false" x:Name="DriverInfoBox" VerticalOptions="StartAndExpand" RowDefinitions="auto, auto" RowSpacing="40" Margin="15,0">
+                    <Pancake:PancakeView Opacity="0.9" BackgroundColor="White" Padding="10" CornerRadius="10">
+                        <StackLayout>
+                            <StackLayout Orientation="Horizontal">
+                                <xct:AvatarView x:Name="LblAvatar" Source="iconNoImgUser.png" Color="Black" TextColor="Beige" BackgroundColor="Transparent"/>
+                                <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
+                                    
+                                </Grid>
+                            </StackLayout>
+                        </StackLayout>
+                    </Pancake:PancakeView>
+                    <StackLayout Grid.Row="1" HorizontalOptions="Start">
+                        <Frame Padding="5" CornerRadius="5">
+                            <Label Text="5 min" FontAttributes="Bold"/>
+                        </Frame>
+                        <Frame Padding="5" CornerRadius="5">
+                            <Label Text="20 cuadras" FontAttributes="Bold"/>
+                        </Frame>
+                        <Frame Padding="5" CornerRadius="5">
+                            <Label Text="$120 - $150" FontAttributes="Bold"/>
+                        </Frame>
                     </StackLayout>
+
+                    <Image x:Name="btnCancel1" Grid.Row="1" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" HorizontalOptions="End" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                        <Image.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="CancelClicked"/>
+                        </Image.GestureRecognizers>
+                    </Image>
                 </Grid>
-            </Frame>
+
+                <StackLayout x:Name="gif" VerticalOptions="Center"/>
+
+                <Image x:Name="btnCancel" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" VerticalOptions="EndAndExpand" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                    <Image.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CancelClicked"/>
+                    </Image.GestureRecognizers>
+                </Image>
+                <StackLayout x:Name="btnCall" IsVisible="false" TranslationY="-70" Spacing="-10" VerticalOptions="EndAndExpand">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="CallClicked"/>
+                    </StackLayout.GestureRecognizers>
+                    <Image Source="imgCall.png" Aspect="AspectFit" HeightRequest="50" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95"/>
+                    <Label Text="Central" FontAttributes="Bold" HorizontalOptions="Center"/>
+                </StackLayout>
+
+            </Grid>
         </Grid>
     </ContentPage.Content>
-
-
 </ContentPage>

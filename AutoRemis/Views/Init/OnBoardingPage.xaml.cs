@@ -18,8 +18,6 @@ namespace AutoRemis.Views
             _navigationService = navigationService;
             _googleManager = DependencyService.Get<IGoogleManager>();
         }
-
-        //private void CheckUserLoggedIn() => _googleManager.Login(OnLoginComplete);
         private async void OnLoginComplete(GoogleUser googleUser, string message)
         {
             IsBusy(true);
@@ -27,7 +25,7 @@ namespace AutoRemis.Views
             if (googleUser != null)
                 await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters{{"LoginType", InitType.Google}, { "GoogleUser", googleUser} });
             else
-                RiseErrorMsg("¡Error!", "Ocurrio una falla tratando de iniciar el servicio de Google, por favor vuelva a intetnar", 3, SoundTools.SoundType.Error);
+                RiseErrorMsg("¡Error!", "Ocurrio una falla tratando de iniciar el servicio de Google, por favor vuelva a intetnar", 3, SoundHelper.SoundType.Error);
             IsBusy(false);
         }
 
@@ -39,15 +37,8 @@ namespace AutoRemis.Views
             await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters { { "LoginType", InitType.PhoneNumber } });
             IsBusy(false);
         }
-        private async void MailClicked(object sender, EventArgs e)
-        {
-            IsBusy(true);
-            //_googleManager.Logout();
-            await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters { { "LoginType", InitType.Normal } });
-            IsBusy(false);
-        }
 
-        private void RiseErrorMsg(string title, string msg, int time, SoundTools.SoundType type)
+        private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
@@ -57,33 +48,33 @@ namespace AutoRemis.Views
 
                 switch (type)
                 {
-                    case SoundTools.SoundType.Error:
+                    case SoundHelper.SoundType.Error:
                         imgItem.Source = "iconError.png";
                         CancellBox.BorderColor = Color.FromHex("#ff355b");
                         CancellBox.BackgroundColor = Color.FromHex("#fffbfc");
                         Title.TextColor = Color.FromHex("#ff355b");
-                        SoundTools.PlaySound(SoundTools.SoundType.Alert);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
                         break;
-                    case SoundTools.SoundType.Alert:
+                    case SoundHelper.SoundType.Alert:
                         imgItem.Source = "iconWarning.png";
                         CancellBox.BorderColor = Color.FromHex("#FFC021");
                         CancellBox.BackgroundColor = Color.FromHex("#fffefb");
                         Title.TextColor = Color.FromHex("#FFC021");
-                        SoundTools.PlaySound(SoundTools.SoundType.Alert);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Alert);
                         break;
-                    case SoundTools.SoundType.Success:
+                    case SoundHelper.SoundType.Success:
                         imgItem.Source = "iconSuccess.png";
                         CancellBox.BorderColor = Color.FromHex("#47D764");
                         CancellBox.BackgroundColor = Color.FromHex("#fbfefc");
                         Title.TextColor = Color.FromHex("#47D764");
-                        SoundTools.PlaySound(SoundTools.SoundType.Success);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Success);
                         break;
-                    case SoundTools.SoundType.Message:
+                    case SoundHelper.SoundType.Message:
                         imgItem.Source = "iconInfo.png";
                         CancellBox.BorderColor = Color.FromHex("#2F86EB");
                         CancellBox.BackgroundColor = Color.FromHex("#fbfdff");
                         Title.TextColor = Color.FromHex("#2F86EB");
-                        SoundTools.PlaySound(SoundTools.SoundType.Message);
+                        SoundHelper.PlaySound(SoundHelper.SoundType.Message);
                         break;
                 }
 
@@ -91,16 +82,15 @@ namespace AutoRemis.Views
                 await Task.Delay(TimeSpan.FromSeconds(time));
                 await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
 
-                SoundTools.StopCurrentSound();
+                SoundHelper.StopCurrentSound();
             });
         }
 
         private new void IsBusy(bool value)
         {
             btnGoogle.IsEnabled = !value;
-            btnMail.IsEnabled = !value;
+            //btnMail.IsEnabled = !value;
             btnPhone.IsEnabled = !value;
         }
-
     }
 }

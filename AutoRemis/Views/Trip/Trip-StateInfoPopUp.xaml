@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com"  
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="http://prismlibrary.com"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  CloseWhenBackgroundIsClicked="False"
+                  x:Class="AutoRemis.Views.Trip_StateInfoPopUp">
+
+    <pages:PopupPage.Content>
+        <Grid VerticalOptions="Center" Padding="20" TranslationY="-60">
+            <Image Source="imgPopUpBg" Aspect="AspectFit" VerticalOptions="Center"/>
+            <Grid ColumnDefinitions="auto, *" ColumnSpacing="15" Margin="2,2,2,21" Padding="10">
+                <Image Source="iconSuccess1.png" Aspect="AspectFit" WidthRequest="30"/>
+                <Label x:Name="Msg" Grid.Column="1" FontSize="12" FontAttributes="Bold" TextColor="Black" HorizontalOptions="CenterAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center"/>
+            </Grid>
+        </Grid>
+    </pages:PopupPage.Content>
+    
+</pages:PopupPage>
