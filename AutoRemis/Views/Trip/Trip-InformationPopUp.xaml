@@ -1,8 +1,27 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="AutoRemis.Views.Trip_InformationPopUp">
-  
-</ContentPage>
+<pages:PopupPage  xmlns:pages="http://rotorgames.com"  
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="http://prismlibrary.com" 
+                  xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  x:Class="AutoRemis.Views.Trip_InformationPopUp">
+
+    <pages:PopupPage.Content>
+        <Frame Padding="5" CornerRadius="10" HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Margin="10">
+            <pancake:PancakeView Border="{pancake:BorderMarkup Color='#B1D506', Thickness='2'}" CornerRadius="10">
+                <StackLayout Spacing="10" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent" TranslationY="-5" >
+                    <Label x:Name="Msg" Padding="25,25,25,0" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,0"/>
+                    <Grid x:Name="btnOK" xct:TouchEffect.AnimationDuration="150" xct:TouchEffect.PressedScale = "0.95" Margin="40,0,40,10">
+                        <Grid.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="OkClicked"/>
+                        </Grid.GestureRecognizers>
+                        <Image Source="imgGreenButton2.png" Aspect="AspectFit" HeightRequest="30"/>
+                        <Label Text="ACEPTAR" FontSize="16" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    </Grid>
+                </StackLayout>
+            </pancake:PancakeView>
+        </Frame>
+    </pages:PopupPage.Content>
+</pages:PopupPage>

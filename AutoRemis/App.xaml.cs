@@ -25,7 +25,7 @@ namespace AutoRemis
                     await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
+                    await NavigationService.NavigateAsync("NavigationPage/Trip_FinishedPage");
                     break;
             }
 
@@ -40,21 +40,25 @@ namespace AutoRemis
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
+
             containerRegistry.RegisterForNavigation<OnBoardingPage, OnBoardingPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
             containerRegistry.RegisterForNavigation<ConfirmPhonePage, ConfirmPhonePageViewModel>();
-            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
             containerRegistry.RegisterForNavigation<SideMenuPage, SideMenuPageViewModel>();
+            containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+
             containerRegistry.RegisterForNavigation<Trip_AcceptedPage, Trip_AcceptedPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_ConfigPage, Trip_ConfigPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_WaitingPage, Trip_WaitingPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_DetailsPopUp, Trip_DetailsPopUpViewModel>();
             containerRegistry.RegisterForNavigation<Trip_ChangeMainParamsPopUp, Trip_ChangeMainParamsPopUpViewModel>();
             containerRegistry.RegisterForNavigation<Trip_StateInfoPopUp, Trip_StateInfoPopUpViewModel>();
-
-            containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_CancelPopUp, Trip_CancelPopUpViewModel>();
             containerRegistry.RegisterForNavigation<Trip_InformationPopUp, Trip_InformationPopUpViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_InProcessPage, Trip_InProcessPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_FinishedPage, Trip_FinishedPageViewModel>();
+
+            containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
         }
     }
 }

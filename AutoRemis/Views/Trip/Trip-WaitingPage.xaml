@@ -98,17 +98,27 @@
                 </Grid>
 
                 <StackLayout x:Name="gif" VerticalOptions="Center"/>
-                
+
                 <Image x:Name="btnCancel" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" VerticalOptions="EndAndExpand" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
                     <Image.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CancelClicked"/>
                     </Image.GestureRecognizers>
                 </Image>
-                <StackLayout x:Name="btnCall" IsVisible="false" TranslationY="-70" Spacing="-10" VerticalOptions="EndAndExpand">
+
+                <Grid IsVisible="false" x:Name="btnBoard" Margin="10" VerticalOptions="EndAndExpand" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="BoardClicked"/>
+                    </Grid.GestureRecognizers>
+                    <Image Source="imgWhiteButton.png" Aspect="AspectFit" />
+                    <Label x:Name="lblBtnStartTrip" Text="YA ABORDÉ" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <ActivityIndicator x:Name="stateIndicator" IsRunning="False" Color="White" Scale="0.7"/>
+                </Grid>
+
+                <StackLayout IsVisible="false" x:Name="btnCall" TranslationY="-80" Spacing="-10" VerticalOptions="EndAndExpand" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
                     <StackLayout.GestureRecognizers>
                         <TapGestureRecognizer Tapped="CallClicked"/>
                     </StackLayout.GestureRecognizers>
-                    <Image Source="imgCall.png" Aspect="AspectFit" HeightRequest="50" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95"/>
+                    <Image Source="imgCall.png" Aspect="AspectFit" HeightRequest="50" Margin="10"/>
                     <Label Text="Central" FontAttributes="Bold" HorizontalOptions="Center"/>
                 </StackLayout>
 

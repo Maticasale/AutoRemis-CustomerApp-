@@ -115,6 +115,13 @@ namespace AutoRemis.Views
         }         
         private void CallClicked(object sender, EventArgs e)
         {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                btnBoard.IsVisible = true;
+            });
+        }
+        private void BoardClicked(object sender, EventArgs e)
+        {
 
         }
         async void TrackPath()
@@ -173,7 +180,7 @@ namespace AutoRemis.Views
             catch (Exception) { }
             return null;
         }
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
     }
 }

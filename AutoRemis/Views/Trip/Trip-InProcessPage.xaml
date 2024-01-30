@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+             xmlns:Pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AutoRemis.Views.Trip_InProcessPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Center">
+            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="30"/>
+            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <Grid RowDefinitions="auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
+            <Image Source="imgBottomLine.png" Aspect="AspectFit"/>
+            <StackLayout Grid.Row="1" Padding="0,30">
+                <StackLayout Spacing="20" VerticalOptions="Start">
+                    <Label Text="¡DISFRUTE SU VIAJE!" HorizontalOptions="Center" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+                    <Image Source="imgSuccess.png" Aspect="AspectFit" HeightRequest="50"/>                    
+                </StackLayout>
+                <Pancake:PancakeView Padding="10" Margin="10,80" CornerRadius="10" Border="{Pancake:BorderMarkup Color=#B1D506, Thickness='2'}">
+                    <StackLayout Orientation="Horizontal">
+                        <xct:AvatarView x:Name="LblAvatar" Source="iconNoImgUser.png" Color="Black" TextColor="Beige" BackgroundColor="Transparent"/>
+                        <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
+                            <Label>
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Nombre: " FontAttributes="Bold"/>
+                                        <Span Text="Matias Casale"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Row="1">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Vehiculo: " FontAttributes="Bold"/>
+                                        <Span Text="Ford Siena"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Column="1">
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="N. Interno: " FontAttributes="Bold"/>
+                                        <Span Text="4235"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                            <Label Grid.Row="1" Grid.Column="1" >
+                                <Label.FormattedText>
+                                    <FormattedString>
+                                        <Span Text="Patente: " FontAttributes="Bold"/>
+                                        <Span Text="asd 123"/>
+                                    </FormattedString>
+                                </Label.FormattedText>
+                            </Label>
+                        </Grid>
+                    </StackLayout>
+                </Pancake:PancakeView>
+                <Label Text="¡GRACIAS POR ELEGIRNOS!" HorizontalOptions="Center" TextColor="Black" FontSize="16" FontAttributes="Bold"/>
+            </StackLayout>
+
+            <StackLayout Grid.Row="1" Padding="10" VerticalOptions="FillAndExpand">
+                <Grid x:Name="btnFinish" Margin="10" VerticalOptions="EndAndExpand" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
+                    <Grid.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="FinishClicked"/>
+                    </Grid.GestureRecognizers>
+                    <Image Source="imgWhiteButton.png" Aspect="AspectFit" />
+                    <Label x:Name="lblBtnStartTrip" Text="FINALIZAR VIAJE" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
+                    <ActivityIndicator x:Name="stateIndicator" IsRunning="False" Color="White" Scale="0.7"/>
+                </Grid>
+            </StackLayout>
+            <Frame Grid.Row="1" Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
+                <Grid ColumnDefinitions="auto, *" ColumnSpacing="15">
+                    <Image x:Name="imgItem" Aspect="AspectFit" WidthRequest="30" VerticalOptions="Center"/>
+                    <StackLayout Grid.Column="1" Spacing="0"  VerticalOptions="Center">
+                        <Label x:Name="Title" FontSize="15" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                        <Label x:Name="Msg" FontSize="12" FontFamily="MainFontBold" HorizontalOptions="StartAndExpand"/>
+                    </StackLayout>
+                </Grid>
+            </Frame>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

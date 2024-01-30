@@ -35,7 +35,7 @@
                             </StackLayout>
                         </Frame>
                         <Frame Grid.Column="1" Grid.Row="1" HasShadow="False" TranslationY="5" CornerRadius="10" BorderColor="#B1D506" Padding="5,-5">
-                            <googlemodels:PlacesBar x:Name="EntryDst" Placeholder="Agrega tu destino (campo no obligatorio)" FontSize="15" Focused="EntryDstFocused"/>
+                            <googlemodels:PlacesBar x:Name="EntryDst" Placeholder="Agrega tu destino (no obligatorio)" FontSize="15" Focused="EntryDstFocused"/>
                         </Frame>                    
                     </Grid>
                 </pancake:PancakeView>

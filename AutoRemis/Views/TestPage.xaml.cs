@@ -20,26 +20,5 @@ namespace AutoRemis.Views
             user = AppStateManager.GetUser();
 
         }
-
-        private void CancelClicked(object sender, EventArgs e)
-        {
-            Device.BeginInvokeOnMainThread(async () =>
-            {
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromKilometers(14d)));
-
-                lblState.Text = "¡PEDIDO RECEPCIONADO!";
-                //bx1.IsVisible = false;
-                //bx2.IsVisible = false;
-                //gif.IsVisible = false;
-                //ContainmentBox.IsVisible = false;
-
-                DriverInfoBox.IsVisible = true;
-            });
-        }
-
-        private void CallClicked(object sender, EventArgs e)
-        {
-
-        }
     }
 }
