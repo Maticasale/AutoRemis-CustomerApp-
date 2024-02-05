@@ -46,11 +46,6 @@
                                 <Label Grid.Column="1" HorizontalTextAlignment="Center" TextColor="White" TranslationX="-20" Text="Acceder con númereo de celular" HeightRequest="30" FontSize="15" VerticalTextAlignment="Center"/>
                             </Grid>
                         </Frame>
-                        <!--<Label x:Name="btnMail" IsVisible="false" Text="Acceder con mi correo electrónico" TextDecorations="Underline" TextColor="#B1D506" FontAttributes="Bold" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
-                            <Label.GestureRecognizers>
-                                <TapGestureRecognizer Tapped="MailClicked"/>
-                            </Label.GestureRecognizers>
-                        </Label>-->
                     </StackLayout>
                 </Pancake:PancakeView>
             </Grid>

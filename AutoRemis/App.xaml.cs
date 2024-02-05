@@ -25,7 +25,7 @@ namespace AutoRemis
                     await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/Trip_FinishedPage");
+                    await NavigationService.NavigateAsync("NavigationPage/Trip_RatePage");
                     break;
             }
 
@@ -35,7 +35,7 @@ namespace AutoRemis
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
         {
-            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();            
+            containerRegistry.RegisterSingleton<IAppInfo, AppInfoImplementation>();
             containerRegistry.RegisterPopupNavigationService();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
@@ -57,6 +57,7 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<Trip_InformationPopUp, Trip_InformationPopUpViewModel>();
             containerRegistry.RegisterForNavigation<Trip_InProcessPage, Trip_InProcessPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_FinishedPage, Trip_FinishedPageViewModel>();
+            containerRegistry.RegisterForNavigation<Trip_RatePage, Trip_RatePageViewModel>();
 
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
         }

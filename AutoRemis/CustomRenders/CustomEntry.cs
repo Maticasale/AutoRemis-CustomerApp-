@@ -4,8 +4,7 @@ namespace AutoRemis.CustomRenders
 {
     public class CustomEntry : Entry
     {
-        public static readonly BindableProperty ShowUnderlineProperty =
-                BindableProperty.Create(nameof(ShowUnderline), typeof(bool), typeof(CustomEntry), true);
+        public static readonly BindableProperty ShowUnderlineProperty = BindableProperty.Create(nameof(ShowUnderline), typeof(bool), typeof(CustomEntry), true);
 
         public bool ShowUnderline
         {
@@ -14,8 +13,7 @@ namespace AutoRemis.CustomRenders
         }
 
 
-        public static readonly BindableProperty UnderlineColorProperty =
-            BindableProperty.Create(nameof(UnderlineColor), typeof(Color), typeof(CustomEntry), Color.Default);
+        public static readonly BindableProperty UnderlineColorProperty = BindableProperty.Create(nameof(UnderlineColor), typeof(Color), typeof(CustomEntry), Color.Default);
 
         public Color UnderlineColor
         {
