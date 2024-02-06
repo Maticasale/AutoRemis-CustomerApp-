@@ -32,14 +32,14 @@ namespace AutoRemis.Views
             googleUser = parameters.GetValue<GoogleUser>("GoogleUser");
 
             //General UI Settings
-            imgGooglePerson.IsVisible = init == InitType.Google;
-            imgGoogleMail.IsVisible = init == InitType.Google;
-
-            EntryUser.IsEnabled = init != InitType.Google;
-            EntryEmail.IsEnabled = init != InitType.Google;
-
-            if (init == InitType.Google) 
+            if (init == InitType.Google && !string.IsNullOrWhiteSpace(googleUser.Email)) 
             { 
+                imgGooglePerson.IsVisible = true;
+                imgGoogleMail.IsVisible = true;
+
+                EntryUser.IsEnabled = false;
+                EntryEmail.IsEnabled = false;
+
                 EntryUser.Text = UIHelper.CapitalizeSentence(googleUser.FullName);
                 EntryEmail.Text = googleUser.Email;
                 user.GoogleUrlPic = googleUser.Picture;

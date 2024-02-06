@@ -9,31 +9,28 @@ namespace AutoRemis.Helpers
 {
     public static class LocationHelper
     {
-        public enum LocationStatus { OK, Unknown, Exception }
-        public static async Task<LocationStatus> GetLocation(UserStatus Newstatus)
+        public static async Task<LocationResponse> GetLocation()
         {
             try
             {
-                var loc = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best));
+                Location loc = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best));
 
                 if (loc != null && (loc.Latitude != 0 && loc.Longitude != 0))
-                {
-                    User user = GetUser();
-                    user.lastKnownPosition = new Position(loc.Latitude, loc.Longitude);
-                    user.Status = Newstatus;
-
-                    UpdateUser(user);
-
-                    return LocationStatus.OK;
-                }
+                    return new LocationResponse() { Location = loc, Status = LocationStatus.OK };
                 else
-                    return LocationStatus.Unknown;
-                    
+                    return new LocationResponse() { Location = null, Status = LocationStatus.Unknown };
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                return LocationStatus.Exception;
+                return new LocationResponse() { Location = null, Status = LocationStatus.Exception };
             }
         }
+
+        public class LocationResponse
+        {
+            public LocationStatus Status { get; set; }
+            public Location Location { get; set; }
+        }
+        public enum LocationStatus { OK, Unknown, Exception }
     }
 }

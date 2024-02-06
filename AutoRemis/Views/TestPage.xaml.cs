@@ -17,7 +17,12 @@ namespace AutoRemis.Views
         public TestPage()
         {
             InitializeComponent();
-            user = AppStateManager.GetUser();
+
+            MessagingCenter.Subscribe<object, FirebaseMessage>(this, "FCM", OnTripParamsChanged);
+        }
+
+        private void OnTripParamsChanged(object arg, FirebaseMessage trip)
+        {
 
         }
     }

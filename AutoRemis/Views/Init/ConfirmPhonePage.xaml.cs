@@ -9,6 +9,9 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using static AutoRemis.Helpers.LocationHelper;
 using static AutoRemis.Helpers.AppStateManager;
+using Prism.Ioc;
+using Rg.Plugins.Popup.Extensions;
+using Xamarin.Forms.PlatformConfiguration;
 
 namespace AutoRemis.Views
 {
@@ -48,6 +51,9 @@ namespace AutoRemis.Views
             Device.BeginInvokeOnMainThread(() => e1.Focus());
         }
 
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+
         private void EntryFocused(object sender, FocusEventArgs e)
         {
             foreach (var i in frameList)
@@ -64,12 +70,15 @@ namespace AutoRemis.Views
                 frame.BorderColor = Color.Green;
         }
 
-        private void StkTapped(object sender, EventArgs e)
+        private void BackgroundTapped(object sender, EventArgs e)
         {
+            if (isBussy)
+                return;
+
             foreach (var i in entryList)
                 i.Unfocus();
-            foreach (var i in frameList)
-                i.BorderColor = Color.White;
+
+            FrameColor(Color.White);
         }
 
         private void EnableResendTokenButton()
@@ -93,8 +102,6 @@ namespace AutoRemis.Views
         }
         protected override bool OnBackButtonPressed() => true;
         private void GoBackClicked(object sender, EventArgs e) => _navigationService.GoBackAsync(new NavigationParameters { { "LoginType", init } });
-
-
         private void F1C(object sender, TextChangedEventArgs e)
         {
             if (!isBussy)
@@ -129,49 +136,128 @@ namespace AutoRemis.Views
         }
         private async void CheckToken()
         {
-            if (!string.IsNullOrWhiteSpace(e1.Text) && !string.IsNullOrWhiteSpace(e2.Text) && !string.IsNullOrWhiteSpace(e3.Text) && !string.IsNullOrWhiteSpace(e4.Text))
+            if (string.IsNullOrWhiteSpace(e1.Text) || string.IsNullOrWhiteSpace(e2.Text) || string.IsNullOrWhiteSpace(e3.Text) || string.IsNullOrWhiteSpace(e4.Text))
+                return;
+
+            isBussy = true;
+
+            foreach (var i in entryList)
+                i.IsEnabled = false;
+
+            foreach (var i in entryList)
+                i.Unfocus();
+
+            if ((e1.Text+e2.Text+e3.Text+e4.Text) == token)
             {
-                isBussy = true;
+                FrameColor(Color.Green);
+
+                StartLogin();                
+            }
+            else
+            {
+                FrameColor(Color.Red);
 
                 foreach (var i in entryList)
-                    i.IsEnabled = false;
+                    i.Text = string.Empty;
 
-                if ((e1.Text+e2.Text+e3.Text+e4.Text) == token)
-                {
-                    foreach (var i in frameList)
-                        i.BorderColor = Color.Green;
+                RiseErrorMsg("¡Error!", "El codigo de verificacion es incorrecto, vuelve a intentarlo", 3, SoundHelper.SoundType.Error);
 
-                    stkResend.IsVisible = false;
-                    stkState.IsVisible = true;
-                    stateIndicator.IsRunning = true;
+                await Task.Delay(3100);
 
-                    Device.BeginInvokeOnMainThread(() => lblState.Text = "Obteniendo su ubicación");
+                FrameColor(Color.White);
 
-                    if (await GetLocation(UserStatus.Idle) != LocationStatus.OK) return;
+                e1.Focus();
 
-                    Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
-                    await Task.Delay(1000);
+                background.IsEnabled = true;
 
-                    await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
-                }
-                else
-                {
-                    foreach (var i in frameList)
-                        i.BorderColor = Color.Red;
-                    foreach (var i in entryList)
-                        i.Text = string.Empty;
-
-                    RiseErrorMsg("¡Error!", "El codigo de verificacion es incorrecto, vuelve a intentarlo", 3, SoundHelper.SoundType.Error);
-                }
+                isBussy = false;
 
                 foreach (var i in entryList)
                     i.IsEnabled = true;
+            }
 
-                isBussy = false;
+        }
+
+        public async void StartLogin()
+        {
+            var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+            if (status != PermissionStatus.Granted)
+            {
+                status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+
+                if (status == PermissionStatus.Granted)
+                    FinishLogin();
+                else
+                {
+                    RiseErrorMsg("¡Aviso!", "Para usar esta aplicación debes permitir el acceso a la ubicacion, para eso ve a la configuración de la misma y activala por favor", 4, SoundHelper.SoundType.Alert);
+                    isLoading(false);
+                }
+            }
+            else
+                FinishLogin();
+        }
+        
+
+        public async void FinishLogin()
+        {
+            isLoading(true);
+
+            Device.BeginInvokeOnMainThread(() => lblState.Text = "Obteniendo su ubicación");
+
+            var location = await GetLocation();
+            switch (location.Status)
+            {
+                case LocationStatus.OK:
+                    
+                    user.lastKnownPosition = new Position(location.Location.Latitude, location.Location.Longitude);
+                    user.Status = UserStatus.Idle;
+                    user.TokenFCM = Preferences.Get("FirebaseToken", "");
+                    UpdateUser(user);
+
+                    Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
+
+                    await Task.Delay(500);
+
+                    await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
+
+                    break;
+
+                case LocationStatus.Unknown:
+
+                    RiseErrorMsg("¡Aviso!", "No hemos podido determinar tu ubicación, por favor vuelve a intentarlo", 3, SoundHelper.SoundType.Alert);
+                    foreach (var i in entryList)
+                        i.IsEnabled = true;
+
+                    isBussy = false;
+                    isLoading(false);
+
+                    break;
+
+                case LocationStatus.Exception:
+
+                    RiseErrorMsg("¡Error!", "El proceso de obtener tu ubicación Fallo. Verifica que la tengas activada en tu celular y vuelve a intentarlo.", 3, SoundHelper.SoundType.Error);
+                    foreach (var i in entryList)
+                        i.IsEnabled = true;
+
+                    isBussy = false;
+                    isLoading(false);
+
+                    break;
             }
         }
+
+        public void isLoading(bool isLoading)
+        {
+            stkResend.IsVisible = false;
+            stkState.IsVisible = isLoading;
+            stateIndicator.IsRunning = isLoading;
+            btnRetryLocation.IsVisible = !isLoading;
+        }
+        private void RetryLocation(object sender, EventArgs e) => StartLogin();
+
         private void Resend(object sender, EventArgs e)
         {
+            //TODO: Servicio de reenviar Token
             btnResend.TextColor = Color.Green;
             btnResend.IsEnabled = true;
         }
@@ -180,6 +266,8 @@ namespace AutoRemis.Views
         {
             Device.BeginInvokeOnMainThread(async () =>
             {
+                background.IsEnabled = false;
+
                 Title.Text = title;
                 Msg.Text = msg;
 
@@ -219,12 +307,12 @@ namespace AutoRemis.Views
                 await Task.Delay(TimeSpan.FromSeconds(time));
                 await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
 
-                foreach (var i in frameList)
-                    i.BorderColor = Color.White;
+                background.IsEnabled = true;
+
                 SoundHelper.StopCurrentSound();
             });
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
+        public void FrameColor(Color color) => Device.BeginInvokeOnMainThread(() => { foreach (var i in frameList) i.BorderColor = color; });                                
     }
 }

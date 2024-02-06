@@ -27,9 +27,9 @@
     </NavigationPage.TitleView>
     <ContentPage.Content>
         <Grid VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
-            <StackLayout Padding="10" VerticalOptions="FillAndExpand">
+            <StackLayout x:Name="background" Padding="10" VerticalOptions="FillAndExpand">
                 <StackLayout.GestureRecognizers>
-                    <TapGestureRecognizer Tapped="StkTapped"/>
+                    <TapGestureRecognizer Tapped="BackgroundTapped"/>
                 </StackLayout.GestureRecognizers>
                 <StackLayout Orientation="Horizontal">
                     <Label x:Name="lblName" TextColor="Black" FontSize="30"/>
@@ -69,12 +69,17 @@
                             </FormattedString>
                         </Label.FormattedText>
                     </Label>
-                    <Label x:Name="btnResend" Text="Reenviar Codigo" TextDecorations="Underline" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedOpacity="0.9" xct:TouchEffect.PressedScale = "0.98" IsEnabled="False">
+                    <Label x:Name="btnResend" Text="Reenviar Codigo" TextDecorations="Underline" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedScale = "0.98" IsEnabled="False">
                         <Label.GestureRecognizers>
                             <TapGestureRecognizer Tapped="Resend"/>
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
+                <Label x:Name="btnRetryLocation" IsVisible="false" TextColor="Green" FontAttributes="Bold" Text="Reintentar" TextDecorations="Underline" VerticalOptions="Fill" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedScale = "0.98">
+                    <Label.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="RetryLocation"/>
+                    </Label.GestureRecognizers>
+                </Label>
                 <StackLayout x:Name="stkState" HorizontalOptions="Center">
                     <Label x:Name="lblState" TextColor="Gray" VerticalOptions="Center"/>
                     <ActivityIndicator IsRunning="False" x:Name="stateIndicator" Color="Gray" Scale="0.5"/>

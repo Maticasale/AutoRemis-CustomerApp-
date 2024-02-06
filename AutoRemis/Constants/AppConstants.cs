@@ -7,6 +7,6 @@
         public const string GoogleMapsApiKey1 = "AIzaSyAA4fS33bAgNtHXOOA_19ODwmHK3W0cfGQ";
 
         //Url servicio general
-        public const string ApisUrl = "http://cliente.viajaya.easygw.com.ar:10073";
+        public const string ApisUrl = "http://clientes.autoremis.easygw.com.ar:10073";
     }
 }

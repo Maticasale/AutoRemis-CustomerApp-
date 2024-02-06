@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -19,7 +19,6 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="Plugin.FirebasePushNotification" Version="3.4.35" />
     <PackageReference Include="Plugin.ValidationRules" Version="1.5.0.1" />
     <PackageReference Include="Polly" Version="8.2.0" />
     <PackageReference Include="Prism.Plugin.Popups" Version="8.0.76" />
@@ -91,6 +90,10 @@
     <EmbeddedResource Update="Views\Trip\Trip-ConfigPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\Firebase\" />
   </ItemGroup>
 
 </Project>

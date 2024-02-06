@@ -71,9 +71,6 @@
     <PackageReference Include="Plugin.CurrentActivity">
       <Version>2.1.0.4</Version>
     </PackageReference>
-    <PackageReference Include="Plugin.FirebasePushNotification">
-      <Version>3.4.35</Version>
-    </PackageReference>
     <PackageReference Include="Plugin.ValidationRules">
       <Version>1.5.0.1</Version>
     </PackageReference>
@@ -110,6 +107,9 @@
     <PackageReference Include="Xamarin.FFImageLoading.Transformations">
       <Version>2.4.11.982</Version>
     </PackageReference>
+    <PackageReference Include="Xamarin.Firebase.Messaging">
+      <Version>123.3.1.1</Version>
+    </PackageReference>
     <PackageReference Include="Xamarin.Forms" Version="5.0.0.2622" />
     <PackageReference Include="Xamarin.Essentials.Interfaces" Version="1.8.0" />
     <PackageReference Include="Prism.DryIoc.Forms" Version="8.1.97" />
@@ -130,12 +130,14 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Services\AndroidNotificationManager.cs" />
     <Compile Include="CustomRenders\EditorRender.cs" />
     <Compile Include="CustomRenders\EntryRender.cs" />
     <Compile Include="CustomRenders\PlacesBarRender.cs" />
-    <Compile Include="GoogleManager.cs" />
+    <Compile Include="Services\GoogleManager.cs" />
     <Compile Include="MainApplication.cs" />
     <Compile Include="MainActivity.cs" />
+    <Compile Include="Services\FirebaseManager.cs" />
     <Compile Include="SplashActivity.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <LinkDescription Include="LinkerSettings.xml" />

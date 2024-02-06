@@ -15,6 +15,7 @@ namespace AutoRemis.Models
         public Uri GoogleUrlPic { get; set; } 
         public string Email { get; set; }
         public string Facebook { get; set; }
+        public string TokenFCM { get; set; }
         public Position lastKnownPosition { get; set; }
         public Trip TripInfo { get; set; }
     }

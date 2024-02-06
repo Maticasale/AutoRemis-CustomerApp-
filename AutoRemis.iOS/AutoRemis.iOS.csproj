@@ -199,9 +199,6 @@
     <PackageReference Include="Newtonsoft.Json">
       <Version>13.0.3</Version>
     </PackageReference>
-    <PackageReference Include="Plugin.FirebasePushNotification">
-      <Version>3.4.35</Version>
-    </PackageReference>
     <PackageReference Include="Plugin.ValidationRules">
       <Version>1.5.0.1</Version>
     </PackageReference>

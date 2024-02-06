@@ -1,4 +1,4 @@
-using AutoRemis.Helpers;
+using static AutoRemis.Helpers.AppStateManager;
 using AutoRemis.Models;
 using AutoRemis.ViewModels;
 using AutoRemis.Views;
@@ -7,30 +7,33 @@ using Prism.Ioc;
 using Prism.Plugin.Popups;
 using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace AutoRemis
 {
     public partial class App
     {
-        User user;
         public App(IPlatformInitializer initializer) : base(initializer) { }
         protected override async void OnInitialized()
         {
             InitializeComponent();
 
-            switch (AppStateManager.GetUser().Status)
+            var user = GetUser();
+
+            switch (user.Status)
             {
                 case UserStatus.Disconnected:
                     await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/Trip_RatePage");
+                    await NavigationService.NavigateAsync("NavigationPage/TestPage");
                     break;
             }
 
+            string token = user.TokenFCM;
 
-            FirebaseHelper.Initialize();
+            //FirebaseHelper.Initialize();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

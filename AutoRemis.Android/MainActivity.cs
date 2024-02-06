@@ -5,12 +5,16 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Plugin.CurrentActivity;
-using Plugin.FirebasePushNotification;
+//using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using Android.Gms.Auth.Api.SignIn;
 using Android.Gms.Auth.Api;
 using AutoRemis.Constants;
+using Android.Gms.Common;
+using Xamarin.Essentials;
+using Android.Util;
+using Firebase.Messaging;
 
 namespace AutoRemis.Droid
 {
@@ -24,29 +28,17 @@ namespace AutoRemis.Droid
             base.OnCreate(savedInstanceState);
 
             Rg.Plugins.Popup.Popup.Init(this);
+            Firebase.FirebaseApp.InitializeApp(this);
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
+            CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
 
             this.SetLocale();
 
             Xamarin.Forms.Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
+        }
 
-            FirebasePushNotificationManager.ProcessIntent(this, Intent);
-            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
-            CrossCurrentActivity.Current.Init(this, savedInstanceState);
-            Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
-        }
-        void SetLocale()
-        {
-            CultureInfo ci = new CultureInfo("en-US");
-
-            Thread.CurrentThread.CurrentCulture = ci;
-            Thread.CurrentThread.CurrentUICulture = ci;
-        }
-        protected override void OnNewIntent(Intent intent)
-        {
-            base.OnNewIntent(intent);
-            FirebasePushNotificationManager.ProcessIntent(this, intent);
-        }
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
             base.OnActivityResult(requestCode, resultCode, data);
@@ -56,11 +48,25 @@ namespace AutoRemis.Droid
                 GoogleManager.Instance.OnAuthCompleted(result);
             }
         }
+
+        private void OpenLocationSettings()
+        {
+            Intent intent = new Intent(Android.Provider.Settings.ActionLocationSourceSettings);
+            StartActivity(intent);
+        }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
             Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
+
+        void SetLocale()
+        {
+            CultureInfo ci = new CultureInfo("en-US");
+
+            Thread.CurrentThread.CurrentCulture = ci;
+            Thread.CurrentThread.CurrentUICulture = ci;
         }
     }
 
