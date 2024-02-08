@@ -4,28 +4,28 @@ using Android.Content;
 using Firebase.Messaging;
 using System.Diagnostics;
 using Xamarin.Essentials;
-using static AutoRemis.Helpers.AppStateManager;
 using System.Collections.Generic;
 using AutoRemis.Models;
-using System.Globalization;
-using System;
 using Xamarin.Forms;
+using Android.Gms.Extensions;
+using System.Threading.Tasks;
+
+using AutoRemis.Interfaces;
 
 namespace AutoRemis.Droid.Services
 {
     [Service]
     [IntentFilter(new[] { "com.google.firebase.MESSAGING_EVENT" })]
-    public class FirebaseManager : FirebaseMessagingService
+    public class FirebaseManager : FirebaseMessagingService, IFirebaseManager
     {
         const string TAG = "FCM";
         AndroidNotificationManager androidNotification = new AndroidNotificationManager();
-        public override void OnMessageReceived(RemoteMessage message)
+        public override async void OnMessageReceived(RemoteMessage message)
         {
-
             var Msg = new FirebaseMessage();
             var parameters = new Dictionary<string, object>();
 
-            Debug.WriteLine("------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            Log.Debug(TAG, "------------------------------------------------------------------------------------------------------------------------------------------------------------");
             Log.Debug(TAG, "Title: " + message.GetNotification().Title);
             Log.Debug(TAG, "Body: " + message.GetNotification().Body);
             Log.Debug(TAG, "Chanel ID: " + message.GetNotification().ChannelId);
@@ -48,7 +48,7 @@ namespace AutoRemis.Droid.Services
                     Msg.idFCM = (d.Key.ToString() == "idFCM") ? d.Value.ToString() : Msg.idFCM;
                 }
             }
-            Debug.WriteLine("------------------------------------------------------------------------------------------------------------------------------------------------------------");
+            Log.Debug(TAG, "------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
             MessagingCenter.Send<object, FirebaseMessage>(this, "FCM", Msg);
 
@@ -59,7 +59,9 @@ namespace AutoRemis.Droid.Services
             //var user = GetUser();
             //user.TokenFCM = token;
             //UpdateUser(user);
-            Preferences.Set("FirebaseToken", token);
         }
+
+        public async Task<string> GetFirebaseToken() => (string)await FirebaseMessaging.Instance.GetToken();
+
     }
 }

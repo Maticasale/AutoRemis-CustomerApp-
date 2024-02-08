@@ -5,6 +5,7 @@ using Prism.Navigation;
 using System.Threading.Tasks;
 using System;
 using Xamarin.Forms;
+using AutoRemis.Interfaces;
 
 namespace AutoRemis.Views
 {

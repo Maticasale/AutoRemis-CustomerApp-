@@ -147,5 +147,10 @@ namespace AutoRemis.Views
                 SoundHelper.StopCurrentSound();
             });
         }
+
+        private void ScheduleClicked(object sender, EventArgs e)
+        {
+            var page = AppStateManager.GetCurrentPage();
+        }
     }
 }

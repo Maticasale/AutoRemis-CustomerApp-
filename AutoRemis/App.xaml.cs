@@ -9,15 +9,20 @@ using Xamarin.Essentials.Implementation;
 using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials;
 using Xamarin.Forms;
+using AutoRemis.Interfaces;
 
 namespace AutoRemis
 {
     public partial class App
     {
         public App(IPlatformInitializer initializer) : base(initializer) { }
+        private IFirebaseManager _firebaseManager;
+
         protected override async void OnInitialized()
         {
             InitializeComponent();
+            _firebaseManager = DependencyService.Get<IFirebaseManager>();
+
 
             var user = GetUser();
 
@@ -27,13 +32,12 @@ namespace AutoRemis
                     await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/TestPage");
+                    await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
                     break;
             }
 
-            string token = user.TokenFCM;
+            var token = await _firebaseManager.GetFirebaseToken();
 
-            //FirebaseHelper.Initialize();
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)

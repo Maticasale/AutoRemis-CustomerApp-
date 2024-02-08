@@ -12,6 +12,7 @@ using static AutoRemis.Helpers.AppStateManager;
 using Prism.Ioc;
 using Rg.Plugins.Popup.Extensions;
 using Xamarin.Forms.PlatformConfiguration;
+using AutoRemis.Interfaces;
 
 namespace AutoRemis.Views
 {
@@ -26,10 +27,13 @@ namespace AutoRemis.Views
         private List<Frame> frameList;
 
         private readonly INavigationService _navigationService;
+        private IFirebaseManager _firebaseManager;
+
         public ConfirmPhonePage(INavigationService navigationService)
         {
             InitializeComponent();
             _navigationService = navigationService;
+            _firebaseManager = DependencyService.Get<IFirebaseManager>();
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
@@ -100,8 +104,9 @@ namespace AutoRemis.Views
                 return i != 0;
             });
         }
-        protected override bool OnBackButtonPressed() => true;
+
         private void GoBackClicked(object sender, EventArgs e) => _navigationService.GoBackAsync(new NavigationParameters { { "LoginType", init } });
+
         private void F1C(object sender, TextChangedEventArgs e)
         {
             if (!isBussy)
@@ -150,8 +155,7 @@ namespace AutoRemis.Views
             if ((e1.Text+e2.Text+e3.Text+e4.Text) == token)
             {
                 FrameColor(Color.Green);
-
-                StartLogin();                
+                StartLogin();
             }
             else
             {
@@ -177,6 +181,8 @@ namespace AutoRemis.Views
             }
 
         }
+
+        private void RetryLocation(object sender, EventArgs e) => StartLogin();
 
         public async void StartLogin()
         {
@@ -211,7 +217,7 @@ namespace AutoRemis.Views
                     
                     user.lastKnownPosition = new Position(location.Location.Latitude, location.Location.Longitude);
                     user.Status = UserStatus.Idle;
-                    user.TokenFCM = Preferences.Get("FirebaseToken", "");
+                    user.TokenFCM = await _firebaseManager.GetFirebaseToken();
                     UpdateUser(user);
 
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
@@ -253,7 +259,6 @@ namespace AutoRemis.Views
             stateIndicator.IsRunning = isLoading;
             btnRetryLocation.IsVisible = !isLoading;
         }
-        private void RetryLocation(object sender, EventArgs e) => StartLogin();
 
         private void Resend(object sender, EventArgs e)
         {

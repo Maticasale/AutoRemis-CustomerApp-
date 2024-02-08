@@ -2,9 +2,7 @@
 using AutoRemis.Models;
 using AutoRemis.Services;
 using FFImageLoading.Svg.Forms;
-using Polly;
 using Prism.Navigation;
-using Rg.Plugins.Popup.Pages;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,7 +10,6 @@ using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Xamarin.Forms.PlatformConfiguration;
 
 namespace AutoRemis.Views
 {
@@ -36,7 +33,6 @@ namespace AutoRemis.Views
             _navigationService = navigationService;
 
             MessagingCenter.Subscribe<object>(this, "TripAccepted", (sender) => TripAccepted());
-
         }
 
         public void OnNavigatedTo(INavigationParameters parameters) 
@@ -109,6 +105,7 @@ namespace AutoRemis.Views
                     Icon = BitmapDescriptorFactory.FromBundle("pinDriver.png")
                     //Rotation = bearing
                 });
+                map.IsEnabled = false;
 
 
             });

@@ -1,5 +1,8 @@
 ﻿using AutoRemis.Models;
+using Xamarin.Forms;
 using Newtonsoft.Json;
+using Prism.Common;
+using Prism.Navigation;
 using Xamarin.Essentials;
 
 namespace AutoRemis.Helpers
@@ -23,5 +26,6 @@ namespace AutoRemis.Helpers
 
             return user;
         }
+        public static Page GetCurrentPage() => PageUtilities.GetCurrentPage(Application.Current.MainPage);
     }
 }

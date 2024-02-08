@@ -1,5 +1,4 @@
 ﻿using System;
-using Android.Accounts;
 using Android.Content;
 using Android.Gms.Auth.Api;
 using Android.Gms.Auth.Api.SignIn;
@@ -7,6 +6,7 @@ using Android.Gms.Common;
 using Android.Gms.Common.Apis;
 using Android.OS;
 using AutoRemis.Droid;
+using AutoRemis.Interfaces;
 using AutoRemis.Models.Google;
 using Xamarin.Forms;
 

@@ -15,6 +15,9 @@ using Android.Gms.Common;
 using Xamarin.Essentials;
 using Android.Util;
 using Firebase.Messaging;
+using Xamarin.Forms;
+using AutoRemis.Interfaces;
+using AutoRemis.Droid.Services;
 
 namespace AutoRemis.Droid
 {
@@ -32,11 +35,13 @@ namespace AutoRemis.Droid
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
             Xamarin.FormsGoogleMaps.Init(this, savedInstanceState);
+            DependencyService.Register<IFirebaseManager, FirebaseManager>(); 
 
             this.SetLocale();
 
-            Xamarin.Forms.Forms.Init(this, savedInstanceState);
+            Forms.Init(this, savedInstanceState);
             LoadApplication(new App(new AndroidInitializer()));
+
         }
 
         protected override void OnActivityResult(int requestCode, Result resultCode, Intent data)
@@ -56,7 +61,7 @@ namespace AutoRemis.Droid
         }
         public override void OnRequestPermissionsResult(int requestCode, string[] permissions, Permission[] grantResults)
         {
-            Xamarin.Essentials.Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
+            Platform.OnRequestPermissionsResult(requestCode, permissions, grantResults);
 
             base.OnRequestPermissionsResult(requestCode, permissions, grantResults);
         }
