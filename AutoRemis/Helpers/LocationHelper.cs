@@ -1,9 +1,6 @@
-﻿using AutoRemis.Models;
-using System;
+﻿using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
-using Xamarin.Forms.GoogleMaps;
-using static AutoRemis.Helpers.AppStateManager;
 
 namespace AutoRemis.Helpers
 {

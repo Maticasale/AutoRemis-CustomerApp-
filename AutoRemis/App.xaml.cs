@@ -29,10 +29,10 @@ namespace AutoRemis
             switch (user.Status)
             {
                 case UserStatus.Disconnected:
-                    await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
+                    await NavigationService.NavigateAsync("NavigationPage/AviableUpdatePopUp");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
+                    await NavigationService.NavigateAsync("NavigationPage/TestPage");
                     break;
             }
 
@@ -48,12 +48,14 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<NavigationPage>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
+            //Init Views
             containerRegistry.RegisterForNavigation<OnBoardingPage, OnBoardingPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
             containerRegistry.RegisterForNavigation<ConfirmPhonePage, ConfirmPhonePageViewModel>();
             containerRegistry.RegisterForNavigation<SideMenuPage, SideMenuPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
 
+            //Trip Views
             containerRegistry.RegisterForNavigation<Trip_AcceptedPage, Trip_AcceptedPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_ConfigPage, Trip_ConfigPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_WaitingPage, Trip_WaitingPageViewModel>();
@@ -66,6 +68,7 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<Trip_FinishedPage, Trip_FinishedPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_RatePage, Trip_RatePageViewModel>();
 
+            containerRegistry.RegisterForNavigation<AviableUpdatePopUp, AviableUpdatePopUpViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
         }
     }

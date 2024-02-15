@@ -17,7 +17,7 @@
                         <Grid.GestureRecognizers>
                             <TapGestureRecognizer Tapped="OkClicked"/>
                         </Grid.GestureRecognizers>
-                        <Image Source="imgGreenButton2.png" Aspect="AspectFit" HeightRequest="30"/>
+                        <Image Source="iconUpdate1.png" Aspect="AspectFit" HeightRequest="30"/>
                         <Label Text="ACEPTAR" FontSize="16" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
                     </Grid>
                 </StackLayout>

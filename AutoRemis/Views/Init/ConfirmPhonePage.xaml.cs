@@ -19,6 +19,7 @@ namespace AutoRemis.Views
     public partial class ConfirmPhonePage : ContentPage, INavigatedAware
     {
         private User user;
+        private AppSettings app;
 
         private string token;
         private bool isBussy;
@@ -27,7 +28,8 @@ namespace AutoRemis.Views
         private List<Frame> frameList;
 
         private readonly INavigationService _navigationService;
-        private IFirebaseManager _firebaseManager;
+        private readonly IFirebaseManager _firebaseManager;
+
 
         public ConfirmPhonePage(INavigationService navigationService)
         {
@@ -38,8 +40,9 @@ namespace AutoRemis.Views
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            //User Data
+            //User and App Data
             user = GetUser();
+            app = GetAppInfo();
 
             //Variables
             entryList = new List<Entry> { e1, e2, e3, e4 };
@@ -56,7 +59,6 @@ namespace AutoRemis.Views
         }
 
         public void OnNavigatedFrom(INavigationParameters parameters) { }
-
 
         private void EntryFocused(object sender, FocusEventArgs e)
         {
@@ -186,6 +188,8 @@ namespace AutoRemis.Views
 
         public async void StartLogin()
         {
+            await Permissions.RequestAsync<Permissions.Media>();
+
             var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
             if (status != PermissionStatus.Granted)
             {
@@ -217,9 +221,14 @@ namespace AutoRemis.Views
                     
                     user.lastKnownPosition = new Position(location.Location.Latitude, location.Location.Longitude);
                     user.Status = UserStatus.Idle;
-                    user.TokenFCM = await _firebaseManager.GetFirebaseToken();
                     UpdateUser(user);
 
+                    //implementar servicio de registro
+
+                    app.TokenFCM = await _firebaseManager.GetFirebaseToken();
+                    app.HelpCenterPhone = ""; //poner el numero
+
+                    UpdateAppInfo(app);
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
 
                     await Task.Delay(500);

@@ -9,6 +9,7 @@ namespace AutoRemis.Helpers
 {
     public class AppStateManager
     {
+        //User Info
         public static void UpdateUser(User user) => Preferences.Set("UserInfo", JsonConvert.SerializeObject(user));
         public static User GetUser()
         {
@@ -25,6 +26,25 @@ namespace AutoRemis.Helpers
             }
 
             return user;
+        }
+
+        //App Info
+        public static void UpdateAppInfo(AppSettings appSettings) => Preferences.Set("AppSettings", JsonConvert.SerializeObject(appSettings));
+        public static AppSettings GetAppInfo()
+        {
+            AppSettings app;
+
+            var jsonUser = Preferences.Get("AppSettings", "");
+
+            if (!string.IsNullOrEmpty(jsonUser))
+                app = JsonConvert.DeserializeObject<AppSettings>(jsonUser);
+            else
+            {
+                app = new AppSettings() { };
+                UpdateAppInfo(app);
+            }
+
+            return app;
         }
         public static Page GetCurrentPage() => PageUtilities.GetCurrentPage(Application.Current.MainPage);
     }

@@ -41,7 +41,6 @@ namespace AutoRemis.Droid
 
         public int CrearNotificacionLocal(string pTitle, string pBody)
         {
-
             if (!channelInitialized)
             {
                 CreateNotificationChannel();
@@ -54,15 +53,17 @@ namespace AutoRemis.Droid
             intent.PutExtra(MessageKey, pBody);
             intent.AddFlags(ActivityFlags.ClearTop);
 
-            PendingIntent pendingIntent = PendingIntent.GetActivity(AndroidApp.Context, pendingIntentId, intent, PendingIntentFlags.UpdateCurrent);
+            PendingIntent pendingIntent = PendingIntent.GetActivity(AndroidApp.Context, pendingIntentId, intent, PendingIntentFlags.UpdateCurrent | PendingIntentFlags.Immutable); // Agrega el flag PendingIntentFlags.Immutable
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(AndroidApp.Context, channelId)
                 .SetContentIntent(pendingIntent)
                 .SetContentTitle(pTitle)
                 .SetContentText(pBody)
                 .SetAutoCancel(true)
-                .SetLargeIcon(BitmapFactory.DecodeResource(AndroidApp.Context.Resources, Resource.Drawable.abc_btn_check_material))
-                .SetSmallIcon(Resource.Drawable.abc_btn_check_material)
+                //.SetLargeIcon(BitmapFactory.DecodeResource(AndroidApp.Context.Resources, Resource.Drawable.iconDoor))
+                .SetSmallIcon(Resource.Drawable.iconNotification)
+                .SetPriority(NotificationCompat.PriorityMax)
+                .SetColor(Color.ParseColor("#B1D506"))
                 .SetDefaults((int)NotificationDefaults.Sound | (int)NotificationDefaults.Vibrate);
 
             var notification = builder.Build();

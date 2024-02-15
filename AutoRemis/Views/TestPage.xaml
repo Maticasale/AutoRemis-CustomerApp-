@@ -6,74 +6,27 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             BackgroundColor="#ccc"             
+             BackgroundColor="blue"             
              xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView" 
+             xmlns:maps="clr-namespace:Xamarin.Forms.GoogleMaps;assembly=Xamarin.Forms.GoogleMaps"
              NavigationPage.HasNavigationBar="False"
              x:Class="AutoRemis.Views.TestPage">
 
-    <ContentPage.Resources>
-        <ResourceDictionary>
-            <Style TargetType="Label">
-                <Setter Property="TextColor" Value="Black"/>
-            </Style>
-        </ResourceDictionary>
-    </ContentPage.Resources>
-    <ContentPage.Content>
 
+    <ContentPage.Content>
+        <StackLayout>
+            <Grid VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand" RowSpacing="0">
+                <maps:Map x:Name="map"/>
+                <Image x:Name="imgUserPin" Source="imgUserPin.png" VerticalOptions="Center" HorizontalOptions="Center" Scale="0.2"/>
+                <Frame Opacity="0.8" VerticalOptions="Start">
+                    <StackLayout Orientation="Horizontal">
+                        <Label VerticalOptions="Center" x:Name="OKLBL" FontAttributes="Bold"/>
+                        <Button Text="prueba" Clicked="Button_Clicked"/>
+                    </StackLayout> 
+                </Frame>
+            </Grid>
+        </StackLayout>
     </ContentPage.Content>
 </ContentPage>
-        <!--<Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
-            <Grid BackgroundColor="#B1D506" HeightRequest="56">
-                <Label x:Name="lblState" Text="BUSCANDO MOVILES . . ." TextColor="Black" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
-            </Grid>
-            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
-            <Grid Grid.Row="2">
-                <maps:Map x:Name="map" IsEnabled="False"/>
-                <Grid IsVisible="false" x:Name="DriverInfoBox" VerticalOptions="StartAndExpand" RowDefinitions="auto, auto" RowSpacing="40" Margin="15,0">
-                    <Pancake:PancakeView Opacity="0.9" BackgroundColor="White" Padding="10" CornerRadius="10">
-                        <StackLayout>
-                            <StackLayout Orientation="Horizontal">
-                                <xct:AvatarView x:Name="LblAvatar" Source="iconNoImgUser.png" Color="Black" TextColor="Beige" BackgroundColor="Transparent"/>
-                                <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
-                                    
-                                </Grid>
-                            </StackLayout>
-                        </StackLayout>
-                    </Pancake:PancakeView>
-                    <StackLayout Grid.Row="1" HorizontalOptions="Start">
-                        <Frame Padding="5" CornerRadius="5">
-                            <Label Text="5 min" FontAttributes="Bold"/>
-                        </Frame>
-                        <Frame Padding="5" CornerRadius="5">
-                            <Label Text="20 cuadras" FontAttributes="Bold"/>
-                        </Frame>
-                        <Frame Padding="5" CornerRadius="5">
-                            <Label Text="$120 - $150" FontAttributes="Bold"/>
-                        </Frame>
-                    </StackLayout>
-
-                    <Image x:Name="btnCancel1" Grid.Row="1" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" HorizontalOptions="End" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
-                        <Image.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="CancelClicked"/>
-                        </Image.GestureRecognizers>
-                    </Image>
-                </Grid>
-
-                <StackLayout x:Name="gif" VerticalOptions="Center"/>
-
-                <Image x:Name="btnCancel" Source="imgCancelButton.png" Aspect="AspectFit" HeightRequest="50" VerticalOptions="EndAndExpand" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
-                    <Image.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CancelClicked"/>
-                    </Image.GestureRecognizers>
-                </Image>
-                <StackLayout x:Name="btnCall" IsVisible="false" TranslationY="-70" Spacing="-10" VerticalOptions="EndAndExpand">
-                    <StackLayout.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="CallClicked"/>
-                    </StackLayout.GestureRecognizers>
-                    <Image Source="imgCall.png" Aspect="AspectFit" HeightRequest="50" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95"/>
-                    <Label Text="Central" FontAttributes="Bold" HorizontalOptions="Center"/>
-                </StackLayout>
-
-            </Grid>
-        </Grid>-->
+    

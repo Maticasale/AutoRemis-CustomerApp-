@@ -5,9 +5,11 @@ using Xamarin.Forms.GoogleMaps;
 
 namespace AutoRemis.Models
 {
+    //Local Storage 
     public class User
     {
         public UserStatus Status { get; set; }
+        public InitType Init { get; set;}
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string FullName { get; set; }
@@ -15,9 +17,14 @@ namespace AutoRemis.Models
         public Uri GoogleUrlPic { get; set; } 
         public string Email { get; set; }
         public string Facebook { get; set; }
-        public string TokenFCM { get; set; }
         public Position lastKnownPosition { get; set; }
         public Trip TripInfo { get; set; }
+    }
+
+    public class AppSettings
+    {
+        public string TokenFCM { get; set; }
+        public string HelpCenterPhone { get; set; }
     }
 
     /// <summary>
@@ -29,15 +36,5 @@ namespace AutoRemis.Models
     /// </summary>
     public enum UserStatus { Disconnected, Idle, budgeting, OnTrip }
 
-    //Service Use Only
-    public class LoginUser
-    {
-        public string email { get; set; }
-        public string passworld { get; set; }
-        public string phoneNumber { get; set; }
-        public string usrFcb { get; set; }
-        public string token { get; set; }
-        public InitType type { get; set; }
-    }
     public enum InitType { Google, PhoneNumber, Normal }
 }
