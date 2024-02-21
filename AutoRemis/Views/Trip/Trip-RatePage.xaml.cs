@@ -17,17 +17,16 @@ namespace AutoRemis.Views
         public Trip_RatePage()
         {
             InitializeComponent();
+            LoadUI();
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            throw new NotImplementedException();
-        }
+        public void OnNavigatedTo(INavigationParameters parameters) { }
 
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
-        public void OnNavigatedTo(INavigationParameters parameters)
+        private void LoadUI()
         {
-            //User Data
+            //User and App Data
             user = AppStateManager.GetUser();
 
             //Variables

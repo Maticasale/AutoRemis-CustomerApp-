@@ -25,19 +25,35 @@ namespace AutoRemis.Views
         public RegisterPage(INavigationService navigationService)
         {
             InitializeComponent();
+
             _navigationService = navigationService;
             _googleManager = DependencyService.Get<IGoogleManager>();
         }
+                
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            //User Data
-            user = GetUser();
+            //Parameters
             init = parameters.GetValue<InitType>("LoginType");
             googleUser = parameters.GetValue<GoogleUser>("GoogleUser");
 
+            Device.BeginInvokeOnMainThread(LoadUI);
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters)
+        {
+            if (init == InitType.Google)
+                _googleManager.Logout();
+        }
+
+        private void LoadUI()
+        {
+            //User and App Data
+            user = GetUser();
+
             //General UI Settings
-            if (init == InitType.Google && !string.IsNullOrWhiteSpace(googleUser.Email)) 
-            { 
+            user.Init = init;
+            if (init == InitType.Google && !string.IsNullOrWhiteSpace(googleUser.Email))
+            {
                 imgGooglePerson.IsVisible = true;
                 imgGoogleMail.IsVisible = true;
 
@@ -47,12 +63,7 @@ namespace AutoRemis.Views
                 EntryUser.Text = CapitalizeSentence(googleUser.FullName);
                 EntryEmail.Text = googleUser.Email;
                 user.GoogleUrlPic = googleUser.Picture;
-            }   
-        }
-        public void OnNavigatedFrom(INavigationParameters parameters)
-        {
-            if (init == InitType.Google)
-                _googleManager.Logout();
+            }
         }
 
         private async void initTapped(object sender, EventArgs e)

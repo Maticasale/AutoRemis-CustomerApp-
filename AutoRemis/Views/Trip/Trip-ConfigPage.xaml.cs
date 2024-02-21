@@ -26,19 +26,29 @@ namespace AutoRemis.Views
             _navigationService = navigationService;
 
             MessagingCenter.Subscribe<object, Trip>(this, "Trip", OnTripParamsChanged);
+
+            LoadUI();
         }
 
-        private void OnTripParamsChanged(object arg, Trip trip) => this.trip = trip;
 
         public void OnNavigatedTo(INavigationParameters parameters)
-        {            
-            //User Data
+        {
+            //Parameters
+            trip = parameters.GetValue<Trip>("Trip");
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+        private void LoadUI()
+        {
+            //User and App Data
             user = AppStateManager.GetUser();
 
             //Variables
             checkboxStates = new bool[10];
-            trip = parameters.GetValue<Trip>("Trip");
         }
+
+        private void OnTripParamsChanged(object arg, Trip trip) => this.trip = trip;
 
         private void ObsClicked(object sender, EventArgs e)
         {
@@ -98,8 +108,6 @@ namespace AutoRemis.Views
             lblBtnStartTrip.IsVisible = true;
         }
         private async void CalculateClicked(object sender, EventArgs e) => await _navigationService.NavigateAsync("Trip_ChangeMainParamsPopUp", new NavigationParameters { { "Trip", trip } });
-
-        public void OnNavigatedFrom(INavigationParameters parameters) {}
 
         private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)
         {

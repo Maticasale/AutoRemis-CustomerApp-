@@ -9,9 +9,6 @@ using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using static AutoRemis.Helpers.LocationHelper;
 using static AutoRemis.Helpers.AppStateManager;
-using Prism.Ioc;
-using Rg.Plugins.Popup.Extensions;
-using Xamarin.Forms.PlatformConfiguration;
 using AutoRemis.Interfaces;
 
 namespace AutoRemis.Views
@@ -34,21 +31,33 @@ namespace AutoRemis.Views
         public ConfirmPhonePage(INavigationService navigationService)
         {
             InitializeComponent();
+
             _navigationService = navigationService;
             _firebaseManager = DependencyService.Get<IFirebaseManager>();
+
+            LoadUI();
+
+            MessagingCenter.Subscribe<object>(this, "InitApp", (sender) => Device.BeginInvokeOnMainThread(Init));
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
+        {
+            //Parameters
+            init = parameters.GetValue<InitType>("LoginType");
+            token = parameters.GetValue<string>("ConfirmationToken");
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+        private void LoadUI()
         {
             //User and App Data
             user = GetUser();
             app = GetAppInfo();
 
-            //Variables
+            //Variables intialization
             entryList = new List<Entry> { e1, e2, e3, e4 };
             frameList = new List<Frame> { f1, f2, f3, f4 };
-            init = parameters.GetValue<InitType>("LoginType");
-            token = parameters.GetValue<string>("ConfirmationToken");
 
             //General UI Settings
             EnableResendTokenButton();
@@ -58,7 +67,7 @@ namespace AutoRemis.Views
             Device.BeginInvokeOnMainThread(() => e1.Focus());
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
+        private async void Init() => await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
 
         private void EntryFocused(object sender, FocusEventArgs e)
         {
@@ -181,7 +190,6 @@ namespace AutoRemis.Views
                 foreach (var i in entryList)
                     i.IsEnabled = true;
             }
-
         }
 
         private void RetryLocation(object sender, EventArgs e) => StartLogin();
@@ -225,15 +233,10 @@ namespace AutoRemis.Views
 
                     //implementar servicio de registro
 
-                    app.TokenFCM = await _firebaseManager.GetFirebaseToken();
                     app.HelpCenterPhone = ""; //poner el numero
 
                     UpdateAppInfo(app);
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
-
-                    await Task.Delay(500);
-
-                    await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
 
                     break;
 

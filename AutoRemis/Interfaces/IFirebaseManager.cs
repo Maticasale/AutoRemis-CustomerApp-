@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using AutoRemis.Models.Services;
+using System.Threading.Tasks;
 
 namespace AutoRemis.Interfaces
 {
@@ -6,4 +7,5 @@ namespace AutoRemis.Interfaces
     {
         Task<string> GetFirebaseToken();
     }
+
 }

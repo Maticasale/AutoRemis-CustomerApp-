@@ -8,6 +8,9 @@ using ImTools;
 using AutoRemis.Models.Services;
 using Xamarin.Essentials;
 using AutoRemis.Services;
+using System.IO;
+using System.Net;
+using Prism.Navigation;
 
 namespace AutoRemis.Views
 {
@@ -17,10 +20,12 @@ namespace AutoRemis.Views
         Position NW, NE, SW, SE;
         List<Position> Posiciones = new List<Position>() { };
         List<string> nombresPuntosCardinales = new List<string> { "NW", "NE", "SW", "SE" };
+        private readonly INavigationService _navigationService;
 
-        public TestPage()
+        public TestPage(INavigationService navigationService)
         {
             InitializeComponent();
+            _navigationService = navigationService;
 
             NW = new Position(latitude: -31.219990, longitude: -61.512660); //-31.219990, -61.512660
             NE = new Position(latitude: -31.231685, longitude: -61.444430); //-31.231685, -61.444430
@@ -50,9 +55,33 @@ namespace AutoRemis.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            LoginUser user = new LoginUser() { id = "1234", appVersion = VersionTracking.CurrentVersion, tipo = "USUARIO", token = "fN1TF_WNQ6ukgFpkz2gU9G:APA91bG6tUNdqoEAXl44khcUdpZ9-NFNpYmY9snDu_H5V2Q3UAjkYsvy--UxusxycG5jWGkD_tCo9mt1KM7KBFNdUfK3gu0CxzAAXlaMj1g0iIA5uMd2dEKPr5v2uXk2WsZJvPr_kiHW" };
+            await _navigationService.NavigateAsync("AviableUpdatePopUp", new NavigationParameters { { "hardUpdate", false }, { "newVersion", "1.1.2" } });
 
-            var response = await Auth.Login(user);
+            ////LoginUser user = new LoginUser() { id = "1234", appVersion = VersionTracking.CurrentVersion, tipo = "USUARIO", token = "fN1TF_WNQ6ukgFpkz2gU9G:APA91bG6tUNdqoEAXl44khcUdpZ9-NFNpYmY9snDu_H5V2Q3UAjkYsvy--UxusxycG5jWGkD_tCo9mt1KM7KBFNdUfK3gu0CxzAAXlaMj1g0iIA5uMd2dEKPr5v2uXk2WsZJvPr_kiHW" };
+
+            ////var response = await Auth.Login(user);
+
+            //double latitude = 40.712776; // Latitud del punto
+            //double longitude = -74.005974; // Longitud del punto
+            //string apiKey = "AIzaSyAA4fS33bAgNtHXOOA_19ODwmHK3W0cfGQ"; // Reemplaza con tu clave de API
+
+            //string url = $"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={apiKey}";
+
+            //WebRequest request = WebRequest.Create(url);
+            //WebResponse response = request.GetResponse();
+            //Stream data = response.GetResponseStream();
+            //StreamReader reader = new StreamReader(data);
+
+            //// Leer la respuesta JSON desde la API de Google Maps
+            //string responseFromServer = reader.ReadToEnd();
+            //response.Close();
+
+            //// Analizar la respuesta JSON y extraer la dirección o el bearing
+            //// (debes implementar esta parte según tus necesidades)
+
+            //Console.WriteLine("Respuesta de la API de Geocodificación Inversa:");
+            //Console.WriteLine(responseFromServer);
+
         }
 
         // Método para verificar si una nueva posición está dentro del área definida por un rectángulo
@@ -95,7 +124,6 @@ namespace AutoRemis.Views
                     Icon = BitmapDescriptorFactory.FromBundle("pinDriver.png")
                 });
             }
-        }
-
+        }                
     }
 }

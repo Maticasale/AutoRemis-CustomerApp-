@@ -29,15 +29,14 @@ namespace AutoRemis
             switch (user.Status)
             {
                 case UserStatus.Disconnected:
-                    await NavigationService.NavigateAsync("NavigationPage/AviableUpdatePopUp");
+                    await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/TestPage");
+                    await NavigationService.NavigateAsync("NavigationPage/HistoryPage");
                     break;
             }
 
             var token = await _firebaseManager.GetFirebaseToken();
-
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -46,7 +45,6 @@ namespace AutoRemis
             containerRegistry.RegisterPopupNavigationService();
 
             containerRegistry.RegisterForNavigation<NavigationPage>();
-            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
 
             //Init Views
             containerRegistry.RegisterForNavigation<OnBoardingPage, OnBoardingPageViewModel>();
@@ -67,9 +65,13 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<Trip_InProcessPage, Trip_InProcessPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_FinishedPage, Trip_FinishedPageViewModel>();
             containerRegistry.RegisterForNavigation<Trip_RatePage, Trip_RatePageViewModel>();
-
+            
+            //Dialogs Views
             containerRegistry.RegisterForNavigation<AviableUpdatePopUp, AviableUpdatePopUpViewModel>();
+
+            containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
+            containerRegistry.RegisterForNavigation<HistoryPage, HistoryPageViewModel>();
         }
     }
 }

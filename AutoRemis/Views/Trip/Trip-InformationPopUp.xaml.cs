@@ -14,20 +14,24 @@ namespace AutoRemis.Views
         {
             InitializeComponent();
             _navigationService = navigationService;
+            LoadUI();
         }
-
-        private void OnBackgroundClicked(object sender, EventArgs e) => Navigation.PopPopupAsync();
-
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            //Variables
+            //Parameters
             msg = parameters.GetValue<string>("Msg");
+        }
 
+        private void LoadUI()
+        {
             //General UI Settings
             Msg.Text = msg;
         }
+
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+        private void OnBackgroundClicked(object sender, EventArgs e) => Navigation.PopPopupAsync();
 
         private void OkClicked(object sender, EventArgs e) => Navigation.PopPopupAsync();
     }

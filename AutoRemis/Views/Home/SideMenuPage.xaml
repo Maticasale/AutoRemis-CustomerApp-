@@ -1,0 +1,90 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="http://prismlibrary.com" 
+                  xmlns:local="clr-namespace:AutoRemis.Views"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
+                  xmlns:Pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  x:Class="AutoRemis.Views.SideMenuPage"
+                  NavigationPage.HasNavigationBar="False">
+
+    <MasterDetailPage.Master>
+        <ContentPage Title="Menu" BackgroundColor="#f5f5f7">
+            <Grid RowDefinitions="100, *, auto" RowSpacing="10" VerticalOptions="FillAndExpand">
+                <StackLayout BackgroundColor="#B1D506" Padding="15" VerticalOptions="FillAndExpand">
+                    <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                        <xct:AvatarView x:Name="LblAvatar" Color="White" TextColor="#B1D506" FontAttributes="Bold" BackgroundColor="Transparent"/>
+                            <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
+                                <Label x:Name="lblUserName" TextColor="Black" FontSize="15" FontFamily="MainFontBold" FontAttributes="Bold"/>
+                                <Image Grid.Column="1" Source="VerifiedIcon.png" Aspect="AspectFit" HeightRequest="18" VerticalOptions="Start"/>
+                                <Label x:Name="lblPhoneNumber" Grid.Row="1" TextColor="Black" FontAttributes="Bold" FontSize="14"/>
+                            </Grid>
+                        </StackLayout>
+                </StackLayout>
+                <Frame Grid.Row="1" Padding="0" HasShadow="False">
+                    <StackLayout Spacing="0">
+                        <Frame Padding="0,0,10,0" HasShadow="False" VerticalOptions="Start" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HistoryClicked"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="auto, *, auto" Padding="10" TranslationX="5">
+                                <Label Grid.Column="1" Text="Historial De Viajes" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                                <Frame Padding="5" CornerRadius="20" HeightRequest="25" Margin="3,0,5,0" HasShadow="False" BackgroundColor="#B1D506">
+                                    <Image Source="iconHistory.png" Aspect="AspectFit"/>
+                                </Frame>
+                                <Image Grid.Column="2" Source="iconChevron1.png" Aspect="AspectFit" HeightRequest="20" HorizontalOptions="End"/>
+                            </Grid>
+                        </Frame>
+                        <Frame Padding="0,0,10,0" HasShadow="False" VerticalOptions="Start" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="AboutClicked"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="auto, *, auto" Padding="10" TranslationX="5">   
+                                <Label Grid.Column="1" Text="Sobre Nosotros" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                                <Frame Padding="5" CornerRadius="20" HeightRequest="25" Margin="3,0,5,0" HasShadow="False" BackgroundColor="#B1D506">
+                                    <Image Source="iconAbout.png" Aspect="AspectFit"/>
+                                </Frame>
+                                <Image Grid.Column="2" Source="iconChevron1.png" Aspect="AspectFit" HeightRequest="20" HorizontalOptions="End"/>
+                            </Grid>
+                        </Frame>
+                        <Frame Padding="0,0,10,0" HasShadow="False" VerticalOptions="Start" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                            <Frame.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="HelpClicked"/>
+                            </Frame.GestureRecognizers>
+                            <Grid ColumnDefinitions="auto, *, auto" Padding="10" TranslationX="5">
+                                <Label Grid.Column="1" Text="Solicitar Ayuda" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                                <Frame Padding="5" CornerRadius="20" HeightRequest="25" Margin="3,0,5,0" HasShadow="False" BackgroundColor="#B1D506">
+                                    <Image Source="iconHelp.png" Aspect="AspectFit"/>
+                                </Frame>
+                                <Image Grid.Column="2" Source="iconChevron1.png" Aspect="AspectFit" HeightRequest="20" HorizontalOptions="End"/>
+                            </Grid>
+                        </Frame>
+                    </StackLayout>
+                </Frame>
+                <Frame Grid.Row="2" Padding="0" HasShadow="False">
+                    <Frame Padding="0" HasShadow="False" VerticalOptions="Start" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedBackgroundColor="#f5f5f7">
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="LogOutClicked"/>
+                        </Frame.GestureRecognizers>
+                        <Grid x:Name="BtnLogOut" ColumnDefinitions="auto, *" Padding="10" TranslationX="5">
+                            <Frame Padding="5" CornerRadius="20" HeightRequest="25" Margin="3,0,5,0" HasShadow="False" BackgroundColor="#B1D506">
+                                <Image Source="iconLogOut.png" Aspect="AspectFit" Rotation="180" Scale="0.8"/>
+                            </Frame>
+                            <Label Grid.Column="1" Text="Cerrar Sesión" TextColor="Black" FontSize="15" FontAttributes="Bold" HorizontalOptions="Start" VerticalOptions="Center"/>
+                        </Grid>
+                    </Frame>
+  
+                </Frame>
+            </Grid>
+        </ContentPage>
+    </MasterDetailPage.Master>
+    <MasterDetailPage.Detail>
+        <NavigationPage>
+            <x:Arguments>
+                <local:MapPage/>
+            </x:Arguments>
+        </NavigationPage>
+    </MasterDetailPage.Detail>
+
+</MasterDetailPage>

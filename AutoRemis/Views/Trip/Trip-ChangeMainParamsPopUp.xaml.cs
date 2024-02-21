@@ -34,9 +34,15 @@ namespace AutoRemis.Views
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
-            //Variables
+            //Parameters
             trip = parameters.GetValue<Trip>("Trip");
+            LoadUI();
+        }
 
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+        private void LoadUI()
+        {
             //SearchBars Settings
             EntryFocused = "Org";
 
@@ -60,6 +66,7 @@ namespace AutoRemis.Views
             EntryOrg.Text = trip.address_origin;
             EntryDst.Text = trip.address_destination;
         }
+
         private async void CancelClicked(object sender, EventArgs e) => await Navigation.PopPopupAsync();
         private async void OkClicked(object sender, EventArgs e)
         {
@@ -195,7 +202,5 @@ namespace AutoRemis.Views
         void EntryDstFocused(Object sender, FocusEventArgs e) => EntryFocused = "Dst";
 
         #endregion
-
-        public void OnNavigatedFrom(INavigationParameters parameters) {}
     }
 }

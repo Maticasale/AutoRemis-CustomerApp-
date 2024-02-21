@@ -2,14 +2,13 @@
 using Android.Util;
 using Android.Content;
 using Firebase.Messaging;
-using System.Diagnostics;
-using Xamarin.Essentials;
 using System.Collections.Generic;
 using AutoRemis.Models;
 using Xamarin.Forms;
 using Android.Gms.Extensions;
 using System.Threading.Tasks;
-
+using AutoRemis.Services;
+using static AutoRemis.Helpers.AppStateManager;
 using AutoRemis.Interfaces;
 using System;
 using System.Globalization;
@@ -52,18 +51,20 @@ namespace AutoRemis.Droid.Services
             }
             Log.Debug(TAG, "------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
-            MessagingCenter.Send<object, FirebaseMessage>(this, "FCM", Msg);
 
+            if (GetCurrentPage().GetType() == typeof(Views.ConfirmPhonePage))
+                MessagingCenter.Send<object>(this, "InitApp");
+
+            //MessagingCenter.Send<object, FirebaseMessage>(this, "FCM", Msg);
         }
         public override void OnNewToken(string token)
         {
             base.OnNewToken(token);
-            //var user = GetUser();
-            //user.TokenFCM = token;
-            //UpdateUser(user);
+            //if (GetUser().Status != UserStatus.Disconnected)
+            //    Auth.Login();
+            //    return;
         }
 
         public async Task<string> GetFirebaseToken() => (string)await FirebaseMessaging.Instance.GetToken();
-
     }
 }

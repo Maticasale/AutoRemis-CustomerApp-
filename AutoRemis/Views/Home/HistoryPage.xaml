@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:prism="http://prismlibrary.com"
+             prism:ViewModelLocator.AutowireViewModel="True"
+             x:Class="AutoRemis.Views.HistoryPage">
+
+    <NavigationPage.TitleView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="1">
+            <Image Source="imgCompanyLogo.png" Aspect="AspectFit" HeightRequest="30"/>
+            <Label Text="Auto" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+            <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
+        </StackLayout>
+    </NavigationPage.TitleView>
+</ContentPage>

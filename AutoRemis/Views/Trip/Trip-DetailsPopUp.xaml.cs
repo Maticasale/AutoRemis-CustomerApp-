@@ -19,11 +19,14 @@ namespace AutoRemis.Views
             InitializeComponent();
             _navigationService = navigationService;
         }
+
         public void OnNavigatedTo(INavigationParameters parameters)
         {
+            //Parameters
             trip = parameters.GetValue<Trip>("Trip");
         }
 
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         private async void NextClicked(object sender, System.EventArgs e)
         {
@@ -40,6 +43,5 @@ namespace AutoRemis.Views
             await Navigation.PopPopupAsync();
             await _navigationService.NavigateAsync("Trip_ConfigPage", new NavigationParameters { { "Trip", trip } });
         }
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
     }
 }

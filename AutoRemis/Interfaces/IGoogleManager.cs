@@ -5,8 +5,8 @@ namespace AutoRemis.Interfaces
 {
     public interface IGoogleManager
     {
-        void Login(Action<GoogleUser, string> OnLoginComplete);
+        public void Login(Action<GoogleUser, string> OnLoginComplete);
 
-        void Logout();
+        public void Logout();
     }
 }

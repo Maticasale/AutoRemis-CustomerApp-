@@ -42,11 +42,11 @@ namespace AutoRemis.Views
 
         private void LoadUI()
         {
-            //Variables
+            //Variables 
             checkboxImages = new List<Image> { imgStandard, imgCapacDif, imgEcologic, imgExecutive };
             checkboxFrames = new List<Frame> { frmStandard, frmCapacDif, frmEcologic, frmExecutive };
 
-            //User Data
+            //User and App Data
             user = AppStateManager.GetUser();
             map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
 

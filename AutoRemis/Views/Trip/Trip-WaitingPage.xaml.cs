@@ -28,8 +28,6 @@ namespace AutoRemis.Views
         {
             InitializeComponent();            
             
-            LoadUI();
-
             _navigationService = navigationService;
 
             MessagingCenter.Subscribe<object>(this, "TripAccepted", (sender) => TripAccepted());
@@ -37,26 +35,27 @@ namespace AutoRemis.Views
 
         public void OnNavigatedTo(INavigationParameters parameters) 
         {
-            //User Data
-            user = AppStateManager.GetUser();
-
             //Variables
             trip = parameters.GetValue<Trip>("Trip");
+
+            LoadUI();
         }
         private void LoadUI()
         {
+            //User and App Data
+            user = AppStateManager.GetUser();
+
             //General UI Settings
             map.IsEnabled = true;
             map.UiSettings.ZoomControlsEnabled = false;
+            map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
 
             Device.BeginInvokeOnMainThread(() =>
             {
                 bx1.IsVisible = true;
                 bx2.IsVisible = true;
-                gif.Children.Add(new SvgCachedImage { Aspect = Aspect.AspectFit, Source = "gifRadar.gif", VerticalOptions = LayoutOptions.Center });
 
-                map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
-                map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromKilometers(14d)));
+                gif.Children.Add(new SvgCachedImage { Aspect = Aspect.AspectFit, Source = "gifRadar.gif", VerticalOptions = LayoutOptions.Center });
 
                 map.Pins.Add(new Pin()
                 {
@@ -65,6 +64,8 @@ namespace AutoRemis.Views
                     Label = user.FirstName,
                     Icon = BitmapDescriptorFactory.FromBundle("pinUser1.png")
                 });
+
+                map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromKilometers(14d)));
             });
         }
 

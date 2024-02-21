@@ -17,7 +17,7 @@ namespace AutoRemis.Helpers
                 else
                     return new LocationResponse() { Location = null, Status = LocationStatus.Unknown };
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 return new LocationResponse() { Location = null, Status = LocationStatus.Exception };
             }

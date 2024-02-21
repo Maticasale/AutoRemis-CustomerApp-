@@ -1,35 +1,43 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:prism="http://prismlibrary.com" 
-             xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
-             prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="AutoRemis.Views.AviableUpdatePopUp"
-             xmlns:xct="http://xamarin.com/schemas/2020/toolkit" 
-             NavigationPage.HasNavigationBar="False"
-             BackgroundColor="Black">
+<pages:PopupPage  xmlns:pages="http://rotorgames.com" 
+                  xmlns="http://xamarin.com/schemas/2014/forms"
+                  xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                  xmlns:prism="http://prismlibrary.com" 
+                  xmlns:pancake="clr-namespace:Xamarin.Forms.PancakeView;assembly=Xamarin.Forms.PancakeView"
+                  prism:ViewModelLocator.AutowireViewModel="True"
+                  x:Class="AutoRemis.Views.AviableUpdatePopUp"
+                  xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+                  CloseWhenBackgroundIsClicked="False">
 
 
-    <Frame Padding="0" CornerRadius="10" HorizontalOptions="Fill" VerticalOptions="Center" Margin="10">
-        <StackLayout Spacing="0" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent">
-            <Image Source="iconUpdate.png" Aspect="AspectFit" HeightRequest="100" VerticalOptions="Center" BackgroundColor="#FFC021"/>
-            <StackLayout Grid.Column="1" VerticalOptions="Center" Orientation="Horizontal" Margin="10">
-                <Label Text="VERSIÓN DISPONIBLE" FontSize="15" Padding="0" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
-                <Frame Padding="5" CornerRadius="20" HorizontalOptions="EndAndExpand" BackgroundColor="#fff9e9" BorderColor="#FFC021">
-                    <Label Text="V 1.1.0" FontSize="12" FontAttributes="Bold" TextColor="#FFC021" VerticalOptions="Center"/>
-                </Frame>
+    <pages:PopupPage.Content>
+        <Frame Padding="0" CornerRadius="20" HorizontalOptions="Fill" VerticalOptions="Center" Margin="10">
+            <StackLayout Spacing="0" VerticalOptions="CenterAndExpand" BackgroundColor="Transparent">
+                <Image x:Name="imgUpgrade" Source="iconUpdate.png" Aspect="AspectFit" HeightRequest="100" VerticalOptions="Center" BackgroundColor="#FFC021"/>
+                <StackLayout Grid.Column="1" VerticalOptions="Center" Orientation="Horizontal" Margin="10">
+                    <Label x:Name="lblTitle" Text="VERSIÓN DISPONIBLE" FontSize="15" Padding="0" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
+                    <Frame x:Name="frmVersion" Padding="5" CornerRadius="20" HorizontalOptions="EndAndExpand" BackgroundColor="#fff9e9" BorderColor="#FFC021">
+                        <Label x:Name="lblVersion" Text="V 1.1.0" FontSize="12" FontAttributes="Bold" TextColor="#FFC021" VerticalOptions="Center"/>
+                    </Frame>
+                </StackLayout>
+                <Label x:Name="lblBody1" Margin="10" LineHeight="1.5" Text="Hay una nueva actualización disponible para mejorar tu experiencia. Si bien no es obligatoria, te recomendamos la instalacion para que puedas disfrutar de las últimas mejoras y correcciones de errores."/>
+                <Label x:Name="lblBody2" Margin="10" LineHeight="1.5" Text="Puedes actualizar ahora o más tarde desde la PlayStore."/>
+                <Grid ColumnDefinitions="*,*">
+                    <Label x:Name="btnIgnore" Text="ignorar" TextDecorations="Underline" TextColor="#FFC021" HorizontalTextAlignment="Center" FontAttributes="Bold"  Padding="15" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedScale = "0.95">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="IgnoreClicked"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <pancake:PancakeView x:Name="btnUpdate" Grid.Column="1" BackgroundColor="#FFC021" CornerRadius="20,0,0,0">
+                        <Label Text="actualizar" TextColor="White" FontAttributes="Bold" HorizontalTextAlignment="Center" Padding="15" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedScale = "0.95">
+                            <Label.GestureRecognizers>
+                                <TapGestureRecognizer Tapped="UpdateClicked"/>
+                            </Label.GestureRecognizers>
+                        </Label>
+                    </pancake:PancakeView>
+                </Grid>
             </StackLayout>
-            <Label Margin="10" LineHeight="1.5" Text="Hay una nueva actualización disponible para mejorar tu experiencia. Si bien no es obligatoria, te recomendamos la instalacion para que puedas disfrutar de las últimas mejoras y correcciones de errores."/>
-            <Label Margin="10" LineHeight="1.5" Text="Puedes actualizar ahora o más tarde desde la PlayStore"/>
-            <!--<Label x:Name="Msg" Text="Actualizacion" Padding="25,25,25,0" TextColor="Black" FontAttributes="Bold" HorizontalTextAlignment="Center" HorizontalOptions="Center" Margin="0,0,0,0"/>
-            <Grid x:Name="btnOK" xct:TouchEffect.AnimationDuration="150" xct:TouchEffect.PressedScale = "0.95" Margin="40,0,40,10" >
-                --><!--<Grid.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="OkClicked"/>
-                    </Grid.GestureRecognizers>--><!--
-                <Image Source="imgGreenButton2.png" Aspect="AspectFit" HeightRequest="30"/>
-                <Label Text="ACEPTAR" FontSize="16" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
-            </Grid>-->
-        </StackLayout>
-    </Frame>
-</ContentPage>
-                <!--<Path Grid.Row="1" Grid.ColumnSpan="2" Stroke="#FFC021" Fill="#FFC021"  Data="m103.48498,131.67832l608.00001,0l0,80.408c-300.00001,-61.38094 -318.00001,70.48657 -608.00001,13.22958l0,-93.63758z" Aspect="Fill" HeightRequest="50" BackgroundColor="White"/>-->
+        </Frame>        
+    </pages:PopupPage.Content>
+</pages:PopupPage>
+<!--<Path Grid.Row="1" Grid.ColumnSpan="2" Stroke="#FFC021" Fill="#FFC021"  Data="m103.48498,131.67832l608.00001,0l0,80.408c-300.00001,-61.38094 -318.00001,70.48657 -608.00001,13.22958l0,-93.63758z" Aspect="Fill" HeightRequest="50" BackgroundColor="White"/>-->

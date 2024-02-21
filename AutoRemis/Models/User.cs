@@ -23,8 +23,8 @@ namespace AutoRemis.Models
 
     public class AppSettings
     {
-        public string TokenFCM { get; set; }
         public string HelpCenterPhone { get; set; }
+        public string GlobalApiKey { get; set; }
     }
 
     /// <summary>
