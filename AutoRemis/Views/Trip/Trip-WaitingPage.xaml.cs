@@ -167,7 +167,7 @@ namespace AutoRemis.Views
         {
             try
             {
-                var googleDirection = await Places.GetDirections(user.lastKnownPosition.Latitude.ToString(), user.lastKnownPosition.Longitude.ToString(), trip.lat_destination, trip.lng_destination, "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
+                var googleDirection = await Places.GetDirections(user.lastKnownPosition.Latitude.ToString(), user.lastKnownPosition.Longitude.ToString(), trip.lat_destination, trip.lng_destination);
                 if (googleDirection.Routes != null && googleDirection.Routes.Count > 0)
                 {
                     var positions = (Enumerable.ToList(PolylineHelper.Decode(googleDirection.Routes.First().OverviewPolyline.Points)));

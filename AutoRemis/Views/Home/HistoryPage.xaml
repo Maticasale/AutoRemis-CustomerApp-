@@ -3,7 +3,9 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:prism="http://prismlibrary.com"
              prism:ViewModelLocator.AutowireViewModel="True"
-             x:Class="AutoRemis.Views.HistoryPage">
+             xmlns:tabView="clr-namespace:Syncfusion.XForms.TabView;assembly=Syncfusion.SfTabView.XForms"
+             x:Class="AutoRemis.Views.HistoryPage"
+             BackgroundColor="White">
 
     <NavigationPage.TitleView>
         <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Start" Scale="1">
@@ -12,4 +14,21 @@
             <Label Text="Remis" FontAttributes="Bold" TextColor="Red" FontSize="30"/>
         </StackLayout>
     </NavigationPage.TitleView>
+    <ContentPage.Content>
+        <tabView:SfTabView BackgroundColor="#d0f80e" TabHeaderPosition="Top" VisibleHeaderCount="2"> 
+            <tabView:SfTabView.SelectionIndicatorSettings>
+                <tabView:SelectionIndicatorSettings Color="Red" AnimationDuration="300" StrokeThickness="4"/>
+            </tabView:SfTabView.SelectionIndicatorSettings>
+            <tabView:SfTabItem Title="Call" TitleFontColor="White" SelectionColor="White">
+                <tabView:SfTabItem.Content>
+                    <Grid x:Name="AllContactsGrid"/>
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+            <tabView:SfTabItem Title="Favorites" TitleFontColor="White" SelectionColor="White">
+                <tabView:SfTabItem.Content>
+                    <Grid x:Name="FavoritesGrid" />
+                </tabView:SfTabItem.Content>
+            </tabView:SfTabItem>
+        </tabView:SfTabView>
+    </ContentPage.Content>
 </ContentPage>

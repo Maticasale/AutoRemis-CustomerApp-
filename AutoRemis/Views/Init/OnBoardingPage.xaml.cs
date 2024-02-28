@@ -25,8 +25,8 @@ namespace AutoRemis.Views
             btnGoogle.IsEnabled = false;
             if (googleUser != null)
                 await _navigationService.NavigateAsync("RegisterPage", new NavigationParameters{{"LoginType", InitType.Google}, { "GoogleUser", googleUser} });
-            else
-                RiseErrorMsg("¡Error!", "Ocurrio una falla tratando de iniciar el servicio de Google, por favor vuelva a intetnar", 3, SoundHelper.SoundType.Error);
+            //else
+            //    RiseErrorMsg("¡Error!", "Ocurrio una falla tratando de iniciar el servicio de Google, por favor vuelva a intetnar", 3, SoundHelper.SoundType.Error);
             IsBusy(false);
         }
 

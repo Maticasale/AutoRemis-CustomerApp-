@@ -1,4 +1,6 @@
-﻿using AutoRemis.Models.Google;
+﻿using AutoRemis.Helpers;
+using AutoRemis.Models;
+using AutoRemis.Models.Google;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
@@ -11,9 +13,15 @@ namespace AutoRemis.Services
 {
     public static class Places
     {
+        private static AppSettings app;
         private static bool IsConnected => Connectivity.NetworkAccess == NetworkAccess.Internet;
         private static HttpClient cliente;
-        static Places() { cliente = new HttpClient(); cliente.BaseAddress = new Uri("https://maps.googleapis.com/maps/"); }
+        static Places() 
+        { 
+            cliente = new HttpClient(); 
+            cliente.BaseAddress = new Uri("https://maps.googleapis.com/maps/");
+            app = AppStateManager.GetAppInfo();
+        }
         public static async Task<Place> GetPlace(string placeID, string apiKey, PlacesFieldList fields = null)
         {
             fields = fields ?? PlacesFieldList.ALL;
@@ -112,7 +120,7 @@ namespace AutoRemis.Services
             return constructedUrl;
         }
 
-        public static async Task<GoogleDirection> GetDirections(string originLatitude, string originLongitude, string destinationLatitude, string destinationLongitude, string apiKey)
+        public static async Task<GoogleDirection> GetDirections(string originLatitude, string originLongitude, string destinationLatitude, string destinationLongitude)
         {
             if (!IsConnected)
                 throw new Exception("No hay conexion.");
@@ -120,7 +128,7 @@ namespace AutoRemis.Services
             {
                 GoogleDirection googleDirection = new GoogleDirection();
 
-                var response = await cliente.GetAsync($"api/directions/json?mode=driving&transit_routing_preference=less_driving&origin={originLatitude},{originLongitude}&destination={destinationLatitude},{destinationLongitude}&key={apiKey}").ConfigureAwait(false);
+                var response = await cliente.GetAsync($"api/directions/json?mode=driving&transit_routing_preference=less_driving&origin={originLatitude},{originLongitude}&destination={destinationLatitude},{destinationLongitude}&key={app.GlobalApiKey}").ConfigureAwait(false);
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -131,14 +139,14 @@ namespace AutoRemis.Services
             }
         }
 
-        public static async Task<string> GetPlaceID(string lat, string lng, string apiKey)
+        public static async Task<string> GetPlaceID(string lat, string lng)
         {
             if (!IsConnected)
                 throw new Exception("No hay conexion.");
             else
             {
                 GooglePlaceID place = new GooglePlaceID();
-                var response = await cliente.GetAsync($"api/geocode/json?latlng={lat},{lng}&key={apiKey}");
+                var response = await cliente.GetAsync($"api/geocode/json?latlng={lat},{lng}&key={app.GlobalApiKey}");
                 if (response.IsSuccessStatusCode)
                 {
                     var json = await response.Content.ReadAsStringAsync().ConfigureAwait(false);
@@ -148,22 +156,6 @@ namespace AutoRemis.Services
                 return place.results[0].place_id;
             }
         }
-
-        //public static async Task<double?> GetBearing(double latitude, double longitude, string apiKey)
-        //{
-        //    using (var httpClient = new HttpClient())
-        //    {
-        //        var apiUrl = $"https://maps.googleapis.com/maps/api/elevation/json?locations={latitude},{longitude}&key={apiKey}";
-        //        var response = await httpClient.GetStringAsync(apiUrl);
-
-        //        dynamic jsonResponse = JsonConvert.DeserializeObject(response);
-
-        //        // Assuming there is at least one result
-        //        var bearing = jsonResponse.results[0].location.bearing;
-
-        //        return bearing;
-        //    }
-        //}
 
         private static string PlaceTypeValue(PlaceType type)
         {

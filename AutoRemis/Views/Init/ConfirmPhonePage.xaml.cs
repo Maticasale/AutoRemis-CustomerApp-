@@ -16,7 +16,6 @@ namespace AutoRemis.Views
     public partial class ConfirmPhonePage : ContentPage, INavigatedAware
     {
         private User user;
-        private AppSettings app;
 
         private string token;
         private bool isBussy;
@@ -36,8 +35,6 @@ namespace AutoRemis.Views
             _firebaseManager = DependencyService.Get<IFirebaseManager>();
 
             LoadUI();
-
-            MessagingCenter.Subscribe<object>(this, "InitApp", (sender) => Device.BeginInvokeOnMainThread(Init));
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
@@ -53,7 +50,6 @@ namespace AutoRemis.Views
         {
             //User and App Data
             user = GetUser();
-            app = GetAppInfo();
 
             //Variables intialization
             entryList = new List<Entry> { e1, e2, e3, e4 };
@@ -66,8 +62,6 @@ namespace AutoRemis.Views
             lblName.Text = $"¡Hola {UIHelper.CapitalizeSentence(user.FirstName)}!";
             Device.BeginInvokeOnMainThread(() => e1.Focus());
         }
-
-        private async void Init() => await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
 
         private void EntryFocused(object sender, FocusEventArgs e)
         {
@@ -213,8 +207,7 @@ namespace AutoRemis.Views
             }
             else
                 FinishLogin();
-        }
-        
+        }        
 
         public async void FinishLogin()
         {
@@ -225,41 +218,34 @@ namespace AutoRemis.Views
             var location = await GetLocation();
             switch (location.Status)
             {
-                case LocationStatus.OK:
-                    
+                case LocationStatus.OK:                    
                     user.lastKnownPosition = new Position(location.Location.Latitude, location.Location.Longitude);
                     user.Status = UserStatus.Idle;
                     UpdateUser(user);
 
-                    //implementar servicio de registro
-
-                    app.HelpCenterPhone = ""; //poner el numero
-
-                    UpdateAppInfo(app);
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
 
+                    await Task.Delay(1000);
+
+                    await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
                     break;
 
                 case LocationStatus.Unknown:
-
                     RiseErrorMsg("¡Aviso!", "No hemos podido determinar tu ubicación, por favor vuelve a intentarlo", 3, SoundHelper.SoundType.Alert);
                     foreach (var i in entryList)
                         i.IsEnabled = true;
 
                     isBussy = false;
                     isLoading(false);
-
                     break;
 
                 case LocationStatus.Exception:
-
                     RiseErrorMsg("¡Error!", "El proceso de obtener tu ubicación Fallo. Verifica que la tengas activada en tu celular y vuelve a intentarlo.", 3, SoundHelper.SoundType.Error);
                     foreach (var i in entryList)
                         i.IsEnabled = true;
 
                     isBussy = false;
                     isLoading(false);
-
                     break;
             }
         }

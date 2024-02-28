@@ -32,7 +32,7 @@ namespace AutoRemis
                     await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/HistoryPage");
+                    await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
                     break;
             }
 
@@ -68,7 +68,6 @@ namespace AutoRemis
             
             //Dialogs Views
             containerRegistry.RegisterForNavigation<AviableUpdatePopUp, AviableUpdatePopUpViewModel>();
-
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
             containerRegistry.RegisterForNavigation<HistoryPage, HistoryPageViewModel>();

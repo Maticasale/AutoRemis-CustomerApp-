@@ -12,6 +12,8 @@ using static AutoRemis.Helpers.AppStateManager;
 using AutoRemis.Interfaces;
 using System;
 using System.Globalization;
+using Android.Media;
+using Rg.Plugins.Popup.Services;
 
 namespace AutoRemis.Droid.Services
 {
@@ -27,13 +29,8 @@ namespace AutoRemis.Droid.Services
             var parameters = new Dictionary<string, object>();
 
             Log.Debug(TAG, "------------------------------------------------------------------------------------------------------------------------------------------------------------");
-            //Log.Debug(TAG, "Title: " + message.GetNotification().Title);
-            //Log.Debug(TAG, "Body: " + message.GetNotification().Body);
-            //Log.Debug(TAG, "Chanel ID: " + message.GetNotification().ChannelId);
 
 
-            //androidNotification.CrearNotificacionLocal(message.GetNotification().Title, message.GetNotification().Body);
-            var notification = message.GetNotification();
             foreach (var d in message.Data)
             {
                 if (!parameters.ContainsKey(d.Key))
@@ -49,11 +46,29 @@ namespace AutoRemis.Droid.Services
                     Msg.idFCM = (d.Key.ToString() == "idFCM") ? d.Value.ToString() : Msg.idFCM;
                 }
             }
+
             Log.Debug(TAG, "------------------------------------------------------------------------------------------------------------------------------------------------------------");
 
 
-            if (GetCurrentPage().GetType() == typeof(Views.ConfirmPhonePage))
-                MessagingCenter.Send<object>(this, "InitApp");
+            switch (Msg.tipo)
+            {
+                case "VERIFICACION":
+                    if (GetCurrentPage().GetType() == typeof(Views.RegisterPage))
+                        MessagingCenter.Send<object>(this, "goToConfirmPage");
+                    break;
+            }
+
+
+
+            //switch (GetCurrentPage().GetType())
+            //{
+            //    case Type type when type == typeof(Views.RegisterPage):
+            //        break;
+
+            //    case Type type when type == typeof(Views.ConfirmPhonePage):
+            //        MessagingCenter.Send<object>(this, "InitApp");
+            //        break;
+            //}
 
             //MessagingCenter.Send<object, FirebaseMessage>(this, "FCM", Msg);
         }

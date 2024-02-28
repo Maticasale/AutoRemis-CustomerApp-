@@ -3,23 +3,31 @@ using Xamarin.Forms;
 using Prism.Navigation;
 using AutoRemis.Models;
 using AutoRemis.Interfaces;
+using AutoRemis.Models.Services;
 using System.Threading.Tasks;
 using AutoRemis.Models.Google;
 using static AutoRemis.Helpers.UIHelper;
 using static AutoRemis.Helpers.SoundHelper;
 using static AutoRemis.Helpers.AppStateManager;
+using AutoRemis.Services;
+using Xamarin.Essentials;
+using ImTools;
+using System.Threading;
 
 namespace AutoRemis.Views
 {
     public partial class RegisterPage : ContentPage, INavigatedAware
     {
-        private User user;
+        private User user; 
+        private AppSettings app;
 
         private InitType init;
+        private string smsToken;
+        private bool FCMRecived = false;
         private GoogleUser googleUser;
 
-
         private readonly INavigationService _navigationService;
+        private readonly IFirebaseManager _firebaseManager;
         private readonly IGoogleManager _googleManager;
 
         public RegisterPage(INavigationService navigationService)
@@ -28,8 +36,11 @@ namespace AutoRemis.Views
 
             _navigationService = navigationService;
             _googleManager = DependencyService.Get<IGoogleManager>();
+            _firebaseManager = DependencyService.Get<IFirebaseManager>();
+
+            MessagingCenter.Subscribe<object>(this, "goToConfirmPage", (sender) => Device.BeginInvokeOnMainThread(Init));
         }
-                
+
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             //Parameters
@@ -49,6 +60,7 @@ namespace AutoRemis.Views
         {
             //User and App Data
             user = GetUser();
+            app = GetAppInfo();
 
             //General UI Settings
             user.Init = init;
@@ -66,29 +78,84 @@ namespace AutoRemis.Views
             }
         }
 
-        private async void initTapped(object sender, EventArgs e)
+        private async void registerTapped(object sender, EventArgs e)
         {
             IsBusy(true);
 
-            if (!string.IsNullOrWhiteSpace(EntryUser.Text) && !string.IsNullOrWhiteSpace(EntryEmail.Text) && !string.IsNullOrWhiteSpace(EntryPhone.Text))
+            if (string.IsNullOrWhiteSpace(EntryUser.Text) || string.IsNullOrWhiteSpace(EntryEmail.Text) || string.IsNullOrWhiteSpace(EntryPhone.Text))
             {
-                string[] name = EntryUser.Text.Split(' ');
-
-                user.FirstName = CapitalizeSentence(name[0]);
-                user.LastName = name.Length >= 2 ? CapitalizeSentence(name[1]) : "-";
-                user.FullName = CapitalizeSentence(EntryUser.Text);
-                user.Email = EntryEmail.Text; 
-                user.Facebook = EntryFacebook.Text;
-                user.PhoneNumber = EntryPhone.Text;
-                UpdateUser(user);
-
-                await _navigationService.NavigateAsync("ConfirmPhonePage", new NavigationParameters { { "ConfirmationToken", "1234" }, { "LoginType", init }});
-            }
-            else
                 RiseErrorMsg("¡Atencion!", init == InitType.Google ? "Necesitamos tu numero de Celular para poder continuar" : "Necesitamos que completes los campos obligatorios para poder continuar", 3, SoundType.Alert);
+                return;
+            }
+
+            var response = await AuthService.Register(new RegisterUser()
+            {
+                appVersion = VersionTracking.CurrentVersion,
+                email = user.Email,
+                fullName = user.FullName,
+                phoneNumber = user.PhoneNumber,
+                token = await _firebaseManager.GetFirebaseToken(),
+                usrFcb = user.Facebook,
+            });
+
+            switch (response.ServiceState)
+            {
+                case ServiceType.CheckOut:
+                    string[] name = EntryUser.Text.Split(' ');
+
+                    user.FirstName = CapitalizeSentence(name[0]);
+                    user.LastName = name.Length >= 2 ? CapitalizeSentence(name[1]) : "-";
+                    user.FullName = CapitalizeSentence(EntryUser.Text);
+                    user.Email = EntryEmail.Text;
+                    user.Facebook = EntryFacebook.Text;
+                    user.PhoneNumber = EntryPhone.Text;
+                    UpdateUser(user);
+
+                    app.HelpCenterPhone = response.wsNumber; 
+                    app.GlobalApiKey = response.ApiKey;
+                    UpdateAppInfo(app);
+
+                    smsToken = response.smsToken;
+
+                    var cts = new CancellationTokenSource();
+                    var delayTask = Task.Delay(15000, cts.Token);
+
+                    await Task.WhenAll(Task.FromResult(response), delayTask);
+
+                    if (delayTask.IsCompleted && !FCMRecived)
+                        RiseErrorMsg("¡Error!", "El tiempo de espera se ha agotado, por favor, vuelva a intentar", 3, SoundType.Alert);
+                    else
+                    {
+                        await _navigationService.NavigateAsync("ConfirmPhonePage", new NavigationParameters { { "ConfirmationToken", smsToken }, { "LoginType", init } });
+                        cts.Cancel();
+                    }
+                    break;
+
+                case ServiceType.Invalid:
+                    if (response.estado == "ERROR")
+                        RiseErrorMsg("¡Error!", "Ocurrio un error general,por favor vuelve a intentarlo", 5, SoundType.Alert);
+
+                    if (response.okZona == "0")
+                        RiseErrorMsg("¡Error!", "Parece que te encuentras en una zona fuera de las operadas por ViajaYa, no podras utilizar la aplicacion aqui", 5, SoundType.Alert);
+                    break;
+
+                case ServiceType.TimeOut:
+                    RiseErrorMsg("¡Error!", "Se agoto el tiempo de espera, parece que no esta llegando tu solicitud al servidor. Por favor vuelve a intentarlo", 5, SoundType.Error);
+                    break;
+
+                case ServiceType.NoConnection:
+                    RiseErrorMsg("¡Error!", "Ha ocurrido un error general tratando de comunicar tu solicitud al servidor. Revisa tu conexión a internet y vuelve a intentarlo", 5, SoundType.Error);
+                    break;
+
+                case ServiceType.ResponseFailed:
+                    RiseErrorMsg("¡Error!", "Ha ocurrido un error general, por favor vuelva a intentar. Si el error persiste por mucho tiempo prueba reiniciar la app", 5, SoundType.Error);
+                    break;
+            }  
 
             IsBusy(false);
         }
+        
+        private void Init() => FCMRecived = true;
 
         private new void IsBusy(bool value)
         {
@@ -141,8 +208,8 @@ namespace AutoRemis.Views
                 await Task.WhenAll(CancellBox.TranslateTo(0, 250, 400, easing: Easing.SinIn));
 
                 StopCurrentSound();
+                IsBusy(false);
             });
         }
-
     }
 }

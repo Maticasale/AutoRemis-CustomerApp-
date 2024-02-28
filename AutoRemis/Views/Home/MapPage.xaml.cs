@@ -21,6 +21,7 @@ namespace AutoRemis.Views
         private readonly INavigationService _navigationService;
 
         private User user;
+        private AppSettings app;
 
         private List<Image> checkboxImages; 
         private List<Frame> checkboxFrames;
@@ -48,6 +49,7 @@ namespace AutoRemis.Views
 
             //User and App Data
             user = AppStateManager.GetUser();
+            app = AppStateManager.GetAppInfo();
             map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
 
             map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromMiles(0.3)));
@@ -60,20 +62,20 @@ namespace AutoRemis.Views
             //SearchBars Settings
             EntryFocused = "Org";
 
-            EntryOrg.ApiKey = "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI";
+            EntryOrg.ApiKey = app.GlobalApiKey;
             EntryOrg.Type = PlaceType.All;
             EntryOrg.Components = new Components("country:ar");
             EntryOrg.PlacesRetrieved += Search_Bar_PlacesRetrieved;
             EntryOrg.TextChanged += Search_Bar_TextChanged;
-            EntryOrg.MinimumSearchText = 2;
+            EntryOrg.MinimumSearchText = 3;
             results_list.ItemSelected += Results_List_ItemSelected;
 
-            EntryDst.ApiKey = "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI";
+            EntryDst.ApiKey = app.GlobalApiKey;
             EntryDst.Type = PlaceType.All;
             EntryDst.Components = new Components("country:ar");
             EntryDst.PlacesRetrieved += Search_Bar_PlacesRetrieved;
             EntryDst.TextChanged += Search_Bar_TextChanged;
-            EntryDst.MinimumSearchText = 2;
+            EntryDst.MinimumSearchText = 3;
             results_list.ItemSelected += Results_List_ItemSelected;
 
             //Map Events
@@ -87,7 +89,7 @@ namespace AutoRemis.Views
                 var p = e.Position;
                 try
                 {
-                    var response = await Places.GetPlaceID(p.Target.Latitude.ToString(), p.Target.Longitude.ToString(), "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
+                    var response = await Places.GetPlaceID(p.Target.Latitude.ToString(), p.Target.Longitude.ToString());
                     FillEntrys(response, new Position(latitude: p.Target.Latitude, longitude: p.Target.Longitude));
                 }
                 catch (Exception) { }

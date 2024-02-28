@@ -30,6 +30,7 @@ namespace AutoRemis.Droid
         {
             base.OnCreate(savedInstanceState);
 
+            Syncfusion.Licensing.SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NAaF1cXmhIfEx1RHxQdld5ZFRHallYTnNWUj0eQnxTdEFjW31ccXBVRGFbVUZ1XQ==");
             Rg.Plugins.Popup.Popup.Init(this);
             Firebase.FirebaseApp.InitializeApp(this);
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);

@@ -13,14 +13,17 @@ namespace AutoRemis.Models.Services
         public string token { get; set; }
     }
 
-    //response
+    //response 
     public class LoginUserResponse : ResponseResult
     {
         public string estado { get; set; }
-        public int okZona { get; set; } //esta se convierte en string en el futuro
+        public string testCase { get; set; }
         public string modoViaje { get; set; }
-        public string ApiKey { get; set; }
         public string wsNumber { get; set; }
+        public string okZona { get; set; }
+        public string okVersion { get; set; }
+        public string apiKey { get; set; }
         public string obs { get; set; }
+        public TripInfo tripInfo { get; set; }
     }
 }

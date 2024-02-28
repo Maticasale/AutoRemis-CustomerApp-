@@ -6,7 +6,8 @@ namespace AutoRemis.Models.Services
 {
     public class FirebaseRquest
     {
-        public string imei { get; set; }
-        public string sendFCM { get; set; }
+        public string tipo { get; set; }
+        public string id { get; set; }
+        public string token { get; set; }
     }
 }

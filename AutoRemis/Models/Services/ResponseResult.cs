@@ -6,7 +6,8 @@ namespace AutoRemis.Models.Services
 {
     public class ResponseResult
     {
-        public ResponseType responseServiceType { get; set; }
+        public ServiceType ServiceState { get; set; }
+
     }
-    public enum ResponseType { OK, TimeOut, NoConnection, ResponseFailed }
+    public enum ServiceType { CheckOut, Invalid, TimeOut, NoConnection, ResponseFailed }
 }

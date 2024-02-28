@@ -55,32 +55,9 @@ namespace AutoRemis.Views
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            await _navigationService.NavigateAsync("AviableUpdatePopUp", new NavigationParameters { { "hardUpdate", false }, { "newVersion", "1.1.2" } });
+            //await _navigationService.NavigateAsync("AviableUpdatePopUp", new NavigationParameters { { "hardUpdate", false }, { "newVersion", "1.1.2" } });
 
-            ////LoginUser user = new LoginUser() { id = "1234", appVersion = VersionTracking.CurrentVersion, tipo = "USUARIO", token = "fN1TF_WNQ6ukgFpkz2gU9G:APA91bG6tUNdqoEAXl44khcUdpZ9-NFNpYmY9snDu_H5V2Q3UAjkYsvy--UxusxycG5jWGkD_tCo9mt1KM7KBFNdUfK3gu0CxzAAXlaMj1g0iIA5uMd2dEKPr5v2uXk2WsZJvPr_kiHW" };
-
-            ////var response = await Auth.Login(user);
-
-            //double latitude = 40.712776; // Latitud del punto
-            //double longitude = -74.005974; // Longitud del punto
-            //string apiKey = "AIzaSyAA4fS33bAgNtHXOOA_19ODwmHK3W0cfGQ"; // Reemplaza con tu clave de API
-
-            //string url = $"https://maps.googleapis.com/maps/api/geocode/json?latlng={latitude},{longitude}&key={apiKey}";
-
-            //WebRequest request = WebRequest.Create(url);
-            //WebResponse response = request.GetResponse();
-            //Stream data = response.GetResponseStream();
-            //StreamReader reader = new StreamReader(data);
-
-            //// Leer la respuesta JSON desde la API de Google Maps
-            //string responseFromServer = reader.ReadToEnd();
-            //response.Close();
-
-            //// Analizar la respuesta JSON y extraer la dirección o el bearing
-            //// (debes implementar esta parte según tus necesidades)
-
-            //Console.WriteLine("Respuesta de la API de Geocodificación Inversa:");
-            //Console.WriteLine(responseFromServer);
+            var result = await AuthService.Register(new RegisterUser() { appVersion = VersionTracking.CurrentVersion, email = "matiascasale1@gmail.com", fullName = "Matias Casale", phoneNumber = "+5493564568057", usrFcb = "", token = "cFTwKqD4SjakVJVRWCWSu6:APA91bExWBQzu_6kUjP8lASC804tbAZSN0Be5EucXZAnOCGwP_8cL3GW7c3Pal3RrsPSGTm-WNGUcW2k4bw0eU93BMBOG_60zn51W82yeC9fQHxPSx81eUFmRRjxUhLx1pZBdVzLP-Xc" });
 
         }
 

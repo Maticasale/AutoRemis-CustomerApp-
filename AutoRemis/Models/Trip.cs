@@ -4,17 +4,29 @@ using System.Text;
 
 namespace AutoRemis.Models
 {
-    public class Trip
+    public class TripInfo
     {
-        public string status { get; set; }
+        public string id_viaje { get; set; }
         public string programed { get; set; }
+        public string status { get; set; }
+        public string address_origin { get; set; }
+        public string address_number_origin { get; set; }
+        public string lat_origin { get; set; }
+        public string lng_origin { get; set; }
+        public string address_destination { get; set; }
+        public string address_number_destination { get; set; }
+        public string lat_destination { get; set; }
+        public string lng_destination { get; set; }
+        public string price { get; set; }
+    }
+    
+    public class Trip : TripInfo
+    {
         public string paymentMethod { get; set; }
         public string carRequested { get; set; }
         public string lat_device { get; set; }
         public string lng_device { get; set; }
         public string name { get; set; }
-        public string address_origin { get; set; }
-        public string address_number_origin { get; set; }
         public string flats_block { get; set; }
         public string tower { get; set; }
         public string flor { get; set; }
@@ -24,16 +36,10 @@ namespace AutoRemis.Models
         public string country { get; set; }
         public string complex { get; set; }
         public string house { get; set; }
-        public string lat_origin { get; set; }
-        public string lng_origin { get; set; }
         public string observation { get; set; }
         public string discountCoupon { get; set; }
         public string user { get; set; }
         public string phone { get; set; }
-        public string address_destination { get; set; }
-        public string address_number_destination { get; set; }
-        public string lat_destination { get; set; }
-        public string lng_destination { get; set; }
     }
 
     /// <summary>

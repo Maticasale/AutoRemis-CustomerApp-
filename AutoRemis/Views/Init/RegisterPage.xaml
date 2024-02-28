@@ -52,7 +52,7 @@
                 </StackLayout>
                 <Grid x:Name="btnInit" Margin="10" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.97">
                     <Grid.GestureRecognizers>
-                        <TapGestureRecognizer Tapped="initTapped"/>
+                        <TapGestureRecognizer Tapped="registerTapped"/>
                     </Grid.GestureRecognizers>
                     <Image Source="imgGreenButton.png" Aspect="AspectFit"/>
                     <Label x:Name="lblInit" Text="INICIAR" FontSize="18" FontAttributes="Bold" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"/>
