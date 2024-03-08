@@ -6,6 +6,7 @@ namespace AutoRemis.Models.Services
 {
     public class ResponseResult
     {
+
         public ServiceType ServiceState { get; set; }
 
     }

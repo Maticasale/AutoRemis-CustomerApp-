@@ -25,6 +25,7 @@ namespace AutoRemis.Models
     {
         public string HelpCenterPhone { get; set; }
         public string GlobalApiKey { get; set; }
+        public bool NotificationsRegistered { get; set; }
     }
 
     /// <summary>

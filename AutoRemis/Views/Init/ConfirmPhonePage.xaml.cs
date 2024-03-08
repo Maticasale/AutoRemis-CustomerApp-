@@ -10,6 +10,8 @@ using Xamarin.Forms.GoogleMaps;
 using static AutoRemis.Helpers.LocationHelper;
 using static AutoRemis.Helpers.AppStateManager;
 using AutoRemis.Interfaces;
+using AutoRemis.Services;
+using AutoRemis.Models.Services;
 
 namespace AutoRemis.Views
 {
@@ -100,11 +102,8 @@ namespace AutoRemis.Views
 
                 if (i == 0)
                 {
-                    Device.BeginInvokeOnMainThread(() => 
-                    {
-                        btnResend.TextColor = Color.Green;
-                        btnResend.IsEnabled = true;
-                    });
+                    Device.BeginInvokeOnMainThread(() => btnResend.TextColor = Color.Green);
+                    btnResend.IsEnabled = true;
                 }
                 return i != 0;
             });
@@ -258,11 +257,19 @@ namespace AutoRemis.Views
             btnRetryLocation.IsVisible = !isLoading;
         }
 
-        private void Resend(object sender, EventArgs e)
+        private async void Resend(object sender, EventArgs e)
         {
-            //TODO: Servicio de reenviar Token
-            btnResend.TextColor = Color.Green;
-            btnResend.IsEnabled = true;
+            btnResend.IsEnabled = false;
+            Device.BeginInvokeOnMainThread(() => btnResend.TextColor = Color.Gray);
+            var response = await AuthService.SendSmsToken(new BasicUserInfo() { email = user.Email, phoneNumber = user.PhoneNumber });
+
+            if (response.ServiceState == ServiceType.CheckOut)
+            {
+                token = response.smsToken;
+                EnableResendTokenButton();
+            }
+            else 
+                btnResend.IsEnabled = true; 
         }
 
         private void RiseErrorMsg(string title, string msg, int time, SoundHelper.SoundType type)

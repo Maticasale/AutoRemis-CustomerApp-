@@ -22,13 +22,13 @@ namespace AutoRemis.Services
             cliente.BaseAddress = new Uri("https://maps.googleapis.com/maps/");
             app = AppStateManager.GetAppInfo();
         }
-        public static async Task<Place> GetPlace(string placeID, string apiKey, PlacesFieldList fields = null)
+        public static async Task<Place> GetPlace(string placeID, PlacesFieldList fields = null)
         {
             fields = fields ?? PlacesFieldList.ALL;
 
             try
             {
-                var requestURI = CreateDetailsRequestUri(placeID, apiKey, fields);
+                var requestURI = CreateDetailsRequestUri(placeID, fields);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Get, requestURI);
                 var response = await client.SendAsync(request);
@@ -56,23 +56,20 @@ namespace AutoRemis.Services
             }
         }
 
-        private static string CreateDetailsRequestUri(string place_id, string apiKey, PlacesFieldList fields)
+        private static string CreateDetailsRequestUri(string place_id, PlacesFieldList fields)
         {
             var url = "https://maps.googleapis.com/maps/api/place/details/json";
             url += $"?placeid={Uri.EscapeUriString(place_id)}";
-            url += $"&key={apiKey}";
+            url += $"&key={app.GlobalApiKey}";
             if (!fields.IsEmpty()) url += $"&fields={fields}";
             return url;
         }
 
-        public static async Task<AutoCompleteResult> GetPlaces(string newTextValue, string apiKey, LocationBias bias, Components components, PlaceType type, GoogleAPILanguage language)
+        public static async Task<AutoCompleteResult> GetPlaces(string newTextValue, LocationBias bias, Components components, PlaceType type, GoogleAPILanguage language)
         {
-            if (string.IsNullOrEmpty(apiKey))
-                throw new Exception("You have not assigned a Google API key to PlacesBar");
-
             try
             {
-                var requestURI = CreatePredictionsUri(newTextValue, apiKey, bias, components, type, language);
+                var requestURI = CreatePredictionsUri(newTextValue, bias, components, type, language);
                 var client = new HttpClient();
                 var request = new HttpRequestMessage(HttpMethod.Get, requestURI);
                 var response = await client.SendAsync(request);
@@ -100,13 +97,13 @@ namespace AutoRemis.Services
             }
         }
 
-        private static string CreatePredictionsUri(string newTextValue, string apiKey, LocationBias bias, Components components, PlaceType type, GoogleAPILanguage language)
+        private static string CreatePredictionsUri(string newTextValue, LocationBias bias, Components components, PlaceType type, GoogleAPILanguage language)
         {
             var url = "https://maps.googleapis.com/maps/api/place/autocomplete/json";
             var input = Uri.EscapeUriString(newTextValue);
             var pType = PlaceTypeValue(type);
 
-            var constructedUrl = $"{url}?input={input}&types={pType}&key={apiKey}";
+            var constructedUrl = $"{url}?input={input}&types={pType}&key={app.GlobalApiKey}";
 
             if (bias != null)
                 constructedUrl = constructedUrl + bias;

@@ -5,7 +5,6 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Plugin.CurrentActivity;
-//using Plugin.FirebasePushNotification;
 using Prism;
 using Prism.Ioc;
 using Android.Gms.Auth.Api.SignIn;
@@ -51,7 +50,7 @@ namespace AutoRemis.Droid
             if (requestCode == 1)
             {
                 var result = Auth.GoogleSignInApi.GetSignInResultFromIntent(data);
-                GoogleManager.Instance.OnAuthCompleted(result);
+                GoogleManager.Instance.OnAuthCompleted(result); 
             }
         }
 

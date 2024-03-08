@@ -11,6 +11,9 @@ using AutoRemis.Services;
 using System.IO;
 using System.Net;
 using Prism.Navigation;
+using Newtonsoft.Json;
+using System.Net.Http;
+using System.Threading.Tasks;
 
 namespace AutoRemis.Views
 {
@@ -18,6 +21,7 @@ namespace AutoRemis.Views
     {
         User user;
         Position NW, NE, SW, SE;
+        Position P1, P2;
         List<Position> Posiciones = new List<Position>() { };
         List<string> nombresPuntosCardinales = new List<string> { "NW", "NE", "SW", "SE" };
         private readonly INavigationService _navigationService;
@@ -26,6 +30,10 @@ namespace AutoRemis.Views
         {
             InitializeComponent();
             _navigationService = navigationService;
+
+            P1 = new Position(latitude: -31.2554550197085, longitude: -61.50277441970849);
+            P2 = new Position(latitude: -31.2581529802915, longitude: -61.50547238029151);
+
 
             NW = new Position(latitude: -31.219990, longitude: -61.512660); //-31.219990, -61.512660
             NE = new Position(latitude: -31.231685, longitude: -61.444430); //-31.231685, -61.444430
@@ -57,7 +65,8 @@ namespace AutoRemis.Views
         {
             //await _navigationService.NavigateAsync("AviableUpdatePopUp", new NavigationParameters { { "hardUpdate", false }, { "newVersion", "1.1.2" } });
 
-            var result = await AuthService.Register(new RegisterUser() { appVersion = VersionTracking.CurrentVersion, email = "matiascasale1@gmail.com", fullName = "Matias Casale", phoneNumber = "+5493564568057", usrFcb = "", token = "cFTwKqD4SjakVJVRWCWSu6:APA91bExWBQzu_6kUjP8lASC804tbAZSN0Be5EucXZAnOCGwP_8cL3GW7c3Pal3RrsPSGTm-WNGUcW2k4bw0eU93BMBOG_60zn51W82yeC9fQHxPSx81eUFmRRjxUhLx1pZBdVzLP-Xc" });
+            //var result = await AuthService.Register(new RegisterUser() { appVersion = VersionTracking.CurrentVersion, email = "matiascasale1@gmail.com", fullName = "Matias Casale", phoneNumber = "+5493564568057", usrFcb = "", token = "cFTwKqD4SjakVJVRWCWSu6:APA91bExWBQzu_6kUjP8lASC804tbAZSN0Be5EucXZAnOCGwP_8cL3GW7c3Pal3RrsPSGTm-WNGUcW2k4bw0eU93BMBOG_60zn51W82yeC9fQHxPSx81eUFmRRjxUhLx1pZBdVzLP-Xc" });
+
 
         }
 

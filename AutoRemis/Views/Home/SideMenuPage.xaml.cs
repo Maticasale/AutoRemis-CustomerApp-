@@ -1,4 +1,5 @@
-﻿using Xamarin.Forms;
+﻿using System;
+using Xamarin.Forms;
 using Prism.Navigation;
 using AutoRemis.Models;
 using static AutoRemis.Helpers.AppStateManager;
@@ -50,12 +51,14 @@ namespace AutoRemis.Views
             lblPhoneNumber.Text = $"+54 9 {user.PhoneNumber}";
         }
 
-        private void HelpClicked(object sender, System.EventArgs e)
+        private async void HelpClicked(object sender, EventArgs e)
         {
-            var page = GetCurrentPage();
+            await _navigationService.NavigateAsync("HelpCenterPage");
+
+            //var page = GetCurrentPage();
         }
 
-        private async void LogOutClicked(object sender, System.EventArgs e)
+        private async void LogOutClicked(object sender, EventArgs e)
         {
             BtnLogOut.IsEnabled = false;
 
@@ -69,7 +72,7 @@ namespace AutoRemis.Views
             BtnLogOut.IsEnabled = true;
         }
 
-        private void HistoryClicked(object sender, System.EventArgs e)
+        private void HistoryClicked(object sender, EventArgs e)
         {
 
         }

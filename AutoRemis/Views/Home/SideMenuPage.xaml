@@ -15,7 +15,7 @@
                 <StackLayout BackgroundColor="#B1D506" Padding="15" VerticalOptions="FillAndExpand">
                     <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
                         <xct:AvatarView x:Name="LblAvatar" Color="White" TextColor="#B1D506" FontAttributes="Bold" BackgroundColor="Transparent"/>
-                            <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
+                        <Grid ColumnDefinitions="auto, auto" RowDefinitions="auto, auto" RowSpacing="0">
                                 <Label x:Name="lblUserName" TextColor="Black" FontSize="15" FontFamily="MainFontBold" FontAttributes="Bold"/>
                                 <Image Grid.Column="1" Source="VerifiedIcon.png" Aspect="AspectFit" HeightRequest="18" VerticalOptions="Start"/>
                                 <Label x:Name="lblPhoneNumber" Grid.Row="1" TextColor="Black" FontAttributes="Bold" FontSize="14"/>

@@ -110,7 +110,7 @@ namespace AutoRemis.Views
 
         private async void FillEntrys(string PlaceID, Position alternativePosition)
         {
-            Place place = await Places.GetPlace(PlaceID, "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
+            Place place = await Places.GetPlace(PlaceID);
 
             if (place != null && !ItemSellected)
             {

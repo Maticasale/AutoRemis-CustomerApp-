@@ -91,11 +91,11 @@ namespace AutoRemis.Views
             var response = await AuthService.Register(new RegisterUser()
             {
                 appVersion = VersionTracking.CurrentVersion,
-                email = user.Email,
-                fullName = user.FullName,
-                phoneNumber = user.PhoneNumber,
+                email = EntryEmail.Text,
+                fullName = EntryUser.Text,
+                phoneNumber = EntryPhone.Text,
                 token = await _firebaseManager.GetFirebaseToken(),
-                usrFcb = user.Facebook,
+                usrFcb = EntryFacebook.Text,
             });
 
             switch (response.ServiceState)
@@ -118,7 +118,7 @@ namespace AutoRemis.Views
                     smsToken = response.smsToken;
 
                     var cts = new CancellationTokenSource();
-                    var delayTask = Task.Delay(15000, cts.Token);
+                    var delayTask = Task.Delay(5000, cts.Token);
 
                     await Task.WhenAll(Task.FromResult(response), delayTask);
 

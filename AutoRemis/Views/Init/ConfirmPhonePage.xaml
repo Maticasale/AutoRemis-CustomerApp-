@@ -75,7 +75,7 @@
                         </Label.GestureRecognizers>
                     </Label>
                 </StackLayout>
-                <Label x:Name="btnRetryLocation" IsVisible="false" TextColor="Green" FontAttributes="Bold" Text="Reintentar" TextDecorations="Underline" VerticalOptions="Fill" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedScale = "0.98">
+                <Label x:Name="btnRetryLocation" IsVisible="false" TextColor="Gray" FontAttributes="Bold" Text="Reintentar" TextDecorations="Underline" VerticalOptions="Fill" HorizontalOptions="Center" xct:TouchEffect.AnimationDuration="50" xct:TouchEffect.PressedScale = "0.98">
                     <Label.GestureRecognizers>
                         <TapGestureRecognizer Tapped="RetryLocation"/>
                     </Label.GestureRecognizers>

@@ -22,6 +22,9 @@ namespace AutoRemis.Droid.Services
     public class FirebaseManager : FirebaseMessagingService, IFirebaseManager
     {
         const string TAG = "FCM";
+        private AppSettings app;
+
+
         AndroidNotificationManager androidNotification = new AndroidNotificationManager();
         public override void OnMessageReceived(RemoteMessage message)
         {
@@ -54,7 +57,12 @@ namespace AutoRemis.Droid.Services
             {
                 case "VERIFICACION":
                     if (GetCurrentPage().GetType() == typeof(Views.RegisterPage))
+                    {
+                        //app = GetAppInfo();
                         MessagingCenter.Send<object>(this, "goToConfirmPage");
+
+                    }
+
                     break;
             }
 

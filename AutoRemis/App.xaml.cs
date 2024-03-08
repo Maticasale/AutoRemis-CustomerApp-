@@ -32,7 +32,7 @@ namespace AutoRemis
                     await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
                     break;
                 case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/SideMenuPage");
+                    await NavigationService.NavigateAsync("NavigationPage/TestPage2");
                     break;
             }
 
@@ -50,8 +50,12 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<OnBoardingPage, OnBoardingPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
             containerRegistry.RegisterForNavigation<ConfirmPhonePage, ConfirmPhonePageViewModel>();
+
+            //Home Views
             containerRegistry.RegisterForNavigation<SideMenuPage, SideMenuPageViewModel>();
             containerRegistry.RegisterForNavigation<MapPage, MapPageViewModel>();
+            containerRegistry.RegisterForNavigation<HistoryPage, HistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<HelpCenterPage, HelpCenterPageViewModel>();
 
             //Trip Views
             containerRegistry.RegisterForNavigation<Trip_AcceptedPage, Trip_AcceptedPageViewModel>();
@@ -70,7 +74,7 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<AviableUpdatePopUp, AviableUpdatePopUpViewModel>();
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
-            containerRegistry.RegisterForNavigation<HistoryPage, HistoryPageViewModel>();
+            containerRegistry.RegisterForNavigation<TestPage2, TestPage2ViewModel>();
         }
     }
 }

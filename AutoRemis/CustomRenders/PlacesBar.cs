@@ -112,7 +112,7 @@ namespace AutoRemis.CustomRenders
         {
             if (!string.IsNullOrEmpty(e.NewTextValue) && e.NewTextValue.Length >= MinimumSearchText)
             {
-                var predictions = await Places.GetPlaces(e.NewTextValue, ApiKey, Bias, Components, Type, Language);
+                var predictions = await Places.GetPlaces(e.NewTextValue, Bias, Components, Type, Language);
                 if (PlacesRetrieved != null && predictions != null)
                     OnPlacesRetrieved(predictions);
                 else

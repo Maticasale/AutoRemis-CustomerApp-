@@ -13,6 +13,7 @@ using Prism.Navigation;
 using Prism.Ioc;
 using AutoRemis.Helpers;
 using Rg.Plugins.Popup.Extensions;
+using AutoRemis.Models.Services;
 
 namespace AutoRemis.Views
 {
@@ -22,6 +23,7 @@ namespace AutoRemis.Views
 
         private User user;
         private AppSettings app;
+        Location UserPosition;
 
         private List<Image> checkboxImages; 
         private List<Frame> checkboxFrames;
@@ -41,7 +43,7 @@ namespace AutoRemis.Views
 
         protected override bool OnBackButtonPressed() => true;
 
-        private void LoadUI()
+        private async void LoadUI()
         {
             //Variables 
             checkboxImages = new List<Image> { imgStandard, imgCapacDif, imgEcologic, imgExecutive };
@@ -50,7 +52,10 @@ namespace AutoRemis.Views
             //User and App Data
             user = AppStateManager.GetUser();
             app = AppStateManager.GetAppInfo();
+
             map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
+
+            UserPosition = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
 
             map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromMiles(0.3)));
 
@@ -58,6 +63,7 @@ namespace AutoRemis.Views
             map.MyLocationEnabled = true;
             map.UiSettings.ZoomControlsEnabled = false;
             map.UiSettings.MyLocationButtonEnabled = true;
+            LoadTaxis();
 
             //SearchBars Settings
             EntryFocused = "Org";
@@ -94,6 +100,28 @@ namespace AutoRemis.Views
                 }
                 catch (Exception) { }
             };
+        }
+
+        private async void LoadTaxis()
+        {
+            var response = await CarService.GetNearCars(new NearCar() { lat_device = user.lastKnownPosition.Latitude.ToString(), lng_device = user.lastKnownPosition.Longitude.ToString(), lat_origin = user.lastKnownPosition.Latitude.ToString(), lng_origin = user.lastKnownPosition.Longitude.ToString() });
+
+            if (response.ServiceState == ServiceType.CheckOut)
+            {
+                foreach (var item in response.NearCars)
+                {
+                    Pin VehiclePins = new Pin()
+                    {
+                        Label = "ID: " + item.id_movil,
+                        Type = PinType.Place,
+                        Icon = BitmapDescriptorFactory.FromBundle("pinDriver.png"),
+                        Position = new Position(Convert.ToDouble(item.lat), Convert.ToDouble(item.lng)),
+                    };
+                    map.Pins.Add(VehiclePins);
+                }
+            }
+            else
+                RiseErrorMsg("¡Advertencia!", "Parece que no hay autos por aqui", 3, SoundHelper.SoundType.Alert);
         }
 
         private async void NextClicked(object sender, EventArgs e)
@@ -187,7 +215,7 @@ namespace AutoRemis.Views
 
         private async void FillEntrys(string PlaceID, Position alternativePosition)
         {
-            Place place = await Places.GetPlace(PlaceID, "AIzaSyDxKLNaQ8S-k2D7MY0dvxMbRYWtuRQV0PI");
+            Place place = await Places.GetPlace(PlaceID);
 
             if (place != null && !ItemSellected)
             {
