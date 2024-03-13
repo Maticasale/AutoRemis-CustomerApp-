@@ -421,6 +421,17 @@
     <AndroidResource Include="Resources\drawable\iconCall.png" />
     <AndroidResource Include="Resources\drawable\iconCancel.png" />
     <AndroidResource Include="Resources\drawable\iconDoor.png" />
+    <AndroidResource Include="Resources\drawable\iconArrow.png" />
+    <AndroidResource Include="Resources\drawable\gifRadar1.gif">
+      <Generator>MSBuild:UpdateGeneratedFiles</Generator>
+    </AndroidResource>
+    <AndroidAsset Include="Assets\pinDot.png" />
+    <AndroidAsset Include="Assets\pinLoc.png" />
+    <AndroidResource Include="Resources\drawable\iconDistance.png" />
+    <AndroidResource Include="Resources\drawable\iconPrice.png" />
+    <AndroidResource Include="Resources\drawable\iconCar.png" />
+    <AndroidResource Include="Resources\drawable\iconBlocks.png" />
+    <AndroidResource Include="Resources\drawable\iconClock.png" />
     <Content Include="Resources\drawable\iconTaxiDoor.png" />
     <AndroidResource Include="Resources\drawable\iconWhatsapp.png" />
     <AndroidResource Include="Resources\drawable\iconPin.png" />

@@ -11,63 +11,32 @@
              BackgroundColor="White"
              x:Class="AutoRemis.Views.TestPage2">
 
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <Style TargetType="Frame">
+                <Setter Property="CornerRadius" Value="10"/>
+                <Setter Property="HasShadow"    Value="False"/>
+            </Style>
+            <Style TargetType="BoxView">
+                <Setter Property="Color" Value="LightGray"/>
+            </Style>
+        </ResourceDictionary>
+    </ContentPage.Resources>
     <ContentPage.Content>
-        <Grid RowDefinitions="auto, auto, *" VerticalOptions="Fill" HorizontalOptions="Fill" RowSpacing="0">
-            <Grid BackgroundColor="#B1D506" HeightRequest="56">
-                <Label x:Name="lblState" Text="BUSCANDO MOVIL . . ." TextColor="Black" FontSize="16" FontAttributes="Bold" HorizontalOptions="Center" VerticalOptions="Center"/>
-            </Grid>
-            <Image Grid.Row="1" Source="imgBottomLine.png" Aspect="AspectFit"/>
-            <Grid Grid.Row="2" RowDefinitions="*, auto, auto" RowSpacing="0">
+        <Grid Grid.Row="2" RowDefinitions="*, auto, auto" RowSpacing="0">
 
-                <maps:Map x:Name="map" IsEnabled="True" HasZoomEnabled="False"/>
+            <maps:Map x:Name="map" IsEnabled="True" HasZoomEnabled="False"/>
 
-                <Frame x:Name="ContainmentBox" Opacity="0.8" Padding="10" Margin="25,0" CornerRadius="10" VerticalOptions="Start">
-                    <Grid ColumnDefinitions="*, auto">
-                        <Label x:Name="lblMsg" Text="Aguarde unos instantes, estamos buscando un movil para usted ...." VerticalOptions="Center" TextColor="Black" FontSize="16"/>
-                        <Image Grid.Column="1" Source="imgLocation1.png" Aspect="AspectFit" HeightRequest="40"/>
-                    </Grid>
-                </Frame>
-
-                <Frame Grid.Row="1" TranslationY="00" BackgroundColor="White" VerticalOptions="End" Padding="0" HorizontalOptions="FillAndExpand">
+            <StackLayout Margin="5" VerticalOptions="Start" Spacing="5">
+                <Frame x:Name="ContainmentBox" Padding="10" CornerRadius="10">
                     <StackLayout>
-                        <Pancake:PancakeView CornerRadius="10,10,0,0" BackgroundColor="#f5f5f7" Padding="10" VerticalOptions="Fill" IsVisible="False">
-                            <StackLayout Orientation="Horizontal">
-                                <!--<xct:AvatarView x:Name="LblAvatar" Color="Black" Text="MC" TextColor="White" FontAttributes="Bold" TranslationX="5"/>-->
-                                <Frame CornerRadius="90" Padding="0" BackgroundColor="Transparent" Scale="1">
-                                    <Image Source="iconNoImgUser" Aspect="AspectFit" WidthRequest="60"/>
-                                </Frame>
-                                <StackLayout TranslationX="5" VerticalOptions="Center">
-                                    <Label TextColor="Black" Text="Matias Casale" FontSize="15"/>
-                                    <StackLayout Orientation="Horizontal">
-                                        <Image Source="iconFilledStar" Aspect="AspectFit" WidthRequest="17" HorizontalOptions="Start"/>
-                                        <Label TextColor="Gray" Text="4.7" FontSize="14" HorizontalOptions="Start"/>                                        
-                                    </StackLayout>
-                                </StackLayout>
-                                <Button Text="Cancelar" Margin="10,5,10,10" CornerRadius="10" TextColor="White" FontAttributes="Bold" BackgroundColor="#ff355b" HorizontalOptions="EndAndExpand" IsVisible="True"/>
-
-                                <Frame BorderColor="#ff355b" BackgroundColor="#ffebef" CornerRadius="20" Padding="10" HorizontalOptions="EndAndExpand" IsVisible="False" xct:TouchEffect.AnimationDuration="100" xct:TouchEffect.PressedScale = "0.95">
-                                    <StackLayout Orientation="Horizontal" >
-                                        <Image Source="iconError.png" WidthRequest="30"/>
-                                        <Label Text="Cancelar" TextColor="#ff355b" FontAttributes="Bold" VerticalOptions="Center"/>
-                                    </StackLayout>
-                                </Frame>
-                            </StackLayout>
-                        </Pancake:PancakeView>
-                        <Grid ColumnDefinitions="50, *" RowDefinitions="auto, auto, auto" RowSpacing="-15" ColumnSpacing="0" Padding="15,-20,0,-10">
-                            <Image Source="iconDot.png" Aspect="AspectFit" Scale="0.35"/>
-                            <BoxView Grid.Row="1" VerticalOptions="Fill" WidthRequest="1" Color="black" Margin="24,-24,24,-7"/>
-                            <Image Grid.Row="2" Source="iconPin.png" Aspect="AspectFit" Scale="0.4"/>
-                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
-                                <Label TextColor="Black" Text="Origen"  FontAttributes="Bold" FontSize="15" Grid.Column="1"/>
-                                <Label x:Name="LblOrigin" TextColor="Gray" Text="12 de Octubre 1061, Rafaela" FontSize="15" Grid.Column="1"/>
-                            </StackLayout>
-                            <StackLayout x:Name="stkDest" Grid.Column="1" Grid.Row="2" VerticalOptions="Center" Spacing="0">
-                                <Label TextColor="Black" Text="Destino"  FontAttributes="Bold" FontSize="15" Grid.Column="1"/>
-                                <Label x:Name="LblDestination" TextColor="Gray" Text="1 de Agosto 859, Rafaela" FontSize="15" Grid.Column="1"/>
-                            </StackLayout>
+                        <Grid ColumnDefinitions="*, auto">
+                            <!--<Label x:Name="lblMsg" Text="Aguarde unos instantes, estamos en la busqueda de un movil para usted ...." VerticalOptions="Center" TextColor="Black" FontSize="16"/>-->
+                            <Label x:Name="lblMsg" Text="Hemos enviado tu pedido, en breve te asignaremos un movil ...." VerticalOptions="Center" TextColor="Black" FontSize="16"/>
+                            <Image Grid.Column="1" Source="imgLocation1.png" Aspect="AspectFit" HeightRequest="40"/>
                         </Grid>
-                        <BoxView HeightRequest="1" Color="Silver" Margin="10"/>
-                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,10">
+                        <BoxView HeightRequest="1" Margin="0,5"/>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
                             <progressBar:SfStepProgressBar TitleAlignment="Center" Orientation="Horizontal" x:Name="stepProgress">
                                 <progressBar:SfStepProgressBar.NotStartedStepStyle>
                                     <progressBar:StepStyle x:TypeArguments="progressBar:NotStartedStepState" MarkerShapeType="Square" MarkerSize="30" MarkerContentSize="20" MarkerContentType="Dot" MarkerContentFillColor="White" ProgressLineColor="Black" MarkerStrokeColor="Black" MarkerFillColor="orange"/>
@@ -85,41 +54,151 @@
                                     <progressBar:StepView.PrimaryFormattedText>
                                         <FormattedString>
                                             <Span x:Name="span1" ClassId="1" Text="Enviado" FontSize="13" FontAttributes="Bold"/>
-                                            <Span x:Name="span2" TextColor="Gray" ClassId="2" Text="&#10;12:52" FontSize="12" />
+                                            <!--<Span x:Name="span2" TextColor="Gray" ClassId="2" Text="&#10;12:52" FontSize="12" />-->
                                         </FormattedString>
                                     </progressBar:StepView.PrimaryFormattedText>
                                 </progressBar:StepView>
 
-                                <progressBar:StepView x:Name="stepDoor" Status="InProgress" ProgressValue="50" ImageSource="iconNotification.png">
+                                <progressBar:StepView x:Name="stepDoor" ImageSource="iconNotification.png">
                                     <progressBar:StepView.PrimaryFormattedText>
                                         <FormattedString>
                                             <Span ClassId="1" Text="       En Camino       " FontSize="13" FontAttributes="Bold"/>
-                                            <Span x:Name="span3" TextColor="Gray" ClassId="2" Text="&#10;-" FontSize="12" />
+                                            <!--<Span x:Name="span3" TextColor="Gray" ClassId="2" Text="&#10;-" FontSize="12" />-->
                                         </FormattedString>
                                     </progressBar:StepView.PrimaryFormattedText>
                                 </progressBar:StepView>
 
-                                <progressBar:StepView x:Name="stepView3" ImageSource="iconDoor.png">
+                                <progressBar:StepView x:Name="stepView3"  ImageSource="iconDoor.png">
                                     <progressBar:StepView.PrimaryFormattedText>
                                         <FormattedString>
                                             <Span x:Name="span31" ClassId="1" Text="En puerta" FontSize="13" FontAttributes="Bold"/>
-                                            <Span x:Name="span4" TextColor="Gray" ClassId="2" Text="&#10;-" FontSize="12" />
+                                            <!--<Span x:Name="span4" TextColor="Gray" ClassId="2" Text="&#10;-" FontSize="12" />-->
                                         </FormattedString>
                                     </progressBar:StepView.PrimaryFormattedText>
                                 </progressBar:StepView>
-
                             </progressBar:SfStepProgressBar>
-
                         </StackLayout>
                     </StackLayout>
                 </Frame>
-                <StackLayout Grid.Row="2">
-                    <BoxView HeightRequest="1" Color="Silver" Margin="10,0,10,0"/>
-                    <Button Text="Ya aborde" Margin="10,5,10,10" CornerRadius="10" TextColor="White" FontAttributes="Bold" BackgroundColor="#B1D506" IsVisible="False"/>
-                    <Button Text="Cancelar" Margin="10,5,10,10" CornerRadius="10" TextColor="White" FontAttributes="Bold" BackgroundColor="#ff355b" IsVisible="True"/>
-                </StackLayout>
-            </Grid>
+            </StackLayout>
 
+            <StackLayout Margin="5" VerticalOptions="End" Spacing="5">
+                <StackLayout x:Name="DriverInfoBox" TranslationY="100" Orientation="Horizontal" VerticalOptions="Start">
+                    <StackLayout.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="Action"/>
+                    </StackLayout.GestureRecognizers>
+                    <Frame Padding="10" HorizontalOptions="FillAndExpand">
+                        <StackLayout Orientation="Horizontal" Spacing="10">
+                            <Frame CornerRadius="90" Padding="0" BackgroundColor="Transparent">
+                                <Image Source="iconNoImgUser" Aspect="AspectFit" WidthRequest="50"/>
+                            </Frame>
+                            <StackLayout VerticalOptions="Center">
+                                <Label TextColor="Black" Text="Matias Casale" FontSize="15"/>
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Source="iconFilledStar" Aspect="AspectFit" WidthRequest="17" HorizontalOptions="Start"/>
+                                    <Label TextColor="Gray" Text="4.7" FontSize="14" HorizontalOptions="Start"/>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </Frame>
+                    <Frame Padding="10" HorizontalOptions="End">
+                        <Grid ColumnDefinitions="auto,*" RowDefinitions="auto, auto" ColumnSpacing="10">
+                            <Image Source="iconClock.png" Aspect="AspectFit" HeightRequest="22"/>
+                            <Label Grid.Column="1" x:Name="lblETA" TextColor="Gray" FontSize="13" FontAttributes="Bold" Text="15 min" VerticalOptions="Center" />
+                            <Image Grid.Row="1" Source="iconBlocks.png" Aspect="AspectFit" HeightRequest="22"/>
+                            <Label Grid.Row="1" Grid.Column="1" x:Name="lblBlocks" TextColor="Gray" FontSize="13" FontAttributes="Bold" Text="5 Cuadras" VerticalOptions="Center" />
+                        </Grid>
+                    </Frame>
+                </StackLayout>
+                <Frame Padding="5" HorizontalOptions="FillAndExpand">
+                    <StackLayout>
+                        <Grid ColumnDefinitions="50, *" RowDefinitions="auto, auto, auto" RowSpacing="-28" ColumnSpacing="0" Padding="5,-25,0,-10">
+                            <Image Source="iconDot.png" Aspect="AspectFit" Scale="0.30" TranslationX="-1"/>
+                            <StackLayout Grid.Row="1" TranslationY="-9" Spacing="2">
+                                <Ellipse HorizontalOptions="Center" Fill="LightGray" VerticalOptions="End" HeightRequest="5" WidthRequest="5"/>
+                                <Ellipse HorizontalOptions="Center" Fill="LightGray" VerticalOptions="End" HeightRequest="5" WidthRequest="5"/>
+                                <Ellipse HorizontalOptions="Center" Fill="LightGray" VerticalOptions="End" HeightRequest="5" WidthRequest="5"/>
+                                <Ellipse HorizontalOptions="Center" Fill="LightGray" VerticalOptions="End" HeightRequest="5" WidthRequest="5"/>
+                            </StackLayout>
+
+                            <Image Grid.Row="2" Source="iconPin.png" Aspect="AspectFit" Scale="0.4"/>
+                            <StackLayout Grid.Column="1" VerticalOptions="Center" Spacing="0">
+                                <Label TextColor="Black" Text="Origen"  FontAttributes="Bold" FontSize="14" Grid.Column="1"/>
+                                <Label x:Name="LblOrigin" TextColor="Gray" Text="12 de Octubre 1061, Rafaela" FontSize="14" Grid.Column="1"/>
+                            </StackLayout>
+                            <StackLayout x:Name="stkDest" Grid.Column="1" Grid.Row="2" VerticalOptions="Center" Spacing="0">
+                                <Label TextColor="Black" Text="Destino"  FontAttributes="Bold" FontSize="14" Grid.Column="1"/>
+                                <Label x:Name="LblDestination" TextColor="Gray" Text="1 de Agosto 859, Rafaela" FontSize="14" Grid.Column="1"/>
+                            </StackLayout>
+                        </Grid>                        
+                        <BoxView Grid.ColumnSpan="3" HeightRequest="1"/>
+                        <Grid ColumnDefinitions="*,*,*" ColumnSpacing="5"  IsVisible="True">
+                            <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                <Image Source="iconPrice.png" Aspect="AspectFit" HeightRequest="22"/>
+                                <Label x:Name="lblPrice" TextColor="Gray" FontSize="13" FontAttributes="Bold" Text="680 - 722" VerticalOptions="Center"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1" Orientation="Horizontal" HorizontalOptions="Center">
+                                <Image Source="iconDistance.png" Aspect="AspectFit" HeightRequest="20"/>
+                                <Label x:Name="lblDistance" TextColor="Gray" FontSize="13" FontAttributes="Bold"  Text="1,4 km" VerticalOptions="Center"/>
+                            </StackLayout>
+                            <StackLayout Grid.Column="2"  Orientation="Horizontal" HorizontalOptions="Center">
+                                <Image Source="iconCar.png" Aspect="AspectFit" HeightRequest="22"/>
+                                <Label x:Name="lblTime" TextColor="Gray" FontSize="13" FontAttributes="Bold" Text="15 min" VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+                        <Grid ColumnDefinitions="*, *" RowDefinitions="auto, auto" ColumnSpacing="5"  IsVisible="True">
+                            <BoxView Grid.ColumnSpan="2" HeightRequest="1"/>
+                            <Button Grid.Row="1" x:Name="btnCancel" Clicked="CancelClicked" Grid.ColumnSpan="2" Text="Cancelar" CornerRadius="10" TextColor="White" FontAttributes="Bold" BackgroundColor="#ff355b" IsVisible="True" HorizontalOptions="FillAndExpand"/>
+                            <Button Grid.Row="1" x:Name="btnBoard" Clicked="CancelClicked" Grid.Column="1" Text="Ya aborde" CornerRadius="10" TextColor="White" FontAttributes="Bold" BackgroundColor="#B1D506" IsVisible="False" HorizontalOptions="FillAndExpand" />
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
         </Grid>
     </ContentPage.Content>
 </ContentPage>
+
+
+<!--<BoxView HeightRequest="1" Margin="0,5"/>
+<StackLayout Orientation="Horizontal" HorizontalOptions="Center" Margin="0,0,0,5">
+    <progressBar:SfStepProgressBar TitleAlignment="Center" Orientation="Horizontal" x:Name="stepProgress">
+        <progressBar:SfStepProgressBar.NotStartedStepStyle>
+            <progressBar:StepStyle x:TypeArguments="progressBar:NotStartedStepState" MarkerShapeType="Square" MarkerSize="30" MarkerContentSize="20" MarkerContentType="Dot" MarkerContentFillColor="White" ProgressLineColor="Black" MarkerStrokeColor="Black" MarkerFillColor="orange"/>
+        </progressBar:SfStepProgressBar.NotStartedStepStyle>
+
+        <progressBar:SfStepProgressBar.InProgressStepStyle>
+            <progressBar:StepStyle x:TypeArguments="progressBar:InProgressStepState" MarkerShapeType="Square" MarkerSize="30" MarkerContentSize="20" MarkerContentType="Dot" MarkerContentFillColor="White" ProgressLineColor="Black" MarkerStrokeColor="Black" MarkerFillColor="orange"/>
+        </progressBar:SfStepProgressBar.InProgressStepStyle>
+
+        <progressBar:SfStepProgressBar.CompletedStepStyle>
+            <progressBar:StepStyle x:TypeArguments="progressBar:CompletedStepState" MarkerShapeType="Circle" MarkerSize="30" MarkerContentSize="20" MarkerContentType="Tick" ProgressLineColor="Black" MarkerStrokeColor="Black" MarkerContentFillColor="White" MarkerFillColor="#B1D506"/>
+        </progressBar:SfStepProgressBar.CompletedStepStyle>
+
+        <progressBar:StepView x:Name="stepView1">
+            <progressBar:StepView.PrimaryFormattedText>
+                <FormattedString>
+                    <Span x:Name="span1" ClassId="1" Text="Enviado" FontSize="13" FontAttributes="Bold"/>
+                    <Span x:Name="span2" TextColor="Gray" ClassId="2" Text="&#10;12:52" FontSize="12" />
+                </FormattedString>
+            </progressBar:StepView.PrimaryFormattedText>
+        </progressBar:StepView>
+
+        <progressBar:StepView x:Name="stepDoor"  Status="InProgress" ProgressValue="50" ImageSource="iconNotification.png">
+            <progressBar:StepView.PrimaryFormattedText>
+                <FormattedString>
+                    <Span ClassId="1" Text="       En Camino       " FontSize="13" FontAttributes="Bold"/>
+                    <Span x:Name="span3" TextColor="Gray" ClassId="2" Text="&#10;-" FontSize="12" />
+                </FormattedString>
+            </progressBar:StepView.PrimaryFormattedText>
+        </progressBar:StepView>
+
+        <progressBar:StepView x:Name="stepView3"  ImageSource="iconDoor.png">
+            <progressBar:StepView.PrimaryFormattedText>
+                <FormattedString>
+                    <Span x:Name="span31" ClassId="1" Text="En puerta" FontSize="13" FontAttributes="Bold"/>
+                    <Span x:Name="span4" TextColor="Gray" ClassId="2" Text="&#10;-" FontSize="12" />
+                </FormattedString>
+            </progressBar:StepView.PrimaryFormattedText>
+        </progressBar:StepView>
+    </progressBar:SfStepProgressBar>
+</StackLayout>-->

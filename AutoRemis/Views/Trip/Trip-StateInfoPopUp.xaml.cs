@@ -12,6 +12,7 @@ namespace AutoRemis.Views
         private readonly INavigationService _navigationService;
 
         private string msg;
+        private int msgType;
         public Trip_StateInfoPopUp(INavigationService navigationService)
         {
             InitializeComponent();
@@ -21,7 +22,7 @@ namespace AutoRemis.Views
 
         private void OnBackgroundClicked(object sender, EventArgs e)
         {
-            MessagingCenter.Send<object>(this, "TripAccepted");
+            MessagingCenter.Send<object, int>(this, "TripAccepted", msgType);
 
             Navigation.PopPopupAsync();
         }
@@ -30,6 +31,7 @@ namespace AutoRemis.Views
         {
             //Variables
             msg = parameters.GetValue<string>("Msg");
+            msgType = parameters.GetValue<int>("Type");
 
             //General UI Settings
             Msg.Text = msg;

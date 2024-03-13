@@ -12,12 +12,14 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Common\MapResources\MapTheme.json" />
     <None Remove="Common\Sounds\Alert.mp3" />
     <None Remove="Common\Sounds\Message.mp3" />
     <None Remove="Common\Sounds\Success.mp3" />
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Include="Common\MapResources\MapTheme.json" />
     <EmbeddedResource Include="Common\Sounds\Alert.mp3" />
     <EmbeddedResource Include="Common\Sounds\Message.mp3" />
     <EmbeddedResource Include="Common\Sounds\Success.mp3" />
