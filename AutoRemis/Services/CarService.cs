@@ -23,9 +23,9 @@ namespace AutoRemis.Services
 
         static CarService() { client = new HttpClient(); }
 
-        public static async Task<NearCarresponse> GetNearCars(NearCar user)
+        public static async Task<NearCarResponse> GetNearCars(NearCar user)
         {
-            NearCarresponse _response = new NearCarresponse();
+            NearCarResponse _response = new NearCarResponse();
 
             if (!IsConnected)
             {
@@ -36,7 +36,7 @@ namespace AutoRemis.Services
             ct = new CancellationTokenSource();
             ct.CancelAfter(TimeSpan.FromSeconds(30));
 
-            var retryPolicy = Policy.Handle<Exception>().OrResult<NearCarresponse>(r => r.ServiceState != ServiceType.Invalid && r.ServiceState != ServiceType.CheckOut).WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(3), (ex, time) => { });
+            var retryPolicy = Policy.Handle<Exception>().OrResult<NearCarResponse>(r => r.ServiceState != ServiceType.Invalid && r.ServiceState != ServiceType.CheckOut).WaitAndRetryAsync(3, i => TimeSpan.FromSeconds(3), (ex, time) => { });
 
             var json = JsonConvert.SerializeObject(user);
 

@@ -14,7 +14,7 @@ namespace AutoRemis.Models.Services
     }
 
     //respónse movilescercanos
-    public class NearCarresponse : ResponseResult
+    public class NearCarResponse : ResponseResult
     {
         public List<CarLocation> NearCars { get; set; }
     }

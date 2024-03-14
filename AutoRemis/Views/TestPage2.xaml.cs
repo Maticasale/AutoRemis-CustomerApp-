@@ -1,19 +1,14 @@
 ﻿using AutoRemis.Helpers;
 using AutoRemis.Models;
-using AutoRemis.Models.Google;
 using AutoRemis.Services;
-using AutoRemis.Views;
-using FFImageLoading.Svg.Forms;
 using Prism.Navigation;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
-using Xamarin.Forms.PlatformConfiguration;
 
 namespace AutoRemis.Views
 {

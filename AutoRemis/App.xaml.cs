@@ -10,33 +10,26 @@ using Xamarin.Essentials.Interfaces;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using AutoRemis.Interfaces;
+using AutoRemis.Helpers;
+using Prism.Navigation;
+using static AutoRemis.Helpers.LocationHelper;
+using System.Threading.Tasks;
+using Xamarin.Forms.GoogleMaps;
 
 namespace AutoRemis
 {
     public partial class App
     {
         public App(IPlatformInitializer initializer) : base(initializer) { }
-        private IFirebaseManager _firebaseManager;
 
         protected override async void OnInitialized()
         {
             InitializeComponent();
-            _firebaseManager = DependencyService.Get<IFirebaseManager>();
 
-
-            var user = GetUser();
-
-            switch (user.Status)
-            {
-                case UserStatus.Disconnected:
-                    await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
-                    break;
-                case UserStatus.Idle:
-                    await NavigationService.NavigateAsync("NavigationPage/TestPage2");
-                    break;
-            }
-
-            var token = await _firebaseManager.GetFirebaseToken();
+            if (GetUser().Status == UserStatus.Disconnected)
+                await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
+            else
+                await NavigationService.NavigateAsync("NavigationPage/LoadingPage");
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -75,6 +68,7 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage2, TestPage2ViewModel>();
+            containerRegistry.RegisterForNavigation<LoadingPage, LoadingPageViewModel>();
         }
     }
 }

@@ -20,7 +20,7 @@ using AutoRemis.Droid.Services;
 
 namespace AutoRemis.Droid
 {
-    [MetaData("com.google.android.maps.v2.API_KEY", Value = "AIzaSyAA4fS33bAgNtHXOOA_19ODwmHK3W0cfGQ")]
+    //[MetaData("com.google.android.maps.v2.API_KEY", Value = "AIzaSyAA4fS33bAgNtHXOOA_19ODwmHK3W0cfGQ")]
 
     [Activity(Theme = "@style/MainTheme", Icon = "@mipmap/ic_launcher", ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation | ConfigChanges.UiMode | ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : Xamarin.Forms.Platform.Android.FormsAppCompatActivity

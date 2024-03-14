@@ -1,11 +1,14 @@
-﻿using System;
+﻿using AutoRemis.Models;
+using System;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms.GoogleMaps;
 
 namespace AutoRemis.Helpers
 {
     public static class LocationHelper
     {
+        private static User user;
         public static async Task<LocationResponse> GetLocation()
         {
             try

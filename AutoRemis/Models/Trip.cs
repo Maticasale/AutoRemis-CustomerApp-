@@ -42,6 +42,9 @@ namespace AutoRemis.Models
         public string phone { get; set; }
     }
 
+    
+
+
     /// <summary>
     /// Searching: Buscando Viaje
     /// Waiting: Esperando que el movil arribe a su posicion (Aplica aun cuando el movile sta en puerta)

@@ -23,16 +23,17 @@ namespace AutoRemis.Views
 
         private User user;
         private AppSettings app;
-        Location UserPosition;
 
         private List<Image> checkboxImages; 
         private List<Frame> checkboxFrames;
+        private Trip trip;
 
         private string LatOrg, LngOrg, AdressOrg, NumberOrg;
-
         private string LatDst, LngDst, AdressDst, NumberDst;
 
-        string EntryFocused;
+        private string carRequested;
+
+        private string EntryFocused;
         bool ItemSellected;
         public MapPage()
         {
@@ -43,21 +44,20 @@ namespace AutoRemis.Views
 
         protected override bool OnBackButtonPressed() => true;
 
-        private async void LoadUI()
+        private void LoadUI()
         {
             //Variables 
             checkboxImages = new List<Image> { imgStandard, imgCapacDif, imgEcologic, imgExecutive };
             checkboxFrames = new List<Frame> { frmStandard, frmCapacDif, frmEcologic, frmExecutive };
+            trip = new Trip() { carRequested = "0"};
+
 
             //User and App Data
             user = AppStateManager.GetUser();
             app = AppStateManager.GetAppInfo();
 
-            map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 14d);
+            map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 15d);
 
-            UserPosition = await Geolocation.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.High));
-
-            map.MoveToRegion(MapSpan.FromCenterAndRadius(user.lastKnownPosition, Distance.FromMiles(0.3)));
 
             //General UI Settings
             map.MyLocationEnabled = true;
@@ -120,15 +120,12 @@ namespace AutoRemis.Views
                     map.Pins.Add(VehiclePins);
                 }
             }
-            else
-                RiseErrorMsg("¡Advertencia!", "Parece que no hay autos por aqui", 3, SoundHelper.SoundType.Alert);
         }
 
         private async void NextClicked(object sender, EventArgs e)
         {
             if (AdressOrg != null && LatOrg != null && LngOrg != null)
             {
-                Trip trip = new Trip();
                 if (!string.IsNullOrWhiteSpace(EntryDst.Text))
                 {
                     if (AdressDst != null || LatDst != null || LngDst != null)
@@ -178,6 +175,7 @@ namespace AutoRemis.Views
                 checkboxImages[frameIndex].Source = "iconFilledChk.png";
                 checkboxFrames[frameIndex].IsEnabled = false;
             });
+            trip.carRequested = frameIndex.ToString();
         }
 
         private async void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)
