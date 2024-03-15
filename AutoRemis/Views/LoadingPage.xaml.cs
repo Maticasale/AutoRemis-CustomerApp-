@@ -41,7 +41,7 @@ namespace AutoRemis.Views
                 case LocationStatus.OK:
                     Device.BeginInvokeOnMainThread(() => lblState.Text = "Iniciando");
 
-                    Task.Delay(5000);
+                    await Task.Delay(500);
 
                     user.lastKnownPosition = new Position(location.Location.Latitude, location.Location.Longitude);
                     user.Status = UserStatus.Idle;

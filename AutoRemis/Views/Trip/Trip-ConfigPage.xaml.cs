@@ -5,6 +5,8 @@ using System.Linq;
 using Xamarin.Forms;
 using Prism.Navigation;
 using System.Threading.Tasks;
+using AutoRemis.Services;
+using AutoRemis.Models.Services;
 
 namespace AutoRemis.Views
 {
@@ -26,27 +28,38 @@ namespace AutoRemis.Views
             _navigationService = navigationService;
 
             MessagingCenter.Subscribe<object, Trip>(this, "Trip", OnTripParamsChanged);
-
-            LoadUI();
         }
 
-
-        public void OnNavigatedTo(INavigationParameters parameters)
+        public async void OnNavigatedTo(INavigationParameters parameters)
         {
             //Parameters
             trip = parameters.GetValue<Trip>("Trip");
-        }
 
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
-
-        private void LoadUI()
-        {
             //User and App Data
             user = AppStateManager.GetUser();
 
             //Variables
             checkboxStates = new bool[10];
+
+            //General UI Settings
+            var trackInfo = await TripService.GetTrackInfo(new TrackInfo()
+            {
+                address_destination = trip.address_destination,
+                address_number_destination = trip.address_number_destination,
+                address_origin = trip.address_origin,
+                address_number_origin = trip.address_number_origin,
+                lat_destination = trip.observation,
+                lng_destination = trip.lng_destination,
+                lat_origin = trip.lat_origin,
+                lng_origin = trip.lng_origin,
+                lat_device = trip.lat_device,
+                lng_device = trip.lng_device
+            });
+
+            lblPrice.Text = trackInfo.price;
         }
+
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
         private void OnTripParamsChanged(object arg, Trip trip) => this.trip = trip;
 

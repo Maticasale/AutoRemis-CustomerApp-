@@ -25,7 +25,7 @@ namespace AutoRemis.Helpers
 
                     var assembly = typeof(App).GetTypeInfo().Assembly;
 
-                    player.Load(assembly.GetManifestResourceStream($"TinyTaxisChoferes.Common.Sounds.{type}.mp3"));
+                    player.Load(assembly.GetManifestResourceStream($"AutoRemis.Common.Sounds.{type}.mp3"));
 
                     player.Play();
 

@@ -45,7 +45,7 @@ namespace AutoRemis.Services
             {
                 try
                 {
-                    var response = await client.PostAsync($"{AppConstants.ApisUrl}/inicio_registro.php", data, ct.Token);
+                    var response = await client.PostAsync($"{AppConstants.ApisUrl}/presupuesta.php", data, ct.Token);
 
                     if (response.IsSuccessStatusCode && response != null)
                     {

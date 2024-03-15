@@ -3,16 +3,13 @@ using AutoRemis.Models;
 using AutoRemis.Services;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.GoogleMaps;
 using Prism.Navigation;
 using Prism.Ioc;
 using AutoRemis.Helpers;
-using Rg.Plugins.Popup.Extensions;
 using AutoRemis.Models.Services;
 
 namespace AutoRemis.Views
@@ -24,7 +21,7 @@ namespace AutoRemis.Views
         private User user;
         private AppSettings app;
 
-        private List<Image> checkboxImages; 
+        private List<Image> checkboxImages;
         private List<Frame> checkboxFrames;
         private Trip trip;
 
@@ -49,7 +46,7 @@ namespace AutoRemis.Views
             //Variables 
             checkboxImages = new List<Image> { imgStandard, imgCapacDif, imgEcologic, imgExecutive };
             checkboxFrames = new List<Frame> { frmStandard, frmCapacDif, frmEcologic, frmExecutive };
-            trip = new Trip() { carRequested = "0"};
+            trip = new Trip() { carRequested = "0" };
 
 
             //User and App Data
@@ -142,6 +139,9 @@ namespace AutoRemis.Views
                     }
                 }
 
+                trip.carRequested = carRequested;
+                trip.lat_device = user.lastKnownPosition.Latitude.ToString();
+                trip.lng_device = user.lastKnownPosition.Longitude.ToString();
                 trip.address_origin = EntryOrg.Text;
                 trip.address_number_origin = NumberOrg;
                 trip.lat_origin = LatOrg;
@@ -175,7 +175,7 @@ namespace AutoRemis.Views
                 checkboxImages[frameIndex].Source = "iconFilledChk.png";
                 checkboxFrames[frameIndex].IsEnabled = false;
             });
-            trip.carRequested = frameIndex.ToString();
+            carRequested = frameIndex.ToString();
         }
 
         private async void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)

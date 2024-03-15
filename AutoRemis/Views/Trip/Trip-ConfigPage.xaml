@@ -94,7 +94,7 @@
                     <StackLayout Orientation="Horizontal">
                         <Label Text="V. Aproximado" FontAttributes="Bold" Margin="0,10"/>
                         <Frame Grid.Column="1" Grid.Row="1" HasShadow="False" CornerRadius="5" BorderColor="Yellow" Padding="5,-50" WidthRequest="100">
-                            <Label Text="$ 8590" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
+                            <Label x:Name="lblPrice" Text="$ 8590" TextColor="Black" FontAttributes="Bold" VerticalOptions="Center"/>
                         </Frame>
                         <Grid VerticalOptions="Center" xct:TouchEffect.AnimationDuration="200" xct:TouchEffect.PressedScale = "0.95">
                             <Grid.GestureRecognizers>
@@ -125,5 +125,5 @@
             </Frame>
         </Grid>
     </ContentPage.Content>
-    
+
 </ContentPage>
