@@ -55,7 +55,6 @@ namespace AutoRemis.Views
 
             map.InitialCameraUpdate = CameraUpdateFactory.NewPositionZoom(user.lastKnownPosition, 15d);
 
-
             //General UI Settings
             map.MyLocationEnabled = true;
             map.UiSettings.ZoomControlsEnabled = false;

@@ -64,7 +64,7 @@ namespace AutoRemis.Views
 
             //General UI Settings
             user.Init = init;
-            if (init == InitType.Google && !string.IsNullOrWhiteSpace(googleUser.Email))
+            if (googleUser != null)
             {
                 imgGooglePerson.IsVisible = true;
                 imgGoogleMail.IsVisible = true;
