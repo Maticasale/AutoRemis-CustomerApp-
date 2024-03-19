@@ -26,4 +26,14 @@ namespace AutoRemis.Models.Services
         public int id_movil { get; set; }
         public string tipo { get; set; }
     }
+
+    public class Car
+    {
+        public string brand { get; set; }
+        public string model { get; set; }
+        public string domain { get; set; }
+        public string movil { get; set; }
+        public string tipo { get; set; }
+        public string has_application { get; set; }
+    }
 }

@@ -48,7 +48,7 @@ namespace AutoRemis.Views
                 address_number_destination = trip.address_number_destination,
                 address_origin = trip.address_origin,
                 address_number_origin = trip.address_number_origin,
-                lat_destination = trip.observation,
+                lat_destination = trip.lat_destination,
                 lng_destination = trip.lng_destination,
                 lat_origin = trip.lat_origin,
                 lng_origin = trip.lng_origin,
@@ -110,8 +110,13 @@ namespace AutoRemis.Views
                 trip.discountCoupon = entryCoupon.Text;
                 trip.paymentMethod = selectedPayMethod.ClassId;
                 user.TripInfo = trip;
-                await _navigationService.NavigateAsync("/Trip_WaitingPage", new NavigationParameters { { "Trip", trip } });
 
+                var result = await TripService.StartTrip(trip);
+
+                if (result.ServiceState == ServiceType.CheckOut)
+                    await _navigationService.NavigateAsync("/Trip_WaitingPage", new NavigationParameters { { "Trip", trip } });
+                else
+                    RiseErrorMsg("Error", "Ha ocurrido un error general, por favor reintente", 3, SoundHelper.SoundType.Alert);
             }
             else
                 RiseErrorMsg("Advertencia", "Necesitamos que selecciones un metodo de pago por favor", 2, SoundHelper.SoundType.Alert);

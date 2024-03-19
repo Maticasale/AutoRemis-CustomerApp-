@@ -7,13 +7,10 @@ using AutoRemis.Models;
 using Xamarin.Forms;
 using Android.Gms.Extensions;
 using System.Threading.Tasks;
-using AutoRemis.Services;
 using static AutoRemis.Helpers.AppStateManager;
 using AutoRemis.Interfaces;
 using System;
 using System.Globalization;
-using Android.Media;
-using Rg.Plugins.Popup.Services;
 
 namespace AutoRemis.Droid.Services
 {

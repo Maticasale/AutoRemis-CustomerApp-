@@ -5,7 +5,6 @@ using System.Text;
 namespace AutoRemis.Models.Services
 {
     //request presupuesta
-
     public class TrackInfo
     {
         public string address_origin { get; set; }
@@ -19,8 +18,8 @@ namespace AutoRemis.Models.Services
         public string address_destination { get; set; }
         public string address_number_destination { get; set; }
     }
-    //respónse presupuesta
 
+    //respónse presupuesta
     public class TrackInfoResponse : ResponseResult
     {
         public string distance { get; set; }

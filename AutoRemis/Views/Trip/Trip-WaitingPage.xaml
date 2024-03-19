@@ -46,7 +46,7 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Nombre: " FontAttributes="Bold"/>
-                                                <Span Text="Matias Casale"/>
+                                                <Span x:Name="DriverName"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -54,7 +54,7 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Vehiculo: " FontAttributes="Bold"/>
-                                                <Span Text="Ford Siena"/>
+                                                <Span x:Name="VehicleBrand"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -62,7 +62,7 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="N. Interno: " FontAttributes="Bold"/>
-                                                <Span Text="4235"/>
+                                                <Span x:Name="DriverID"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -70,7 +70,7 @@
                                         <Label.FormattedText>
                                             <FormattedString>
                                                 <Span Text="Patente: " FontAttributes="Bold"/>
-                                                <Span Text="asd 123"/>
+                                                <Span x:Name="Domain"/>
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
@@ -80,13 +80,13 @@
                     </Pancake:PancakeView>
                     <StackLayout Grid.Row="1" HorizontalOptions="Start">
                         <Frame Padding="5" CornerRadius="5">
-                            <Label Text="5 min" FontAttributes="Bold"/>
+                            <Label x:Name="EstimatedTime" FontAttributes="Bold"/>
                         </Frame>
                         <Frame Padding="5" CornerRadius="5">
-                            <Label Text="20 cuadras" FontAttributes="Bold"/>
+                            <Label x:Name="EstimatedBlocks" FontAttributes="Bold"/>
                         </Frame>
                         <Frame Padding="5" CornerRadius="5">
-                            <Label Text="$120 - $150" FontAttributes="Bold"/>
+                            <Label x:Name="Price" FontAttributes="Bold"/>
                         </Frame>
                     </StackLayout>
 

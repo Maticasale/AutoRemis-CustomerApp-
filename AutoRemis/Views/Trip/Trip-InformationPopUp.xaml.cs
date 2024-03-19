@@ -14,13 +14,14 @@ namespace AutoRemis.Views
         {
             InitializeComponent();
             _navigationService = navigationService;
-            LoadUI();
         }
 
         public void OnNavigatedTo(INavigationParameters parameters)
         {
             //Parameters
             msg = parameters.GetValue<string>("Msg");
+
+            LoadUI();
         }
 
         private void LoadUI()

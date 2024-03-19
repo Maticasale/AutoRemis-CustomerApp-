@@ -138,13 +138,14 @@ namespace AutoRemis.Views
                     }
                 }
 
-                trip.carRequested = carRequested;
-                trip.lat_device = user.lastKnownPosition.Latitude.ToString();
-                trip.lng_device = user.lastKnownPosition.Longitude.ToString();
                 trip.address_origin = EntryOrg.Text;
                 trip.address_number_origin = NumberOrg;
                 trip.lat_origin = LatOrg;
                 trip.lng_origin = LngOrg;
+
+                trip.carRequested = carRequested;
+                trip.lat_device = user.lastKnownPosition.Latitude.ToString();
+                trip.lng_device = user.lastKnownPosition.Longitude.ToString();
                 trip.name = user.FullName;
                 trip.user = user.FullName;
                 trip.phone = user.PhoneNumber;
@@ -223,8 +224,8 @@ namespace AutoRemis.Views
                         LatOrg = place.Latitude == null ? alternativePosition.Latitude.ToString() : place.Latitude.ToString();
                         LngOrg = place.Longitude == null ? alternativePosition.Longitude.ToString() : place.Longitude.ToString();
                         AdressOrg = place.StreetName == null ? place.FormattedAddress : place.StreetName.ToString();
-                        NumberOrg = (place.StreetNumber == null || place.StreetName == null) ? "" : place.StreetNumber.ToString();
-                        EntryOrg.Text = (place.StreetNumber == null || place.StreetName == null) ? place.FormattedAddress : $"{place.StreetName} {place.StreetNumber}, {place.Locality.ShortName}";
+                        NumberOrg = (place.StreetNumber == null && place.StreetName == null) ? "" : place.StreetNumber.ToString();
+                        EntryOrg.Text = (place.StreetNumber == null && place.StreetName == null) ? place.FormattedAddress : $"{place.StreetName} {place.StreetNumber}, {place.Locality.ShortName}";
                     }
                     catch (Exception) { }
                 }
@@ -235,8 +236,8 @@ namespace AutoRemis.Views
                         LatDst = place.Latitude == null ? alternativePosition.Latitude.ToString() : place.Latitude.ToString();
                         LngDst = place.Longitude == null ? alternativePosition.Longitude.ToString() : place.Longitude.ToString();
                         AdressDst = place.StreetName == null ? place.FormattedAddress : place.StreetName.ToString();
-                        NumberDst = (place.StreetNumber == null || place.StreetName == null) ? "" : place.StreetNumber.ToString();
-                        EntryDst.Text = (place.StreetNumber == null || place.StreetName == null) ? place.FormattedAddress : $"{place.StreetName} {place.StreetNumber}, {place.Locality.ShortName}";
+                        NumberDst = (place.StreetNumber == null && place.StreetName == null) ? "" : place.StreetNumber.ToString();
+                        EntryDst.Text = (place.StreetNumber == null && place.StreetName == null) ? place.FormattedAddress : $"{place.StreetName} {place.StreetNumber}, {place.Locality.ShortName}";
                     }
                     catch (Exception) { }
                 }

@@ -44,7 +44,7 @@ namespace AutoRemis.Views
                     await Task.Delay(500);
 
                     user.lastKnownPosition = new Position(location.Location.Latitude, location.Location.Longitude);
-                    user.Status = UserStatus.Idle;
+                    //user.Status = UserStatus.Idle;
                     UpdateUser(user);
 
                     await _navigationService.NavigateAsync("/SideMenuPage", animated: true);

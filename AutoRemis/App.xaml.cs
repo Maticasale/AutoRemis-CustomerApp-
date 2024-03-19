@@ -29,7 +29,7 @@ namespace AutoRemis
             if (GetUser().Status == UserStatus.Disconnected)
                 await NavigationService.NavigateAsync("NavigationPage/OnBoardingPage");
             else
-                await NavigationService.NavigateAsync("NavigationPage/LoadingPage");
+                await NavigationService.NavigateAsync("NavigationPage/LoadingPage", animated: false);
         }
 
         protected override void RegisterTypes(IContainerRegistry containerRegistry)
@@ -40,6 +40,7 @@ namespace AutoRemis
             containerRegistry.RegisterForNavigation<NavigationPage>();
 
             //Init Views
+            containerRegistry.RegisterForNavigation<LoadingPage, LoadingPageViewModel>();
             containerRegistry.RegisterForNavigation<OnBoardingPage, OnBoardingPageViewModel>();
             containerRegistry.RegisterForNavigation<RegisterPage, RegisterPageViewModel>();
             containerRegistry.RegisterForNavigation<ConfirmPhonePage, ConfirmPhonePageViewModel>();
@@ -65,10 +66,12 @@ namespace AutoRemis
             
             //Dialogs Views
             containerRegistry.RegisterForNavigation<AviableUpdatePopUp, AviableUpdatePopUpViewModel>();
+
+            //TestUis
             containerRegistry.RegisterForNavigation<MainPage, MainPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage, TestPageViewModel>();
             containerRegistry.RegisterForNavigation<TestPage2, TestPage2ViewModel>();
-            containerRegistry.RegisterForNavigation<LoadingPage, LoadingPageViewModel>();
+            containerRegistry.RegisterForNavigation<TestPage3, TestPage3ViewModel>();
         }
     }
 }

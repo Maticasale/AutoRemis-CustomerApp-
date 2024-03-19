@@ -12,8 +12,8 @@
             <StackLayout HorizontalOptions="Center" VerticalOptions="Center" Spacing="30">
                 <Image Source="imgCompanyLogo.png" VerticalOptions="Center"  HorizontalOptions="Center" HeightRequest="100"/>
                 <StackLayout x:Name="stkState">
-                    <Label x:Name="lblState" TextColor="Gray" VerticalOptions="Center" HorizontalOptions="Center"/>
-                    <ActivityIndicator IsRunning="True" x:Name="stateIndicator" Color="Gray" Scale="0.5"/>                    
+                    <Label x:Name="lblState" TextColor="#e30915" VerticalOptions="Center" HorizontalOptions="Center" IsVisible="false"/>
+                    <ActivityIndicator IsRunning="True" x:Name="stateIndicator" Color="#e30915" Scale="0.5"/>                    
                 </StackLayout>
             </StackLayout>
             <Frame Padding="8" Margin="10" TranslationY="250" x:Name="CancellBox" CornerRadius="10" BackgroundColor="White" VerticalOptions="EndAndExpand">
@@ -25,7 +25,6 @@
                     </StackLayout>
                 </Grid>
             </Frame>
-
         </Grid>
 
     </ContentPage.Content>

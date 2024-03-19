@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AutoRemis.Models.Services;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -19,7 +20,8 @@ namespace AutoRemis.Models
         public string lng_destination { get; set; }
         public string price { get; set; }
     }
-    
+
+    //request viaje
     public class Trip : TripInfo
     {
         public string paymentMethod { get; set; }
@@ -42,13 +44,46 @@ namespace AutoRemis.Models
         public string phone { get; set; }
     }
 
-    
+    //response viaje
+    public class TripResponse : ResponseResult
+    {
+        public string estado { get; set; }
+        public string id_viaje { get; set; }
+        public string obs { get; set; }
+    }
 
+    //request estadoviaje y cancelaviaje
+    public class TripState
+    {
+        public string id_viaje { get; set; }
+        public string phone { get; set; }
+    }
 
-    /// <summary>
-    /// Searching: Buscando Viaje
-    /// Waiting: Esperando que el movil arribe a su posicion (Aplica aun cuando el movile sta en puerta)
-    /// Traveling: Viajando
-    /// </summary>
-    //public enum TripStatus {Searching, Waiting, Delayed, Traveling, Canceled }
+    //response estadoviaje
+    public class TripStateResponse : ResponseResult
+    {
+        public string status { get; set; }
+        public List<CarLocation> near_cars { get; set; }
+        public string distance { get; set; }
+        public string waiting_time { get; set; }
+        public string lat { get; set; }
+        public string lng { get; set; }
+        public string driver { get; set; }
+        public string urlPic { get; set; }
+        public Car car { get; set; }
+    }
+
+    //request actualizaviaje
+    public class UpdateTrip : TripState
+    {
+        public string estado { get; set; }
+    }
+
+    //request calificarviaje
+    public class RateTrip : TripState
+    {
+        public string comment { get; set; }
+        public string rateService { get; set; }
+        public string rateDriver { get; set; }
+    }
 }
