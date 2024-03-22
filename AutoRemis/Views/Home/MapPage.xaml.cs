@@ -28,8 +28,6 @@ namespace AutoRemis.Views
         private string LatOrg, LngOrg, AdressOrg, NumberOrg;
         private string LatDst, LngDst, AdressDst, NumberDst;
 
-        private string carRequested;
-
         private string EntryFocused;
         bool ItemSellected;
         public MapPage()
@@ -143,7 +141,6 @@ namespace AutoRemis.Views
                 trip.lat_origin = LatOrg;
                 trip.lng_origin = LngOrg;
 
-                trip.carRequested = carRequested;
                 trip.lat_device = user.lastKnownPosition.Latitude.ToString();
                 trip.lng_device = user.lastKnownPosition.Longitude.ToString();
                 trip.name = user.FullName;
@@ -175,7 +172,7 @@ namespace AutoRemis.Views
                 checkboxImages[frameIndex].Source = "iconFilledChk.png";
                 checkboxFrames[frameIndex].IsEnabled = false;
             });
-            carRequested = frameIndex.ToString();
+            trip.carRequested = frameIndex.ToString();
         }
 
         private async void Search_Bar_PlacesRetrieved(object sender, AutoCompleteResult result)

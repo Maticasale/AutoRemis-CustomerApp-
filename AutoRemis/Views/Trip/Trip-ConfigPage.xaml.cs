@@ -42,6 +42,22 @@ namespace AutoRemis.Views
             checkboxStates = new bool[10];
 
             //General UI Settings
+            CalculateTrackInfo();
+        }
+
+        public void OnNavigatedFrom(INavigationParameters parameters) { }
+
+        private void OnTripParamsChanged(object arg, Trip trip)
+        {
+            this.trip = trip;
+            CalculateTrackInfo();
+        }
+
+        private async void CalculateTrackInfo()
+        {
+            if (string.IsNullOrWhiteSpace(trip.lat_destination) || string.IsNullOrWhiteSpace(trip.lng_destination))
+                return;
+
             var trackInfo = await TripService.GetTrackInfo(new TrackInfo()
             {
                 address_destination = trip.address_destination,
@@ -56,12 +72,10 @@ namespace AutoRemis.Views
                 lng_device = trip.lng_device
             });
 
-            lblPrice.Text = trackInfo.price;
+            Device.BeginInvokeOnMainThread(() => lblPrice.Text = trackInfo.price);
         }
 
-        public void OnNavigatedFrom(INavigationParameters parameters) { }
 
-        private void OnTripParamsChanged(object arg, Trip trip) => this.trip = trip;
 
         private void ObsClicked(object sender, EventArgs e)
         {

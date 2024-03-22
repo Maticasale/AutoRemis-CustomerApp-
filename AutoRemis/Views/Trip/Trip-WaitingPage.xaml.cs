@@ -8,6 +8,7 @@ using Polly;
 using Prism.Navigation;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Threading;
@@ -86,116 +87,100 @@ namespace AutoRemis.Views
                 });
             });
 
-            StartTimer();
+            timer = new Timer(async (state) => await StartTimer(), null, TimeSpan.FromSeconds(5), Timeout.InfiniteTimeSpan);
         }
 
-        private async void StartTimer()
+        private async Task StartTimer()
         {
-            // Verifica si ya se está ejecutando una iteración anterior
-            if (!Monitor.TryEnter(lockObject))
-                return;
+            var result = await TripService.GetTripState(new TripState() { id_viaje = trip.id_viaje, phone = trip.phone });
 
-            try
+            Debug.WriteLine($"Iteracion: status {result.status}");
+            switch (result.status)
             {
-                if (isRunning)
-                    return;
+                case "0":
+                    if (state == 0)
+                        return;
+                    state = 0;
 
-                isRunning = true;
+                    Device.BeginInvokeOnMainThread(() =>
+                    {
 
-                var result = await TripService.GetTripState(new TripState() { id_viaje = trip.id_viaje, phone = trip.phone });
+                        bx1.IsVisible = true;
+                        bx2.IsVisible = true;
+                        gif.Children.Add(new SvgCachedImage { Aspect = Aspect.AspectFit, Source = "gifRadar.gif", VerticalOptions = LayoutOptions.Center });
+                    });
+                    break;
 
-                switch (result.status)
-                {
-                    case "0":
-                        if (state == 0)
-                            return;
-                        state = 0;
+                case "1":
+                    Device.BeginInvokeOnMainThread(async () =>
+                    {
+                        driverLoc = new Location() { Latitude = double.Parse(result.lat), Longitude = double.Parse(result.lng) };
 
-                        Device.BeginInvokeOnMainThread(() =>
+                        if (state != 1)
                         {
+                            state = 1;
 
-                            bx1.IsVisible = true;
-                            bx2.IsVisible = true;
-                            gif.Children.Add(new SvgCachedImage { Aspect = Aspect.AspectFit, Source = "gifRadar.gif", VerticalOptions = LayoutOptions.Center });
-                        });
-                        break;
+                            bx1.IsVisible = false;
+                            bx2.IsVisible = false;
+                            gif.IsVisible = false;
+                            btnCancel.IsVisible = false;
+                            ContainmentBox.IsVisible = false;
 
-                    case "1":
-                        Device.BeginInvokeOnMainThread(async () =>
-                        {
-                            driverLoc = new Location() { Latitude = double.Parse(result.lat), Longitude = double.Parse(result.lng) };
-
-                            if (state != 1)
-                            {
-                                state = 1;
-
-                                bx1.IsVisible = false;
-                                bx2.IsVisible = false;
-                                gif.IsVisible = false;
-                                btnCancel.IsVisible = false;
-                                ContainmentBox.IsVisible = false;
-
-                                DriverName.Text = result.driver;
-                                VehicleBrand.Text = result.car.model;
-                                DriverID.Text = result.car.movil;
-                                Domain.Text = result.car.domain;
-                                Price.Text = trip.price;
+                            DriverName.Text = result.driver;
+                            VehicleBrand.Text = result.car.model;
+                            DriverID.Text = result.car.movil;
+                            Domain.Text = result.car.domain;
+                            Price.Text = trip.price;
   
-                                DriverInfoBox.IsVisible = true;
-                                btnCancel1.IsVisible = true;
-                                btnCall.IsVisible = true;
-                                map.IsEnabled = false;
-                                lblState.Text = "¡PEDIDO RECEPCIONADO!";
+                            DriverInfoBox.IsVisible = true;
+                            btnCancel1.IsVisible = true;
+                            btnCall.IsVisible = true;
+                            map.IsEnabled = false;
+                            lblState.Text = "¡PEDIDO RECEPCIONADO!";
 
 
-                                driverPin = new Pin()
-                                {
-                                    Type = PinType.SearchResult,                                    
-                                    Label = result.driver,
-                                    Icon = BitmapDescriptorFactory.FromBundle("pinDriver.png")
-                                };
-
-                                await _navigationService.NavigateAsync("Trip_StateInfoPopUp", new NavigationParameters { { "Msg", "Su pedido ha sido recepcionado exitosamente" }, { "Type", 1 } });
-                            }
-
-                            driverPin.Position = new Position(Convert.ToDouble(result.lat), Convert.ToDouble(result.lng));
-                            EstimatedTime.Text = !string.IsNullOrEmpty(result.distance) ? (Convert.ToDouble(result.distance) < 1000) ? $"{result.distance} m" : $"{Convert.ToDouble(result.distance) / 1000} km" : "-";
-                            EstimatedBlocks.Text = !string.IsNullOrEmpty(result.waiting_time) ? (Convert.ToDouble(result.waiting_time) < 1) ? $"Llegando" : $"{result.waiting_time} min" : "-";
-
-                            if (Convert.ToDouble(result.distance) < 100 && !nearCarShown)
+                            driverPin = new Pin()
                             {
-                                nearCarShown = true;
-                                await _navigationService.NavigateAsync("Trip_InformationPopUp", new NavigationParameters { { "Msg", "¡Su movil esta en la puerta!" } });
-                            }
-                            map.Polylines.Clear();
-                            await DrawRoute(driverLoc, userLoc, "999");
-                            AdjustCamera(orgLoc, dstLoc);
-                        });
-                        break;
+                                Type = PinType.SearchResult,                                    
+                                Label = result.driver,
+                                Icon = BitmapDescriptorFactory.FromBundle("pinDriver.png")
+                            };
 
-                    case "2":
-                        Device.BeginInvokeOnMainThread( async() =>
+                            await _navigationService.NavigateAsync("Trip_StateInfoPopUp", new NavigationParameters { { "Msg", "Su pedido ha sido recepcionado exitosamente" }, { "Type", 1 } });
+                        }
+
+                        driverPin.Position = new Position(Convert.ToDouble(result.lat), Convert.ToDouble(result.lng));
+                        EstimatedTime.Text = !string.IsNullOrEmpty(result.distance) ? (Convert.ToDouble(result.distance) < 1000) ? $"{result.distance} m" : $"{Convert.ToDouble(result.distance) / 1000} km" : "-";
+                        EstimatedBlocks.Text = !string.IsNullOrEmpty(result.waiting_time) ? (Convert.ToDouble(result.waiting_time) < 1) ? $"Llegando" : $"{result.waiting_time} min" : "-";
+
+                        if (Convert.ToDouble(result.distance) < 100 && !nearCarShown)
                         {
-                            if (state != 2)
-                            {
-                                state = 2;
-                                btnBoard.IsVisible = true;
-                                await _navigationService.NavigateAsync("Trip_InformationPopUp", new NavigationParameters { { "Msg", "¡Su movil se encuentra esperandolo!" } });
-                            }
-                        });
-                        break;
+                            nearCarShown = true;
+                            await _navigationService.NavigateAsync("Trip_InformationPopUp", new NavigationParameters { { "Msg", "¡Su movil esta en la puerta!" } });
+                        }
+                        map.Polylines.Clear();
+                        await DrawRoute(driverLoc, userLoc, "999");
+                        AdjustCamera(orgLoc, dstLoc);
+                    });
+                    break;
 
-                    case "4":
-                        await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
-                        break;
-                }
+                case "2":
+                    Device.BeginInvokeOnMainThread( async() =>
+                    {
+                        if (state != 2)
+                        {
+                            state = 2;
+                            btnBoard.IsVisible = true;
+                            await _navigationService.NavigateAsync("Trip_InformationPopUp", new NavigationParameters { { "Msg", "¡Su movil se encuentra esperandolo!" } });
+                        }
+                    });
+                    break;
 
-                isRunning = false;
+                case "4":
+                    await _navigationService.NavigateAsync("/SideMenuPage", animated: true);
+                    break;
             }
-            finally
-            {
-                Monitor.Exit(lockObject);
-            }
+            timer?.Change(TimeSpan.FromSeconds(10), Timeout.InfiniteTimeSpan);
         }
 
         public void TripAccepted(int state)
